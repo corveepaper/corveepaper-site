@@ -1,0 +1,869 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Studio Lune — Yoga & Pilates · Lyon Croix-Rousse. Cours collectifs et particuliers, sept jours sur sept." />
+<title>Studio Lune — Yoga & Pilates · Lyon Croix-Rousse</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Karla:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ───────────────────────────────────────────────────────────────────
+   Studio Lune — Yoga & Pilates · Lyon Croix-Rousse
+   Direction : éditorial chaleureux · terre cuite + cuivré + crème
+   Type : DM Serif Display italic (display) + Karla (body)
+   ─────────────────────────────────────────────────────────────────── */
+
+:root {
+  --cream:    #F2EBE0;
+  --cream-2:  #E8DFCF;
+  --clay:     #C9947B;
+  --clay-2:   #B07A5C;
+  --copper:   #B58A4F;
+  --deep:     #2E2520;
+  --ink:      #1A1612;
+  --soft:     #6A5A4F;
+  --line:     #D9CDB8;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Karla', -apple-system, system-ui, sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
+a { color: inherit; text-decoration: none; }
+img, svg { display: block; max-width: 100%; }
+
+.disp { font-family: 'DM Serif Display', serif; font-weight: 400; font-style: italic; letter-spacing: -.01em; }
+.mono { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; }
+.wrap { max-width: 1320px; margin: 0 auto; padding: 0 36px; }
+
+/* ─── Nav ─────────────────────────────────────────────────────────── */
+nav.bar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(242, 235, 224, .92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+nav.bar .inner {
+  max-width: 1320px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 36px;
+  gap: 32px;
+}
+nav.bar .brand {
+  font-family: 'DM Serif Display', serif;
+  font-size: 30px; letter-spacing: .12em; text-transform: uppercase;
+}
+nav.bar .links {
+  display: flex; gap: 32px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--soft);
+}
+nav.bar .links a { transition: color .2s; }
+nav.bar .links a:hover, nav.bar .links a.active { color: var(--deep); }
+nav.bar .book {
+  background: var(--deep); color: var(--cream);
+  padding: 12px 22px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+  border-radius: 100px;
+}
+nav.bar .book:hover { background: var(--clay-2); }
+
+/* ─── Hero ────────────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 78vh;
+  overflow: hidden;
+  display: flex; align-items: flex-end;
+  padding-top: 120px;
+}
+.hero .bg {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg, rgba(46,37,32,.05) 0%, rgba(46,37,32,.5) 80%, rgba(46,37,32,.7) 100%),
+    url('https://images.unsplash.com/photo-1545389336-cf090694435e?w=1800&q=70') center/cover no-repeat,
+    var(--clay);
+}
+.hero .content {
+  position: relative; z-index: 1;
+  padding: 0 36px 72px;
+  max-width: 1320px; margin: 0 auto; width: 100%;
+  color: var(--cream);
+}
+.hero .corner {
+  position: absolute; top: 36px; right: 36px; z-index: 2;
+  color: var(--cream);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+  text-align: right; line-height: 1.8;
+  opacity: .85;
+}
+.hero h1 {
+  font-family: 'DM Serif Display', serif; font-weight: 400; font-style: italic;
+  font-size: clamp(64px, 10vw, 160px);
+  line-height: .94; letter-spacing: -.02em;
+  margin: 0 0 32px;
+}
+.hero h1 .roman { font-style: normal; }
+.hero .sub {
+  max-width: 60ch;
+  font-size: 18px; line-height: 1.55;
+  color: rgba(242,235,224,.92);
+}
+.hero .sub strong { font-weight: 600; }
+.hero .marquee-strip {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: var(--deep); color: var(--cream);
+  padding: 14px 0;
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: 22px; white-space: nowrap; overflow: hidden;
+}
+.hero .marquee-strip .track {
+  display: inline-flex; gap: 36px; animation: scroll 38s linear infinite;
+}
+.hero .marquee-strip .track span { display: inline-flex; align-items: center; gap: 36px; }
+.hero .marquee-strip .dot { color: var(--clay); font-style: normal; }
+@keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ─── Site nav CTA (homepage) ─────────────────────────────────────── */
+.site-nav {
+  padding: 72px 0 80px;
+  border-bottom: 1px solid var(--line);
+  background: var(--cream-2);
+}
+.site-nav .head {
+  display: flex; justify-content: space-between; align-items: end;
+  margin-bottom: 36px; flex-wrap: wrap; gap: 16px;
+}
+.site-nav .head .label { color: var(--clay-2); }
+.site-nav .head .hint {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: 20px; color: var(--soft);
+}
+.site-nav .grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+}
+.site-nav a {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  padding: 28px 26px;
+  display: flex; flex-direction: column; gap: 8px;
+  text-decoration: none;
+  transition: transform .25s, background .25s, border-color .25s;
+  position: relative;
+  min-height: 160px;
+  justify-content: space-between;
+}
+.site-nav a:hover {
+  background: var(--deep); border-color: var(--deep);
+  transform: translateY(-4px);
+}
+.site-nav a:hover .num, .site-nav a:hover .arrow { color: var(--clay); }
+.site-nav a:hover .title, .site-nav a:hover .desc { color: var(--cream); }
+.site-nav a .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: .18em; color: var(--clay-2);
+  transition: color .25s;
+}
+.site-nav a .title {
+  font-family: 'DM Serif Display', serif; font-weight: 400;
+  font-size: 28px; line-height: 1; color: var(--ink);
+  letter-spacing: -.01em;
+  transition: color .25s;
+}
+.site-nav a .title em { font-style: italic; color: var(--clay-2); }
+.site-nav a .desc {
+  font-size: 13px; color: var(--soft); line-height: 1.4;
+  margin-top: auto;
+  transition: color .25s;
+}
+.site-nav a .arrow {
+  position: absolute; top: 20px; right: 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px; color: var(--clay-2);
+  transition: color .25s, transform .25s;
+}
+.site-nav a:hover .arrow { transform: translate(3px, -3px); }
+@media (max-width: 1100px) { .site-nav .grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px)  { .site-nav .grid { grid-template-columns: 1fr; } .site-nav a { min-height: auto; } }
+
+/* ─── Section base ────────────────────────────────────────────────── */
+section { padding: 120px 0; position: relative; }
+section + section { border-top: 1px solid var(--line); }
+
+.intro-row {
+  display: grid; grid-template-columns: 1fr 1.3fr; gap: 80px;
+  align-items: end; margin-bottom: 80px;
+}
+.intro-row .label { color: var(--clay-2); margin-bottom: 24px; }
+.intro-row h2 {
+  font-family: 'DM Serif Display', serif; font-weight: 400;
+  font-size: clamp(56px, 7vw, 96px); line-height: 1;
+  margin: 0; letter-spacing: -.02em;
+}
+.intro-row h2 .it { font-style: italic; color: var(--clay-2); }
+.intro-row p {
+  font-size: 19px; line-height: 1.6; color: var(--soft);
+  max-width: 56ch; margin: 0;
+}
+.intro-row p strong { color: var(--ink); font-weight: 600; }
+
+/* ─── Practices (4 disciplines) ───────────────────────────────────── */
+.practices .grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+}
+.practices .card {
+  background: var(--cream-2); padding: 36px 30px;
+  position: relative; overflow: hidden;
+  transition: transform .4s, background .4s;
+  min-height: 360px;
+  display: flex; flex-direction: column;
+}
+.practices .card:hover {
+  background: var(--deep); color: var(--cream); transform: translateY(-8px);
+}
+.practices .card:hover .num, .practices .card:hover h3 .it { color: var(--clay); }
+.practices .card .num {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: 56px; color: var(--clay-2); line-height: 1; margin-bottom: 28px;
+  transition: color .4s;
+}
+.practices .card h3 {
+  font-family: 'DM Serif Display', serif; font-weight: 400;
+  font-size: 36px; line-height: 1; margin: 0 0 12px;
+}
+.practices .card h3 .it { font-style: italic; color: var(--clay-2); transition: color .4s; }
+.practices .card p { font-size: 14px; line-height: 1.55; opacity: .85; margin: 0; }
+.practices .card .when {
+  margin-top: auto; padding-top: 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+  opacity: .6;
+}
+
+/* ─── Editorial split (image + texte alt) ─────────────────────────── */
+.split {
+  background: var(--cream-2);
+}
+.split .grid {
+  display: grid; grid-template-columns: 1.1fr 1fr; gap: 0;
+  align-items: stretch;
+}
+.split .grid > div { padding: 100px 80px; }
+.split .grid .img {
+  padding: 0;
+  background:
+    url('https://images.unsplash.com/photo-1599447421416-3414500d18a5?w=1200&q=70') center/cover no-repeat,
+    var(--clay);
+  min-height: 600px;
+}
+.split h2 {
+  font-family: 'DM Serif Display', serif; font-weight: 400;
+  font-size: clamp(48px, 5.5vw, 80px); line-height: 1.02;
+  margin: 24px 0 32px; letter-spacing: -.02em;
+}
+.split h2 .it { font-style: italic; color: var(--clay-2); }
+.split p {
+  font-size: 18px; line-height: 1.65; color: var(--soft); margin: 0 0 18px;
+  max-width: 50ch;
+}
+.split p strong { color: var(--ink); font-weight: 600; }
+.split .quote {
+  margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--line);
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: 24px; line-height: 1.45; color: var(--ink);
+  max-width: 44ch;
+}
+.split .quote .by {
+  display: block; margin-top: 16px;
+  font-family: 'JetBrains Mono', monospace; font-style: normal;
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--clay-2);
+}
+
+/* ─── Planning (week schedule) ────────────────────────────────────── */
+.schedule .table {
+  border: 1px solid var(--line);
+  background: var(--cream);
+  overflow: hidden;
+}
+.schedule .row {
+  display: grid; grid-template-columns: 120px repeat(6, 1fr);
+  border-bottom: 1px solid var(--line);
+}
+.schedule .row:last-child { border-bottom: 0; }
+.schedule .row.head {
+  background: var(--deep); color: var(--cream);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+}
+.schedule .cell {
+  padding: 18px 14px;
+  border-right: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: 4px;
+  min-height: 76px;
+  font-size: 13px;
+  position: relative;
+}
+.schedule .cell:last-child { border-right: 0; }
+.schedule .cell.time {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: 22px; color: var(--clay-2); justify-content: center;
+}
+.schedule .cell .what {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: 17px; color: var(--ink); line-height: 1.15;
+}
+.schedule .cell .who { color: var(--soft); font-size: 12px; }
+.schedule .cell.full { background: var(--cream-2); }
+.schedule .cell.empty { background: repeating-linear-gradient(135deg, transparent 0 6px, rgba(0,0,0,.025) 6px 7px); }
+
+/* ─── Testimonials (quotes carousel-static) ───────────────────────── */
+.testimonials .grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+}
+.testimonials blockquote {
+  margin: 0; padding: 36px;
+  background: var(--cream-2);
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: 22px; line-height: 1.4; color: var(--ink);
+  position: relative; min-height: 280px;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.testimonials blockquote::before {
+  content: '«'; position: absolute; top: 16px; left: 24px;
+  font-size: 80px; color: var(--clay); line-height: 1; opacity: .6;
+}
+.testimonials blockquote .by {
+  font-family: 'JetBrains Mono', monospace; font-style: normal;
+  font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--clay-2); margin-top: 24px;
+}
+.testimonials blockquote .who {
+  font-family: 'Karla', sans-serif; font-style: normal; font-size: 14px;
+  color: var(--soft); display: block; margin-top: 4px;
+}
+
+/* ─── CTA final ──────────────────────────────────────────────────── */
+.final {
+  background: var(--deep); color: var(--cream);
+  text-align: center; padding: 140px 36px;
+  position: relative; overflow: hidden;
+}
+.final::before, .final::after {
+  content: ''; position: absolute; width: 360px; height: 360px; border-radius: 50%;
+  filter: blur(80px); opacity: .35;
+}
+.final::before { background: var(--clay); top: -120px; left: -120px; }
+.final::after  { background: var(--copper); bottom: -140px; right: -120px; }
+.final > * { position: relative; }
+.final h2 {
+  font-family: 'DM Serif Display', serif; font-weight: 400; font-style: italic;
+  font-size: clamp(64px, 9vw, 144px);
+  line-height: .95; letter-spacing: -.02em;
+  margin: 0 auto 36px; max-width: 18ch;
+}
+.final h2 .roman { font-style: normal; color: var(--clay); }
+.final p { max-width: 56ch; margin: 0 auto 40px; font-size: 18px; color: rgba(242,235,224,.78); line-height: 1.55; }
+.final .cta {
+  display: inline-flex; align-items: center; gap: 14px;
+  padding: 20px 36px; background: var(--clay); color: var(--deep);
+  border-radius: 100px; font-size: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: .18em; text-transform: uppercase;
+  transition: transform .2s, background .2s;
+}
+.final .cta:hover { transform: translateY(-3px); background: var(--cream); }
+
+/* ─── Footer ─────────────────────────────────────────────────────── */
+footer.foot {
+  background: var(--cream-2);
+  padding: 64px 36px 28px;
+}
+footer.foot .inner {
+  max-width: 1320px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 48px;
+}
+footer.foot .brand {
+  font-family: 'DM Serif Display', serif; font-size: 40px;
+  letter-spacing: .08em; text-transform: uppercase;
+  margin-bottom: 14px;
+}
+footer.foot p, footer.foot a.row { display: block; color: var(--soft); font-size: 14px; margin: 0 0 6px; }
+footer.foot a.row:hover { color: var(--deep); }
+footer.foot h4 {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--clay-2);
+  margin: 0 0 18px;
+}
+footer.foot .bottom {
+  max-width: 1320px; margin: 56px auto 0; padding-top: 24px;
+  border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between;
+  font-size: 12px; color: var(--soft);
+}
+footer.foot .credit { color: var(--clay-2); }
+footer.foot .credit em { font-style: italic; color: var(--copper); }
+
+/* ─── Reveal animation ──────────────────────────────────────────── */
+[data-anim] {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity .9s cubic-bezier(.2,.7,.3,1), transform .9s cubic-bezier(.2,.7,.3,1);
+  transition-delay: var(--d, 0ms);
+}
+[data-anim].in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { [data-anim] { opacity: 1; transform: none; } }
+
+/* ─── Page hero (sub-pages) ──────────────────────────────────────── */
+.page-hero {
+  padding: 100px 0 80px;
+  border-bottom: 1px solid var(--line);
+}
+.page-hero .label { color: var(--clay-2); margin-bottom: 28px; }
+.page-hero h1 {
+  font-family: 'DM Serif Display', serif; font-weight: 400; font-style: italic;
+  font-size: clamp(72px, 11vw, 168px);
+  line-height: .92; letter-spacing: -.02em; margin: 0 0 36px;
+}
+.page-hero h1 .roman { font-style: normal; }
+.page-hero p.lede {
+  max-width: 60ch; font-size: 21px; line-height: 1.55; color: var(--soft);
+}
+
+.prose { max-width: 64ch; margin: 0 auto; }
+.prose h2 {
+  font-family: 'DM Serif Display', serif; font-weight: 400; font-style: italic;
+  font-size: 44px; line-height: 1.1; margin: 64px 0 20px; letter-spacing: -.01em;
+}
+.prose h2 .roman { font-style: normal; }
+.prose h3 {
+  font-family: 'DM Serif Display', serif; font-weight: 400;
+  font-size: 28px; margin: 36px 0 12px;
+}
+.prose p { font-size: 18px; line-height: 1.7; color: var(--soft); margin: 0 0 18px; }
+.prose p strong { color: var(--ink); font-weight: 600; }
+.prose ul { padding-left: 22px; color: var(--soft); font-size: 18px; line-height: 1.7; }
+.prose li { margin-bottom: 8px; }
+.prose li::marker { color: var(--clay-2); }
+
+/* Pricing cards */
+.pricing {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  margin-top: 56px;
+}
+.pricing .card {
+  background: var(--cream-2);
+  padding: 40px 32px;
+  display: flex; flex-direction: column; gap: 12px;
+  position: relative;
+}
+.pricing .card.featured {
+  background: var(--deep); color: var(--cream);
+  transform: translateY(-12px);
+}
+.pricing .card .name {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--clay-2);
+}
+.pricing .card.featured .name { color: var(--clay); }
+.pricing .card .price {
+  font-family: 'DM Serif Display', serif;
+  font-size: 64px; line-height: 1; font-weight: 400;
+  margin: 8px 0 4px;
+}
+.pricing .card .price .it { font-style: italic; color: var(--clay-2); }
+.pricing .card.featured .price .it { color: var(--clay); }
+.pricing .card .unit { font-size: 13px; color: var(--soft); margin-bottom: 24px; }
+.pricing .card.featured .unit { color: rgba(242,235,224,.6); }
+.pricing .card ul {
+  list-style: none; padding: 0; margin: 0;
+  font-size: 14px; line-height: 1.7;
+  border-top: 1px solid var(--line); padding-top: 20px;
+}
+.pricing .card.featured ul { border-color: rgba(242,235,224,.15); }
+.pricing .card li::before { content: '— '; color: var(--clay-2); margin-right: 4px; }
+.pricing .card .pick {
+  margin-top: 20px;
+  text-align: center;
+  padding: 14px;
+  background: var(--clay); color: var(--deep);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+}
+.pricing .card.featured .pick { background: var(--clay); color: var(--deep); }
+.pricing .card .pick:hover { background: var(--cream); }
+
+/* Booking form */
+.booking {
+  display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px;
+  align-items: start;
+}
+.booking .form { background: var(--cream-2); padding: 40px; }
+.booking .form label {
+  display: block; font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--clay-2); margin: 20px 0 8px;
+}
+.booking .form input, .booking .form select, .booking .form textarea {
+  width: 100%; padding: 14px;
+  border: 1px solid var(--line); background: var(--cream);
+  font-family: inherit; font-size: 15px; color: var(--ink);
+  border-radius: 0;
+}
+.booking .form input:focus, .booking .form select:focus, .booking .form textarea:focus {
+  outline: 0; border-color: var(--clay-2);
+}
+.booking .form textarea { min-height: 120px; resize: vertical; }
+.booking .form button {
+  margin-top: 28px; width: 100%;
+  background: var(--deep); color: var(--cream);
+  padding: 18px; border: 0; cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+  transition: background .2s;
+}
+.booking .form button:hover { background: var(--clay-2); }
+
+/* ─── Responsive ─────────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  nav.bar .links { display: none; }
+  .hero { height: 80vh; min-height: 580px; }
+  .intro-row { grid-template-columns: 1fr; gap: 32px; }
+  .practices .grid, .testimonials .grid, .pricing { grid-template-columns: 1fr 1fr; }
+  .split .grid { grid-template-columns: 1fr; }
+  .split .grid > div { padding: 60px 32px; }
+  .split .grid .img { min-height: 400px; }
+  .schedule .row { grid-template-columns: 80px repeat(6, 1fr); }
+  .schedule .cell { padding: 12px 8px; font-size: 12px; min-height: 64px; }
+  .schedule .cell.time { font-size: 18px; }
+  .schedule .cell .what { font-size: 14px; }
+  footer.foot .inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .booking { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  section { padding: 72px 0; }
+  .hero { height: 70vh; min-height: 480px; }
+  .practices .grid, .testimonials .grid, .pricing { grid-template-columns: 1fr; }
+  .schedule { overflow-x: auto; }
+  .schedule .table { min-width: 720px; }
+  footer.foot .inner { grid-template-columns: 1fr; }
+  .pricing .card.featured { transform: none; }
+}
+
+</style>
+<style>
+/* cp-mobile-pass v12 */
+@media (max-width:560px){
+  h1{font-size:clamp(30px,8.6vw,52px)!important;}
+  h2{font-size:clamp(24px,6.6vw,40px)!important;}
+  h1,h2,h3{overflow-wrap:break-word;word-break:break-word;}
+  .foot .inner{grid-template-columns:1fr!important;}
+  .practices .grid, .testimonials .grid, .pricing{grid-template-columns:1fr!important;}
+  .schedule{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .schedule .row{min-width:560px;}
+}
+</style>
+</head>
+<body data-screen-label="Lune / Accueil">
+
+<nav class="bar">
+  <div class="inner">
+    <a class="brand" href="index.html">Lune</a>
+    <div class="links">
+      <a href="index.html" class="active">Studio</a>
+      <a href="cours.html">Cours</a>
+      <a href="lieu.html">Le lieu</a>
+      <a href="reserver.html">Réserver</a>
+    </div>
+    <a class="book" href="reserver.html">Réserver →</a>
+  </div>
+</nav>
+
+<header class="hero" data-screen-label="01 Hero">
+  <div class="bg" aria-hidden="true"></div>
+  <div class="corner">
+    Studio Lune<br>
+    34 montée de la Grande Côte<br>
+    69001 Lyon · Croix-Rousse<br>
+    ouvert 7j/7
+  </div>
+  <div class="content">
+    <h1 data-anim>S'étirer<br>doucement<br>vers <span class="roman">soi</span>.</h1>
+    <p class="sub" data-anim style="--d:240ms">
+      Un studio de quartier à Lyon Croix-Rousse. <strong>Yoga, Pilates, méditation,
+      et ce qu'il faut entre les deux</strong>. Vingt-quatre cours par semaine, douze
+      profs, une marche au cinquième pour quelques retours.
+    </p>
+  </div>
+  <div class="marquee-strip">
+    <div class="track">
+      <span>Vinyasa <em class="dot">·</em> Hatha <em class="dot">·</em> Pilates Mat <em class="dot">·</em> Yin <em class="dot">·</em> Méditation <em class="dot">·</em> Pré-natal <em class="dot">·</em> Ashtanga <em class="dot">·</em> Restorative <em class="dot">·</em></span>
+      <span>Vinyasa <em class="dot">·</em> Hatha <em class="dot">·</em> Pilates Mat <em class="dot">·</em> Yin <em class="dot">·</em> Méditation <em class="dot">·</em> Pré-natal <em class="dot">·</em> Ashtanga <em class="dot">·</em> Restorative <em class="dot">·</em></span>
+    </div>
+  </div>
+</header>
+
+<section class="site-nav" data-screen-label="00 Site map">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <div class="mono label">Naviguer sur le site</div>
+      </div>
+      <div class="hint">Quatre pages, <em style="color:var(--clay-2)">prenez votre temps</em>.</div>
+    </div>
+    <div class="grid">
+      <a href="index.html" aria-current="page">
+        <span class="num">N° 01</span>
+        <span class="arrow">→</span>
+        <span class="title">Le <em>studio</em></span>
+        <span class="desc">Manifeste, pratiques, planning de la semaine.</span>
+      </a>
+      <a href="cours.html">
+        <span class="num">N° 02</span>
+        <span class="arrow">↗</span>
+        <span class="title">Cours &amp; <em>tarifs</em></span>
+        <span class="desc">Disciplines, niveaux, ateliers du dimanche, cartes.</span>
+      </a>
+      <a href="lieu.html">
+        <span class="num">N° 03</span>
+        <span class="arrow">↗</span>
+        <span class="title">Le <em>lieu</em></span>
+        <span class="desc">L'appartement, l'équipe, comment venir.</span>
+      </a>
+      <a href="reserver.html">
+        <span class="num">N° 04</span>
+        <span class="arrow">↗</span>
+        <span class="title"><em>Réserver</em></span>
+        <span class="desc">Première séance à 12€, sans engagement.</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="practices" data-screen-label="02 Pratiques">
+  <div class="wrap">
+    <div class="intro-row">
+      <div>
+        <div class="mono label">Quatre pratiques</div>
+        <h2 data-anim>Ce qui se <span class="it">passe</span><br>au studio.</h2>
+      </div>
+      <p data-anim style="--d:200ms">
+        Chaque discipline a sa salle, son sol, son odeur et son ambiance.
+        Vous n'aurez jamais à choisir « yoga » comme s'il n'y avait qu'une chose
+        derrière le mot. <strong>Voici les quatre familles.</strong>
+      </p>
+    </div>
+
+    <div class="grid">
+      <div class="card" data-anim>
+        <div class="num">01</div>
+        <h3>Yoga<br><span class="it">dynamique</span></h3>
+        <p>Vinyasa, Ashtanga, Power Yoga. Pour bouger, transpirer, sortir du bureau et du week-end.</p>
+        <div class="when">12 cours / semaine</div>
+      </div>
+      <div class="card" data-anim style="--d:120ms">
+        <div class="num">02</div>
+        <h3>Yoga<br><span class="it">doux</span></h3>
+        <p>Hatha, Yin, Restorative. Plus lent. Tenue longue des postures. Pour les corps qui demandent à ralentir.</p>
+        <div class="when">8 cours / semaine</div>
+      </div>
+      <div class="card" data-anim style="--d:240ms">
+        <div class="num">03</div>
+        <h3>Pilates<br><span class="it">Mat</span></h3>
+        <p>Sans machine, sur tapis. Renforcement profond, posture, respiration. Idéal en complément du yoga.</p>
+        <div class="when">6 cours / semaine</div>
+      </div>
+      <div class="card" data-anim style="--d:360ms">
+        <div class="num">04</div>
+        <h3>Spécifique<br><span class="it">&amp; rituels</span></h3>
+        <p>Pré-natal, post-natal, méditation guidée, ateliers du dimanche, retraites quatre fois par an.</p>
+        <div class="when">À la séance</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="split" data-screen-label="03 Manifeste">
+  <div class="grid">
+    <div data-anim>
+      <div class="mono label" style="color:var(--clay-2)">Notre manifeste</div>
+      <h2>Un studio,<br>pas une <span class="it">marque de yoga</span>.</h2>
+      <p>
+        On a ouvert Lune en 2021 parce qu'on en avait assez des studios qui
+        ressemblent à des Apple Stores avec des bougies. <strong>Lune, c'est un
+        appartement haussmannien transformé</strong>, des parquets qui craquent, et
+        douze profs qu'on connaît tous personnellement.
+      </p>
+      <p>
+        Pas d'abonnement à 200€/mois, pas de challenge 30 jours, pas de
+        « morning energy boost ». Vous venez, vous payez la séance ou la carte,
+        vous repartez. La seule chose qu'on vend, c'est le cours qu'on vient
+        de vous donner.
+      </p>
+
+    </div>
+    <div class="img" aria-label="Salle principale du studio"></div>
+  </div>
+</section>
+
+<section class="schedule" data-screen-label="04 Planning">
+  <div class="wrap">
+    <div class="intro-row">
+      <div>
+        <div class="mono label">Cette semaine</div>
+        <h2 data-anim>Le <span class="it">planning</span>,<br>en clair.</h2>
+      </div>
+      <p data-anim style="--d:200ms">
+        Mis à jour chaque dimanche soir pour la semaine qui suit. Sans appli,
+        sans login, sans cookie. Cliquez un créneau pour réserver, et c'est tout.
+      </p>
+    </div>
+
+    <div class="table" data-anim>
+      <div class="row head">
+        <div class="cell time">Heure</div>
+        <div class="cell">Lun 13</div>
+        <div class="cell">Mar 14</div>
+        <div class="cell">Mer 15</div>
+        <div class="cell">Jeu 16</div>
+        <div class="cell">Ven 17</div>
+        <div class="cell">Sam 18</div>
+      </div>
+      <div class="row">
+        <div class="cell time">07h30</div>
+        <div class="cell"><span class="what">Vinyasa</span><span class="who">Anaïs · 60 min</span></div>
+        <div class="cell empty"></div>
+        <div class="cell"><span class="what">Vinyasa</span><span class="who">Anaïs · 60 min</span></div>
+        <div class="cell empty"></div>
+        <div class="cell"><span class="what">Ashtanga</span><span class="who">Théo · 75 min</span></div>
+        <div class="cell empty"></div>
+      </div>
+      <div class="row">
+        <div class="cell time">09h00</div>
+        <div class="cell empty"></div>
+        <div class="cell full"><span class="what">Pilates Mat</span><span class="who">Léa · COMPLET</span></div>
+        <div class="cell empty"></div>
+        <div class="cell"><span class="what">Hatha doux</span><span class="who">Mathieu · 75 min</span></div>
+        <div class="cell empty"></div>
+        <div class="cell"><span class="what">Vinyasa</span><span class="who">Anaïs · 60 min</span></div>
+      </div>
+      <div class="row">
+        <div class="cell time">12h30</div>
+        <div class="cell"><span class="what">Méditation</span><span class="who">Marion · 30 min</span></div>
+        <div class="cell"><span class="what">Pilates Mat</span><span class="who">Léa · 45 min</span></div>
+        <div class="cell"><span class="what">Méditation</span><span class="who">Marion · 30 min</span></div>
+        <div class="cell"><span class="what">Pilates Mat</span><span class="who">Léa · 45 min</span></div>
+        <div class="cell"><span class="what">Méditation</span><span class="who">Marion · 30 min</span></div>
+        <div class="cell empty"></div>
+      </div>
+      <div class="row">
+        <div class="cell time">18h30</div>
+        <div class="cell"><span class="what">Vinyasa</span><span class="who">Théo · 75 min</span></div>
+        <div class="cell"><span class="what">Yin</span><span class="who">Camille · 75 min</span></div>
+        <div class="cell"><span class="what">Ashtanga</span><span class="who">Théo · 75 min</span></div>
+        <div class="cell full"><span class="what">Hatha</span><span class="who">Mathieu · COMPLET</span></div>
+        <div class="cell"><span class="what">Restorative</span><span class="who">Camille · 75 min</span></div>
+        <div class="cell empty"></div>
+      </div>
+      <div class="row">
+        <div class="cell time">20h00</div>
+        <div class="cell empty"></div>
+        <div class="cell"><span class="what">Pilates Mat</span><span class="who">Léa · 60 min</span></div>
+        <div class="cell empty"></div>
+        <div class="cell"><span class="what">Vinyasa</span><span class="who">Anaïs · 75 min</span></div>
+        <div class="cell empty"></div>
+        <div class="cell empty"></div>
+      </div>
+    </div>
+
+    <p style="margin-top:32px;color:var(--soft);font-size:14px;text-align:right">
+      Dimanche : ateliers thématiques uniquement — voir <a href="cours.html" style="border-bottom:1px solid var(--clay-2);padding-bottom:1px">Cours</a>.
+    </p>
+  </div>
+</section>
+
+</section>
+
+<section class="final">
+  <h2 data-anim>Vous n'avez<br>jamais essayé ?<br><span class="roman">Première séance offerte.</span></h2>
+  <p data-anim style="--d:200ms">
+    Une seule fois, sans engagement, sans renouvellement automatique, sans
+    « plan d'essai ». Vous venez, vous voyez, vous décidez après.
+  </p>
+  <a class="cta" href="reserver.html" data-anim style="--d:400ms">Réserver ma séance d'essai →</a>
+</section>
+
+<footer class="foot">
+  <div class="inner">
+    <div>
+      <div class="brand">Lune</div>
+      <p>Studio de yoga, pilates et méditation. Lyon Croix-Rousse, depuis 2021.</p>
+      <p style="margin-top:16px">04 78 22 11 04</p>
+      <p>bonjour@studio-lune.fr</p>
+    </div>
+    <div>
+      <h4>Studio</h4>
+      <a class="row" href="index.html">Accueil</a>
+      <a class="row" href="cours.html">Cours & tarifs</a>
+      <a class="row" href="lieu.html">Le lieu</a>
+      <a class="row" href="reserver.html">Réserver</a>
+    </div>
+    <div>
+      <h4>Horaires</h4>
+      <p>Lun → Ven · 7h → 21h30</p>
+      <p>Sam → Dim · 8h → 19h</p>
+    </div>
+    <div>
+      <h4>Adresse</h4>
+      <p>34 montée de la Grande Côte<br>69001 Lyon</p>
+      <p>Métro Hôtel de Ville · 8 min à pied</p>
+    </div>
+  </div>
+  <div class="bottom">
+    <div>© 2025 Studio Lune · SIREN 893 412 781</div>
+    <div class="credit">Site conçu par <em>Corvee Paper.</em> <a href="../index.html" style="border-bottom:1px solid var(--copper); padding-bottom:1px">Voir le portfolio</a></div>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+  document.querySelectorAll('[data-anim]').forEach((el) => io.observe(el));
+</script>
+
+<style>
+  .cp-back {
+    position: fixed; bottom: 24px; left: 24px; z-index: 90;
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 11px 18px 11px 14px;
+    background: #0F0F0F; color: #F5F1E8;
+    border-radius: 100px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: 0 12px 32px rgba(0,0,0,.22);
+    transition: transform .25s, box-shadow .25s;
+  }
+  .cp-back:hover { transform: translateX(-4px); box-shadow: 0 16px 40px rgba(0,0,0,.28); }
+  .cp-back .arrow { color: #D94B1F; font-size: 13px; transform: translateY(-1px); }
+  @media (max-width: 640px) { .cp-back { bottom: 16px; left: 16px; padding: 9px 14px 9px 12px; font-size: 9px; } }
+</style>
+<a class="cp-back" href="../index.html" title="Retour à la galerie Corvee Paper">
+  <span class="arrow">←</span> Portfolio
+</a>
+
+</body>
+</html>
