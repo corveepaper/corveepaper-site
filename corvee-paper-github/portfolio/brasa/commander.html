@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Commander chez Brasa en Click & Collect — choisissez vos burgers et votre créneau de retrait. Marseille." />
+<title>Commander — Click &amp; Collect · Brasa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body data-screen-label="Brasa / Commander">
+
+<div class="util">
+  <span>★ Click &amp; Collect · prêt en 12 min</span>
+  <span>Cours Julien · 13006</span>
+  <span>Paiement sécurisé</span>
+</div>
+
+<nav class="bar">
+  <div class="inner">
+    <a class="brand" href="index.html"><span class="flame">▲</span> BRASA</a>
+    <div class="links">
+      <a href="index.html">Accueil</a>
+      <a href="carte.html">La carte</a>
+      <a href="commander.html" class="active">Commander</a>
+      <a href="trouver.html">Trouver</a>
+    </div>
+    <a class="order" href="#cart">Mon panier <span id="navCount">(0)</span></a>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="wrap">
+    <div class="mono kicker" data-anim>Click &amp; Collect · retrait au comptoir</div>
+    <h1 data-anim style="--d:100ms">Commander.</h1>
+    <p class="lede" data-anim style="--d:240ms">
+      Ajoute ce que tu veux, choisis ton créneau, on smashe pile pour l'heure dite.
+      <strong style="color:var(--bone)">Démo de parcours</strong> — le paiement se branche
+      sur Stripe ou la solution de ton choix à l'intégration.
+    </p>
+  </div>
+</header>
+
+<section style="padding-top:64px">
+  <div class="wrap">
+    <div class="order-grid">
+      <!-- Menu column -->
+      <div class="order-col">
+        <h2 style="margin-bottom:20px">Burgers</h2>
+        <div id="menu">
+          <div class="order-item" data-name="Le Classique" data-price="12">
+            <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=180&q=70')"></div>
+            <div><div class="name">Le Classique</div><div class="ing">Double steak, cheddar, oignons confits, cornichons, sauce Brasa.</div></div>
+            <div class="price">12€</div>
+            <button class="add" aria-label="Ajouter Le Classique">+</button>
+          </div>
+          <div class="order-item" data-name="La Braise" data-price="13">
+            <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1550547660-d9450f859349?w=180&q=70')"></div>
+            <div><div class="name">La Braise</div><div class="ing">Steak, cheddar fumé, jalapeños, oignons frits, chipotle.</div></div>
+            <div class="price">13€</div>
+            <button class="add" aria-label="Ajouter La Braise">+</button>
+          </div>
+          <div class="order-item" data-name="Le Bistrot" data-price="14">
+            <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=180&q=70')"></div>
+            <div><div class="name">Le Bistrot</div><div class="ing">Steak, reblochon, lard fumé, oignons caramélisés, moutarde.</div></div>
+            <div class="price">14€</div>
+            <button class="add" aria-label="Ajouter Le Bistrot">+</button>
+          </div>
+          <div class="order-item" data-name="Le Champignon" data-price="12">
+            <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1586816001966-79b736744398?w=180&q=70')"></div>
+            <div><div class="name">Le Champignon <span style="color:var(--gold);font-size:11px;font-family:'JetBrains Mono',monospace">VEGGIE</span></div><div class="ing">Champignons rôtis, comté, oignons, mayo truffe, épinard.</div></div>
+            <div class="price">12€</div>
+            <button class="add" aria-label="Ajouter Le Champignon">+</button>
+          </div>
+        </div>
+
+        <h2 style="margin:48px 0 20px">Sides &amp; desserts</h2>
+        <div id="menu2">
+          <div class="order-item" data-name="Frites maison" data-price="4">
+            <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?w=180&q=70')"></div>
+            <div><div class="name">Frites maison</div><div class="ing">Coupées le jour, double cuisson, fleur de sel.</div></div>
+            <div class="price">4€</div>
+            <button class="add" aria-label="Ajouter Frites maison">+</button>
+          </div>
+          <div class="order-item" data-name="Frites Brasa" data-price="7">
+            <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=180&q=70')"></div>
+            <div><div class="name">Frites Brasa</div><div class="ing">Cheddar fondu, oignons frits, sauce Brasa.</div></div>
+            <div class="price">7€</div>
+            <button class="add" aria-label="Ajouter Frites Brasa">+</button>
+          </div>
+          <div class="order-item" data-name="Cookie maison" data-price="3">
+            <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=180&q=70')"></div>
+            <div><div class="name">Cookie maison</div><div class="ing">Tiède, chocolat noir, fleur de sel.</div></div>
+            <div class="price">3€</div>
+            <button class="add" aria-label="Ajouter Cookie maison">+</button>
+          </div>
+          <div class="order-item" data-name="Milkshake" data-price="6">
+            <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=180&q=70')"></div>
+            <div><div class="name">Milkshake</div><div class="ing">Vanille, chocolat ou spéculoos.</div></div>
+            <div class="price">6€</div>
+            <button class="add" aria-label="Ajouter Milkshake">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cart column -->
+      <div id="cart">
+        <div class="pickup">
+          <label>Créneau de retrait</label>
+          <div class="slots" id="slots">
+            <span class="slot on">12:15</span>
+            <span class="slot">12:30</span>
+            <span class="slot">12:45</span>
+            <span class="slot">13:00</span>
+            <span class="slot">19:00</span>
+            <span class="slot">19:30</span>
+            <span class="slot">20:00</span>
+          </div>
+        </div>
+        <div class="cart">
+          <div class="hd">
+            <h3>Mon panier</h3>
+            <span class="ct" id="cartCount">0 article</span>
+          </div>
+          <div class="lines" id="lines">
+            <div class="empty" id="empty">Ton panier est vide. Ajoute un burger pour commencer.</div>
+          </div>
+          <div class="foot">
+            <div class="tot"><span>Total</span><span class="ember" id="total">0€</span></div>
+            <button class="btn primary" style="width:100%;justify-content:center;border:0;cursor:pointer;font-family:inherit" id="checkout">Payer &amp; réserver le créneau <span>→</span></button>
+            <p style="color:var(--smoke);font-size:12px;text-align:center;margin:14px 0 0">Retrait au comptoir Click &amp; Collect · 12 cours Julien</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="inner">
+    <div><div class="brand">BRASA</div><p>Smash burgers &amp; frites maison. Bœuf français, tout fait sur place, au Cours Julien depuis 2021.</p></div>
+    <div><h4>Le resto</h4><a class="row" href="index.html">Accueil</a><a class="row" href="carte.html">La carte</a><a class="row" href="commander.html">Commander</a><a class="row" href="trouver.html">Trouver</a></div>
+    <div><h4>Horaires</h4><p>Mar → Dim · 11h30 → 14h30</p><p>Mar → Sam · 18h30 → 23h</p><p>Lundi · fermé</p></div>
+    <div><h4>Trouver</h4><p>12 cours Julien<br>13006 Marseille</p><p>04 91 00 00 00</p></div>
+  </div>
+  <div class="bottom">
+    <div>© 2025 Brasa · SIRET 000 000 000 00000</div>
+    <div class="credit">Site conçu par <a href="../index.html">Corvee Paper ↗</a></div>
+  </div>
+</footer>
+
+<a class="cp-back" href="../index.html" title="Retour à la galerie Corvee Paper"><span class="arrow">←</span> Portfolio</a>
+
+<script>
+  // Pickup slot selection
+  document.getElementById('slots').addEventListener('click', (e) => {
+    const s = e.target.closest('.slot'); if (!s) return;
+    document.querySelectorAll('#slots .slot').forEach(x => x.classList.remove('on'));
+    s.classList.add('on');
+  });
+
+  // Cart
+  const cart = {};
+  const fmt = (n) => (Number.isInteger(n) ? n + '€' : n.toFixed(2).replace('.', ',') + '€');
+  function render() {
+    const lines = document.getElementById('lines');
+    const keys = Object.keys(cart);
+    let total = 0, count = 0;
+    if (!keys.length) {
+      lines.innerHTML = '<div class="empty" id="empty">Ton panier est vide. Ajoute un burger pour commencer.</div>';
+    } else {
+      lines.innerHTML = keys.map(k => {
+        const it = cart[k]; total += it.price * it.qty; count += it.qty;
+        return `<div class="line"><span>${k}</span><span style="display:flex;align-items:center;gap:2px"><button class="qbtn" data-dec="${k}">–</button><span class="qty">${it.qty}</span><button class="qbtn" data-inc="${k}">+</button><span style="width:48px;text-align:right;font-family:'JetBrains Mono',monospace">${fmt(it.price*it.qty)}</span></span></div>`;
+      }).join('');
+    }
+    document.getElementById('total').textContent = fmt(total);
+    document.getElementById('cartCount').textContent = count + (count > 1 ? ' articles' : ' article');
+    document.getElementById('navCount').textContent = '(' + count + ')';
+  }
+  function add(name, price) { if (!cart[name]) cart[name] = { price, qty: 0 }; cart[name].qty++; render(); }
+  document.querySelectorAll('.order-item .add').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const row = btn.closest('.order-item');
+      add(row.dataset.name, parseFloat(row.dataset.price));
+      btn.textContent = '✓'; setTimeout(() => btn.textContent = '+', 500);
+    });
+  });
+  document.getElementById('lines').addEventListener('click', (e) => {
+    const inc = e.target.dataset.inc, dec = e.target.dataset.dec;
+    if (inc) { cart[inc].qty++; render(); }
+    if (dec) { cart[dec].qty--; if (cart[dec].qty <= 0) delete cart[dec]; render(); }
+  });
+  document.getElementById('checkout').addEventListener('click', () => {
+    const count = Object.values(cart).reduce((s, i) => s + i.qty, 0);
+    const slot = document.querySelector('#slots .slot.on').textContent;
+    if (!count) { alert('Ajoute au moins un article avant de commander.'); return; }
+    alert('Démo — à l\'intégration, ceci ouvre le paiement (Stripe).\\n\\n' + count + ' article(s) · retrait à ' + slot + '.');
+  });
+
+  const io = new IntersectionObserver((es) => { es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+  document.querySelectorAll('[data-anim]').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
