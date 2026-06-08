@@ -57,7 +57,7 @@
       "image": "https://corveepaper.fr/og-image.png",
       "description": "Studio de design web freelance pour praticiens du bien-être, artisans et indépendants. Sites livrés en 14 jours.",
       "founder": { "@id": "https://corveepaper.fr/#edgar" },
-      "priceRange": "890€ – 2900€",
+      "priceRange": "à partir de 890 €",
       "areaServed": [
         { "@type": "Country", "name": "France" },
         { "@type": "Country", "name": "Belgique" },
@@ -71,26 +71,24 @@
         "itemListElement": [
           {
             "@type": "Offer",
-            "name": "Format Essentiel",
-            "description": "Carte de visite augmentée — 1 page, livré en 7 jours.",
+            "name": "Refonte",
+            "description": "Refonte de site existant — audit, repositionnement, design et reprise complète.",
             "price": "890",
             "priceCurrency": "EUR",
             "category": "WebDesign"
           },
           {
             "@type": "Offer",
-            "name": "Format Pro",
-            "description": "Site qui convertit — 4-8 pages structurées, livré en 14 jours.",
-            "price": "1690",
+            "name": "Création",
+            "description": "Création de site — stratégie, identité web, design, développement, CMS livré.",
+            "price": "890",
             "priceCurrency": "EUR",
             "category": "WebDesign"
           },
           {
             "@type": "Offer",
-            "name": "Format Sur mesure",
-            "description": "Projet complet — multilingue, intégrations, dès 21 jours.",
-            "price": "2900",
-            "priceCurrency": "EUR",
+            "name": "Application",
+            "description": "Application sur mesure — du dashboard interne à l’app SaaS publique. Sur devis.",
             "category": "WebDesign"
           }
         ]
@@ -223,7 +221,7 @@
     .cp-theme nav { padding: 14px 24px !important; gap: 16px !important; flex-wrap: wrap; }
     .cp-theme nav > div:last-child { gap: 18px !important; }
     .cp-theme section { padding-left: 32px !important; padding-right: 32px !important; }
-    .cp-theme h1 { font-size: clamp(56px, 11vw, 140px) !important; }
+    .cp-theme h1 { font-size: clamp(40px, 6.5vw, 76px) !important; }
     .cp-theme h2 { font-size: clamp(40px, 7vw, 88px) !important; }
     .cp-theme h3[style*="font-size: 72px"] { font-size: clamp(44px, 7vw, 72px) !important; }
   }
@@ -282,7 +280,7 @@
   @media (max-width: 640px) {
     /* The ≤1100 clamp bottoms out at 56px, which can overflow a 375px phone
        given the forced <br> line breaks. Bring it down so it always fits. */
-    .cp-theme h1 { font-size: clamp(34px, 9.2vw, 60px) !important; }
+    .cp-theme h1 { font-size: clamp(28px, 7.5vw, 48px) !important; }
     /* Hero paragraph slightly smaller for comfortable reading on small screens. */
     .cp-theme section p { font-size: 17px !important; }
     /* Contact form: tighter padding on small screens. */
@@ -312,11 +310,11 @@
 <!-- ?v=N is a cache-buster: bump it every deploy so browsers fetch the new JS
      instead of a stale cached copy. -->
 <!-- Versioned filenames = bulletproof cache-busting (bump the v on every deploy). -->
-<script src="js/shared.v22.js"></script>
-<script src="js/dir-editorial.v22.js"></script>
+<script src="js/shared.v23.js"></script>
+<script src="js/dir-editorial.v23.js"></script>
 
 <!-- Boot — extracted to js/boot.js so the CSP can disallow inline scripts. -->
-<script src="js/boot.v22.js"></script>
+<script src="js/boot.v23.js"></script>
 
 <!-- ────────────────────────────────────────────────────────────────────────
      Analytics — Umami (no cookie, RGPD-friendly, no banner needed).
