@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+# Block AI scrapers that don't respect robots.txt anyway — at least makes our
+# stance explicit. Remove a line if you change your mind about a specific bot.
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+Sitemap: https://corveepaper.fr/sitemap.xml

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Réserver une table au Comptoir Vauban — choisissez date, nombre de couverts et service. Paris 7ᵉ." />
+<title>Réserver — Comptoir Vauban · Paris</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Spectral:ital,wght@0,300;0,400;0,500;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body data-screen-label="Comptoir Vauban / Réserver">
+
+<div class="util">
+  <span>Réservation en ligne</span><span class="dot">·</span>
+  <span class="hide">Confirmation immédiate par e-mail</span><span class="dot hide">·</span>
+  <span>Ou par téléphone au 01 45 00 00 00</span>
+</div>
+
+<nav class="bar">
+  <div class="inner">
+    <a class="brand" href="index.html">Comptoir Vauban<small>PARIS · DEPUIS 2016</small></a>
+    <div class="links">
+      <a href="index.html">La maison</a>
+      <a href="carte.html">La carte</a>
+      <a href="reserver.html" class="active">Réserver</a>
+      <a href="maison.html">L'histoire</a>
+    </div>
+    <a class="book" href="reserver.html">Réserver une table</a>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="wrap">
+    <div class="mono kicker" data-anim>Réservation · Paris 7ᵉ</div>
+    <h1 data-anim style="--d:100ms">Réserver.</h1>
+    <p class="lede" data-anim style="--d:240ms">
+      Trente couverts, deux services. Choisissez votre date et votre créneau ci-dessous.
+      <strong style="color:var(--cream)">Démo de parcours</strong> — à l'intégration, ce formulaire
+      se connecte à votre outil (TheFork, Zenchef ou e-mail).
+    </p>
+  </div>
+</header>
+
+<section style="padding-top:72px">
+  <div class="wrap">
+    <div class="reserve-grid">
+      <!-- Form -->
+      <form class="rzform" data-anim id="rz" onsubmit="return submitRz(event)">
+        <div class="fields">
+          <div class="field full">
+            <label>Nombre de couverts</label>
+            <div class="covers" id="covers">
+              <span class="cover">1</span><span class="cover on">2</span><span class="cover">3</span>
+              <span class="cover">4</span><span class="cover">5</span><span class="cover">6</span>
+              <span class="cover">7+</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Date</label>
+            <input type="date" id="rzdate" required />
+          </div>
+          <div class="field">
+            <label>Service</label>
+            <select id="rzservice">
+              <option>Déjeuner — 12h</option>
+              <option selected>Dîner — 19h30</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label>Créneau</label>
+            <div class="slots" id="slots">
+              <span class="slot">19:30</span><span class="slot on">20:00</span>
+              <span class="slot">20:30</span><span class="slot">21:00</span><span class="slot">21:30</span>
+            </div>
+          </div>
+          <div class="field"><label>Prénom &amp; nom</label><input type="text" placeholder="Camille Durand" required /></div>
+          <div class="field"><label>Téléphone</label><input type="tel" placeholder="06 12 34 56 78" required /></div>
+          <div class="field full"><label>E-mail</label><input type="email" placeholder="camille@email.fr" required /></div>
+          <div class="field full"><label>Une demande particulière ?</label><textarea rows="2" placeholder="Allergie, occasion, table calme…"></textarea></div>
+        </div>
+        <button class="submit" type="submit">Confirmer la réservation</button>
+        <p id="rzok" style="display:none;color:var(--gold-2);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;margin-top:16px;text-align:center"></p>
+      </form>
+
+      <!-- Aside -->
+      <aside class="reserve-aside" data-anim style="--d:120ms">
+        <div class="block">
+          <h3>Horaires de service</h3>
+          <p>Mardi → Samedi<br>Déjeuner <em>12h – 14h</em> · Dîner <em>19h30 – 22h</em><br>Dimanche &amp; lundi : fermé</p>
+        </div>
+        <div class="block">
+          <h3>Bon à savoir</h3>
+          <p>Les tables sont gardées 15 minutes. Pour 7 couverts et plus, appelez-nous directement — nous organisons volontiers les grandes tablées.</p>
+        </div>
+        <div class="block">
+          <h3>Nous joindre</h3>
+          <p>01 45 00 00 00<br>bonjour@comptoir-vauban.fr</p>
+        </div>
+        <div class="block">
+          <h3>Annulation</h3>
+          <p>Sans frais jusqu'à 4h avant le service. Un lien d'annulation vous est envoyé avec la confirmation.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="inner">
+    <div><div class="brand">Comptoir Vauban<small>PARIS · DEPUIS 2016</small></div><p>Bistrot gastronomique de cuisine de marché, rue Saint-Dominique, Paris 7ᵉ.</p></div>
+    <div><h4>La maison</h4><a class="row" href="index.html">La maison</a><a class="row" href="carte.html">La carte</a><a class="row" href="reserver.html">Réserver</a><a class="row" href="maison.html">L'histoire</a></div>
+    <div><h4>Service</h4><p>Mar → Sam</p><p>12h – 14h · 19h30 – 22h</p><p>Dim &amp; Lun · fermé</p></div>
+    <div><h4>Nous trouver</h4><p>52 rue Saint-Dominique<br>75007 Paris</p><p>01 45 00 00 00</p></div>
+  </div>
+  <div class="bottom">
+    <div>© 2025 Comptoir Vauban · SIRET 000 000 000 00000</div>
+    <div class="credit">Site conçu par <a href="../index.html">Corvee Paper ↗</a></div>
+  </div>
+</footer>
+
+<a class="cp-back" href="../index.html" title="Retour à la galerie Corvee Paper"><span class="arrow">←</span> Portfolio</a>
+
+<script>
+  document.getElementById('covers').addEventListener('click', (e) => { const c = e.target.closest('.cover'); if (!c) return; document.querySelectorAll('#covers .cover').forEach(x => x.classList.remove('on')); c.classList.add('on'); });
+  document.getElementById('slots').addEventListener('click', (e) => { const s = e.target.closest('.slot'); if (!s) return; document.querySelectorAll('#slots .slot').forEach(x => x.classList.remove('on')); s.classList.add('on'); });
+  // default date = today
+  document.getElementById('rzdate').value = new Date().toISOString().slice(0,10);
+  function submitRz(e) {
+    e.preventDefault();
+    const cov = document.querySelector('#covers .cover.on').textContent;
+    const slot = document.querySelector('#slots .slot.on').textContent;
+    const date = document.getElementById('rzdate').value;
+    const ok = document.getElementById('rzok');
+    ok.style.display = 'block';
+    ok.textContent = '✦ Démo — réservation simulée pour ' + cov + ' couverts, le ' + date + ' à ' + slot + '.';
+    return false;
+  }
+  const io = new IntersectionObserver((es) => { es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+  document.querySelectorAll('[data-anim]').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

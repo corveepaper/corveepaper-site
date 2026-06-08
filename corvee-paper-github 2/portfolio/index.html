@@ -1,0 +1,1038 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Portfolio — Corvee Paper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Geist:wght@300..700&family=Geist+Mono:wght@300..600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #F5F1E8;
+    --paper-2: #EDE7D6;
+    --ink: #0F0F0F;
+    --stone: #6B6760;
+    --stone-light: #9B9690;
+    --line: #D9D2BF;
+    --accent: #D94B1F;
+    --accent-soft: #F4D5C4;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Geist', -apple-system, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+
+  .serif { font-family: 'Instrument Serif', serif; font-weight: 400; letter-spacing: -.01em; }
+  .mono { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
+
+  /* Nav */
+  nav.bar {
+    position: sticky; top: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(245, 241, 232, .94);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav.bar .brand { display: flex; align-items: center; gap: 10px; font-family: 'Instrument Serif', serif; font-size: 24px; letter-spacing: -.01em; }
+  nav.bar .brand em { color: var(--accent); font-style: italic; }
+  nav.bar .glyph { width: 28px; height: 28px; }
+  nav.bar .links { display: flex; gap: 32px; font-size: 14px; color: var(--stone); }
+  nav.bar .links a:hover { color: var(--ink); }
+  nav.bar .cta {
+    padding: 10px 18px; border: 1px solid var(--ink); border-radius: 100px;
+    font-size: 13px; transition: all .2s;
+  }
+  nav.bar .cta:hover { background: var(--ink); color: var(--paper); }
+
+  /* Hero */
+  header.hero {
+    padding: 96px 48px 64px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  header.hero .label { color: var(--accent); margin-bottom: 32px; }
+  header.hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(64px, 9vw, 144px);
+    font-weight: 400;
+    line-height: .96;
+    letter-spacing: -.02em;
+    margin: 0 0 40px;
+    max-width: 14ch;
+  }
+  header.hero h1 em { color: var(--accent); font-style: italic; }
+  header.hero .lede {
+    max-width: 56ch;
+    font-family: 'Newsreader', serif;
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--stone);
+  }
+  header.hero .lede strong { color: var(--ink); font-weight: 500; }
+
+  header.hero .meta {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    padding-top: 32px;
+    border-top: 1px dashed var(--line);
+  }
+  header.hero .meta .k { color: var(--stone); margin-bottom: 8px; }
+  header.hero .meta .v { font-family: 'Instrument Serif', serif; font-size: 28px; }
+  header.hero .meta .v em { color: var(--accent); font-style: italic; }
+
+  /* Project section */
+  .project {
+    padding: 96px 48px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  .project .head {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 64px;
+    margin-bottom: 56px;
+    align-items: end;
+  }
+  .project .idx { color: var(--accent); }
+  .project h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(48px, 6vw, 88px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -.02em;
+    margin: 16px 0 0;
+  }
+  .project h2 em { color: var(--accent); font-style: italic; }
+  .project .tag {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-right: 8px;
+  }
+  .project .desc {
+    font-family: 'Newsreader', serif;
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--stone);
+  }
+  .project .desc strong { color: var(--ink); font-weight: 500; }
+
+  /* Browser frame mockup */
+  .frame {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 50px 80px -40px rgba(0,0,0,.18), 0 14px 30px -10px rgba(0,0,0,.06);
+    transition: transform .6s cubic-bezier(.2,.7,.3,1), box-shadow .6s;
+  }
+  .frame:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 70px 100px -40px rgba(0,0,0,.22), 0 20px 40px -10px rgba(0,0,0,.08);
+  }
+  .frame .topbar {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px;
+    background: #F4F1EC;
+    border-bottom: 1px solid var(--line);
+  }
+  .frame .dots { display: flex; gap: 6px; }
+  .frame .dot { width: 11px; height: 11px; border-radius: 50%; background: #ddd; }
+  .frame .url {
+    flex: 1;
+    padding: 6px 14px;
+    background: white;
+    border-radius: 6px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: var(--stone);
+    text-align: center;
+  }
+  .frame .visit {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .frame .visit:hover { text-decoration: underline; }
+
+  /* Project content area: mockup + case study */
+  .project .body {
+    display: grid;
+    grid-template-columns: 1.7fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .project.flip .body { grid-template-columns: 1fr 1.7fr; }
+  .project.flip .body .study { order: -1; }
+
+  .study .label { color: var(--accent); margin-bottom: 24px; }
+  .study h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 32px;
+    font-weight: 400;
+    margin: 0 0 16px;
+    letter-spacing: -.01em;
+  }
+  .study p {
+    font-family: 'Newsreader', serif;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--stone);
+    margin: 0 0 16px;
+  }
+  .study .kv {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px 32px;
+    margin-top: 40px; padding-top: 32px; border-top: 1px dashed var(--line);
+  }
+  .study .kv .k { color: var(--stone-light); margin-bottom: 4px; }
+  .study .kv .v { font-size: 15px; color: var(--ink); }
+  .study .visit-card {
+    margin-top: 40px;
+    display: inline-flex;
+    align-items: center; gap: 12px;
+    padding: 14px 22px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 100px;
+    font-size: 14px;
+    transition: transform .2s;
+  }
+  .study .visit-card:hover { transform: translateX(4px); }
+  .study .visit-card .arrow { color: var(--accent); }
+
+  /* Mockup screens — each direction has its own inline preview design */
+  .screen { height: 540px; overflow: hidden; position: relative; }
+
+  /* ─── Lacombe preview (ostéo : sauge + crème) ─── */
+  .scr-lacombe {
+    background: #FAF8F4;
+    font-family: 'Manrope', 'Geist', sans-serif;
+    color: #1C1F1A;
+  }
+  .scr-lacombe .topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 32px; font-size: 13px; color: #5A6F5E;
+  }
+  .scr-lacombe .topbar .brand {
+    font-family: 'Cormorant Garamond', serif; font-size: 22px; color: #1C1F1A;
+    letter-spacing: .02em;
+  }
+  .scr-lacombe .topbar nav { display: flex; gap: 22px; }
+  .scr-lacombe .topbar .book {
+    background: #5A6F5E; color: #FAF8F4; padding: 8px 16px; border-radius: 4px;
+    font-size: 12px;
+  }
+  .scr-lacombe .hero {
+    padding: 60px 48px 0; display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px;
+  }
+  .scr-lacombe .hero h1 {
+    font-family: 'Cormorant Garamond', serif; font-weight: 400;
+    font-size: 72px; line-height: 1; letter-spacing: -.02em; margin: 0 0 24px;
+    color: #1C1F1A;
+  }
+  .scr-lacombe .hero h1 em { font-style: italic; color: #5A6F5E; }
+  .scr-lacombe .hero p { font-size: 15px; line-height: 1.6; color: #5A5C58; max-width: 32ch; }
+  .scr-lacombe .hero .ph {
+    height: 280px; border-radius: 4px;
+    background:
+      linear-gradient(135deg, rgba(0,0,0,.04) 0 1px, transparent 1px 8px) 0 0/8px 8px,
+      #DDE3D8;
+  }
+  .scr-lacombe .strip {
+    margin-top: 56px; padding: 24px 48px; border-top: 1px solid #DDD8CC;
+    display: flex; gap: 40px; font-size: 12px; letter-spacing: .12em;
+    text-transform: uppercase; color: #5A6F5E; font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ─── Lune preview (yoga : terre cuite + cuivré) ─── */
+  .scr-lune {
+    background: #F2EBE0;
+    font-family: 'Karla', sans-serif;
+    color: #2E2520;
+  }
+  .scr-lune .topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 22px 32px; font-size: 12px;
+    border-bottom: 1px solid rgba(46,37,32,.1);
+  }
+  .scr-lune .topbar .brand {
+    font-family: 'DM Serif Display', serif; font-size: 24px; letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .scr-lune .topbar nav { display: flex; gap: 22px; text-transform: uppercase; letter-spacing: .14em; font-size: 11px; }
+  .scr-lune .hero { position: relative; height: 430px; overflow: hidden; }
+  .scr-lune .hero .ph {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(at 30% 30%, rgba(201,148,123,.6), transparent 50%),
+      radial-gradient(at 70% 60%, rgba(181,138,79,.4), transparent 60%),
+      #C9947B;
+  }
+  .scr-lune .hero .overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 48px 56px;
+  }
+  .scr-lune .hero h1 {
+    font-family: 'DM Serif Display', serif; font-style: italic;
+    font-weight: 400; font-size: 96px; line-height: .95; margin: 0;
+    color: #F2EBE0; letter-spacing: -.02em;
+  }
+  .scr-lune .hero .sub {
+    margin-top: 18px; color: rgba(242,235,224,.85); font-size: 14px;
+    letter-spacing: .18em; text-transform: uppercase;
+  }
+
+  /* ─── Marchand preview (psy : sombre éditorial) ─── */
+  .scr-marchand {
+    background: #0F1419;
+    color: #E8E1D5;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .scr-marchand .topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 22px 32px; font-size: 13px;
+    border-bottom: 1px solid rgba(232,225,213,.1);
+  }
+  .scr-marchand .topbar .brand {
+    font-family: 'EB Garamond', serif; font-size: 20px; font-style: italic;
+  }
+  .scr-marchand .topbar nav { display: flex; gap: 22px; color: rgba(232,225,213,.7); font-size: 12px; }
+  .scr-marchand .topbar .rdv { color: #D4936D; }
+  .scr-marchand .hero {
+    padding: 80px 48px 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+  }
+  .scr-marchand .hero h1 {
+    font-family: 'EB Garamond', serif; font-weight: 400;
+    font-size: 64px; line-height: 1.05; letter-spacing: -.01em; margin: 0;
+  }
+  .scr-marchand .hero h1 em { font-style: italic; color: #D4936D; }
+  .scr-marchand .hero .quote {
+    border-left: 1px solid rgba(232,225,213,.2);
+    padding-left: 28px;
+  }
+  .scr-marchand .hero .quote p {
+    font-family: 'EB Garamond', serif; font-style: italic;
+    font-size: 22px; line-height: 1.45; margin: 0; color: #E8E1D5;
+  }
+  .scr-marchand .hero .quote .by {
+    margin-top: 18px;
+    font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+    color: rgba(232,225,213,.5);
+  }
+  .scr-marchand .strip {
+    margin: 40px 48px 0; padding: 20px 0;
+    border-top: 1px solid rgba(232,225,213,.1);
+    display: flex; justify-content: space-between;
+    font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    color: rgba(232,225,213,.6);
+  }
+
+  /* ─── Brasa preview (burger : charbon + braise) ─── */
+  .scr-brasa { background: #16130F; color: #F3EBDD; font-family: 'Space Grotesk', sans-serif; }
+  .scr-brasa .topbar { display: flex; justify-content: space-between; align-items: center; padding: 18px 32px; border-bottom: 1px solid rgba(243,235,221,.14); }
+  .scr-brasa .topbar .brand { font-family: 'Anton', sans-serif; text-transform: uppercase; font-size: 24px; letter-spacing: .03em; display: flex; align-items: center; gap: 8px; }
+  .scr-brasa .topbar .brand .fl { color: #F0541E; font-size: 16px; }
+  .scr-brasa .topbar nav { display: flex; gap: 18px; font-size: 11px; opacity: .7; }
+  .scr-brasa .topbar .od { background: #F0541E; color: #16130F; padding: 7px 14px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+  .scr-brasa .hero { position: relative; height: 360px; overflow: hidden; }
+  .scr-brasa .hero .ph { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(22,19,15,.4), rgba(22,19,15,.82)), url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=900&q=70') center/cover; }
+  .scr-brasa .hero .ov { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 32px 36px; }
+  .scr-brasa .hero h1 { font-family: 'Anton', sans-serif; text-transform: uppercase; font-size: 80px; line-height: .82; margin: 0; }
+  .scr-brasa .hero h1 .out { -webkit-text-stroke: 2px #F0541E; color: transparent; }
+  .scr-brasa .strip { display: flex; gap: 28px; padding: 22px 32px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: #9A8E7C; }
+  .scr-brasa .strip .ember { color: #F5B82E; }
+
+  /* ─── Comptoir Vauban preview (bistrot : vert bouteille + or) ─── */
+  .scr-comptoir { background: #16241C; color: #F4EEE1; font-family: 'Spectral', serif; }
+  .scr-comptoir .topbar { display: flex; justify-content: space-between; align-items: center; padding: 18px 32px; border-bottom: 1px solid rgba(244,238,225,.16); }
+  .scr-comptoir .topbar .brand { font-family: 'Bodoni Moda', serif; font-size: 22px; }
+  .scr-comptoir .topbar nav { display: flex; gap: 20px; font-size: 12px; color: #DED6C4; }
+  .scr-comptoir .topbar .bk { border: 1px solid #C6A24C; color: #E0C683; padding: 7px 14px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; }
+  .scr-comptoir .hero { position: relative; height: 420px; }
+  .scr-comptoir .hero .ph { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(22,36,28,.95), rgba(22,36,28,.55) 70%, rgba(22,36,28,.3)), url('https://images.unsplash.com/photo-1559339352-11d035aa65de?w=900&q=70') center/cover; }
+  .scr-comptoir .hero .ov { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 48px; }
+  .scr-comptoir .hero .kk { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .24em; text-transform: uppercase; color: #C6A24C; margin-bottom: 18px; }
+  .scr-comptoir .hero h1 { font-family: 'Bodoni Moda', serif; font-size: 60px; line-height: 1; margin: 0; max-width: 11ch; }
+  .scr-comptoir .hero h1 em { font-style: italic; color: #E0C683; }
+
+  /* ─── Pétrin preview (boulangerie : crème + brique) ─── */
+  .scr-petrin { background: #F6EEE0; color: #2C2118; font-family: 'Hanken Grotesk', sans-serif; }
+  .scr-petrin .topbar { display: flex; justify-content: space-between; align-items: center; padding: 18px 32px; border-bottom: 1px solid #DDCDB4; }
+  .scr-petrin .topbar .brand { font-family: 'Yeseva One', serif; font-size: 26px; display: flex; align-items: center; gap: 8px; }
+  .scr-petrin .topbar .brand .seal { width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid #A66E27; color: #A66E27; display: grid; place-items: center; font-size: 13px; }
+  .scr-petrin .topbar nav { display: flex; gap: 18px; font-size: 12px; color: #5A4636; }
+  .scr-petrin .topbar .od { background: #A8412B; color: #FBF7EF; padding: 7px 15px; border-radius: 100px; font-size: 11px; font-weight: 600; }
+  .scr-petrin .hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 28px; padding: 40px 32px 0; align-items: center; }
+  .scr-petrin .hero h1 { font-family: 'Yeseva One', serif; font-size: 54px; line-height: 1.02; margin: 0 0 16px; }
+  .scr-petrin .hero h1 em { font-style: italic; color: #A8412B; }
+  .scr-petrin .hero p { font-size: 14px; color: #5A4636; max-width: 30ch; margin: 0; }
+  .scr-petrin .hero .ph { aspect-ratio: 3/4; height: 300px; background: url('https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&q=70') center/cover; border-radius: 150px 150px 0 0; }
+  .scr-petrin .marq { margin-top: 28px; background: #2C2118; color: #F6EEE0; font-family: 'Yeseva One', serif; font-size: 16px; padding: 12px 32px; display: flex; gap: 22px; white-space: nowrap; overflow: hidden; }
+  .scr-petrin .marq .dot { color: #C98A3C; }
+
+  /* ─── Group divider ─── */
+  .group-head { padding: 80px 48px 8px; border-bottom: 1px solid var(--line); }
+  .group-head .gh-row { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .group-head .gtitle { font-family: 'Instrument Serif', serif; font-size: clamp(36px, 4.5vw, 60px); line-height: 1; margin: 14px 0 0; letter-spacing: -.01em; }
+  .group-head .gtitle em { color: var(--accent); font-style: italic; }
+  .group-head .gcount { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--stone); }
+  .group-head p.gintro { margin: 20px 0 0; max-width: 58ch; font-family: 'Newsreader', serif; font-size: 18px; line-height: 1.55; color: var(--stone); }
+
+  /* CTA + footer */
+  .outro {
+    padding: 120px 48px;
+    text-align: center;
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .outro h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(52px, 7vw, 96px);
+    font-weight: 400;
+    line-height: 1;
+    margin: 0 auto 32px;
+    max-width: 14ch;
+    letter-spacing: -.02em;
+  }
+  .outro h2 em { color: var(--accent); font-style: italic; }
+  .outro p {
+    font-family: 'Newsreader', serif;
+    font-size: 19px;
+    color: rgba(245,241,232,.7);
+    max-width: 52ch;
+    margin: 0 auto 48px;
+    line-height: 1.5;
+  }
+  .outro a.cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    background: var(--accent); color: var(--paper);
+    padding: 18px 32px; border-radius: 100px;
+    font-size: 15px; transition: transform .2s;
+  }
+  .outro a.cta:hover { transform: translateY(-3px); }
+
+  footer {
+    padding: 32px 48px;
+    border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between;
+    color: var(--stone); font-size: 13px;
+  }
+
+  /* Reveal animation */
+  [data-anim] { opacity: 0; transform: translateY(28px); transition: opacity .9s cubic-bezier(.2,.7,.3,1), transform .9s cubic-bezier(.2,.7,.3,1); }
+  [data-anim].in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { [data-anim] { opacity: 1; transform: none; } }
+
+  /* Responsive */
+  @media (max-width: 1100px) {
+    nav.bar { padding: 14px 24px; }
+    nav.bar .links { display: none; }
+    header.hero, .project, .outro { padding-left: 28px; padding-right: 28px; }
+    header.hero .meta { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .project .head, .project .body, .project.flip .body { grid-template-columns: 1fr; gap: 32px; }
+    .project.flip .body .study { order: 1; }
+    .screen { height: 420px; }
+    .scr-lacombe .hero h1, .scr-marchand .hero h1 { font-size: 48px; }
+    .scr-lune .hero h1 { font-size: 60px; }
+    .scr-lacombe .hero, .scr-marchand .hero { grid-template-columns: 1fr; }
+    .scr-lacombe .hero .ph { display: none; }
+    .scr-brasa .hero h1 { font-size: 54px; }
+    .scr-comptoir .hero h1 { font-size: 42px; }
+    .scr-petrin .hero { grid-template-columns: 1fr; }
+    .scr-petrin .hero .ph { display: none; }
+    .scr-petrin .hero h1 { font-size: 44px; }
+    .group-head { padding-left: 28px; padding-right: 28px; }
+    footer { flex-direction: column; gap: 12px; }
+  }
+
+/* ── Family filter (choose Santé / Restauration without scrolling) ───────── */
+.fam-filter{position:sticky;top:0;z-index:40;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;
+  padding:18px 16px;background:#F5F1E8;border-bottom:1px solid #D9D2BF;}
+.fam-filter .fam-btn{font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;cursor:pointer;border:1px solid #D9D2BF;background:transparent;color:#6B6760;
+  padding:10px 18px;border-radius:99px;transition:background .2s,color .2s,border-color .2s;}
+.fam-filter .fam-btn:hover{color:#0F0F0F;}
+.fam-filter .fam-btn.is-active{background:#0F0F0F;color:#F5F1E8;border-color:#0F0F0F;}
+.fam-hidden{display:none !important;}
+@media (max-width:640px){.fam-filter{padding:12px 10px;gap:8px}.fam-filter .fam-btn{padding:9px 14px;font-size:10px;letter-spacing:.12em}}
+</style>
+</head>
+<body>
+
+<!-- Google Fonts (additional) -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Manrope:wght@300..700&family=DM+Serif+Display:ital@0;1&family=Karla:wght@300..700&family=EB+Garamond:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:wght@300..700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<!-- Google Fonts (restauration concepts) -->
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&family=Bodoni+Moda:ital,opsz@0,6..96;1,6..96&family=Spectral:ital,wght@0,300;0,400;1,400&family=Yeseva+One&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+<nav class="bar">
+  <a class="brand" href="../index.html">
+    <svg class="glyph" viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M 6 4 L 28 7 L 26 28 L 4 25 Z" fill="#D94B1F" opacity=".85"/>
+      <path d="M 4 8 L 22 6 L 24 26 L 6 28 Z" fill="#0F0F0F"/>
+      <path d="M 22 6 L 28 7 L 26 28 L 24 26 Z" fill="#D94B1F" opacity=".4"/>
+    </svg>
+    Corvee Paper<em>.</em>
+  </a>
+  <div class="links">
+    <a href="../index.html#manifeste">Manifeste</a>
+    <a href="../index.html#services">Services</a>
+    <a href="./index.html">Travaux</a>
+    <a href="../index.html#faq">FAQ</a>
+  </div>
+  <a class="cta" href="../index.html#contact">Discutons</a>
+</nav>
+
+<header class="hero" data-screen-label="01 Hero">
+  <div class="mono label">Portfolio · 2025 · 6 concepts · 2 familles</div>
+  <h1 data-anim>Des sites qui<br><em>font tourner</em> la boutique.</h1>
+  <p class="lede" data-anim>
+    Deux familles de métiers, six concepts complets et navigables. D'un côté les
+    <strong>professionnels de santé</strong>, de l'autre la <strong>restauration &amp; le commerce</strong>.
+    Chacun est <strong>livré clés en main</strong>, sans CMS lourd ni abonnement caché, et taillé
+    pour la seule chose qui compte : <strong>donner envie, et passer à l'action</strong> —
+    prendre rendez-vous, réserver une table, commander.
+  </p>
+  <div class="meta">
+    <div><div class="k mono">Concepts</div><div class="v">6 <em>sites</em></div></div>
+    <div><div class="k mono">Familles</div><div class="v">2 <em>univers</em></div></div>
+    <div><div class="k mono">Pages</div><div class="v">4 <em>par site</em></div></div>
+    <div><div class="k mono">Délai</div><div class="v">~14 <em>jours</em></div></div>
+  </div>
+</header>
+
+<!-- ═══ FAMILLE 1 — Santé ═══ -->
+<div class="fam-filter" role="tablist" aria-label="Filtrer par famille de métier">
+  <button class="fam-btn is-active" data-fam-filter="all" type="button">Tous</button>
+  <button class="fam-btn" data-fam-filter="sante" type="button">Santé</button>
+  <button class="fam-btn" data-fam-filter="resto" type="button">Restauration &amp; commerce</button>
+</div>
+<div class="group-head" data-screen-label="Famille Santé" data-fam="sante">
+  <div class="gh-row">
+    <div>
+      <div class="mono" style="color:var(--accent)">Famille 01</div>
+      <h2 class="gtitle">Professionnels de <em>santé</em></h2>
+    </div>
+    <div class="gcount">03 concepts · RDV</div>
+  </div>
+  <p class="gintro">Ostéopathe, studio de yoga, psychologue — trois indépendants du soin pour qui un site doit rassurer, expliquer, et remplir l'agenda.</p>
+</div>
+
+<!-- ═════════════════════════════════════════════════════════════════ -->
+<!-- Projet 01 — Cabinet Émilie Lacombe                                 -->
+<!-- ═════════════════════════════════════════════════════════════════ -->
+<section class="project" data-screen-label="02 Projet Lacombe" data-fam="sante">
+  <div class="head">
+    <div>
+      <div class="mono idx">N° 01 / 03 · Santé</div>
+      <h2 data-anim>Cabinet <em>Lacombe.</em></h2>
+    </div>
+    <div data-anim>
+      <span class="tag">Ostéopathe</span>
+      <span class="tag">Prise de RDV</span>
+      <span class="tag">Bordeaux</span>
+      <p class="desc" style="margin-top:20px">
+        Une vitrine <strong>calme et clinique</strong> pour une ostéopathe installée depuis
+        douze ans. L'objectif : remplacer Doctolib comme première porte d'entrée,
+        rassurer les patients en amont, et faire passer l'expertise sans tomber dans
+        le médical froid.
+      </p>
+    </div>
+  </div>
+
+  <div class="body">
+    <div data-anim>
+      <a class="frame" href="./lacombe/index.html">
+        <div class="topbar">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="url">cabinet-lacombe.fr</div>
+          <span class="visit">Visiter ↗</span>
+        </div>
+        <div class="screen scr-lacombe">
+          <div class="topbar">
+            <span class="brand">Cabinet Lacombe</span>
+            <nav><span>Ostéopathie</span><span>À propos</span><span>Contact</span></nav>
+            <a class="book">Prendre RDV</a>
+          </div>
+          <div class="hero">
+            <div>
+              <h1>Une médecine du <em>geste juste</em>.</h1>
+              <p>Ostéopathe D.O. depuis 2013. Adultes, sportifs, femmes enceintes et nourrissons. Bordeaux Caudéran, sur rendez-vous.</p>
+            </div>
+            <div class="ph">portrait</div>
+          </div>
+          <div class="strip">
+            <span>D.O. · Reg. ADELI</span>
+            <span>1500+ patients/an</span>
+            <span>Bordeaux 33200</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <aside class="study">
+      <div class="mono label">Mini case-study</div>
+      <h3>Sortir de Doctolib</h3>
+      <p>
+        Émilie a une patientèle pleine mais 60% vient de Doctolib — qui prend 20% sur
+        chaque RDV et lui interdit de communiquer hors plateforme. On a construit un
+        site qui devient sa <em>première</em> adresse, avec prise de RDV intégrée via
+        un widget Calendly stylé maison.
+      </p>
+      <p>
+        Le ton : sobre, chaleureux, jamais alarmiste. Beaucoup de blanc, photos
+        d'ambiance du cabinet plutôt que stock médical. Une typo serif éditoriale
+        ramène l'humain dans une catégorie qui en manque cruellement.
+      </p>
+      <div class="kv">
+        <div><div class="k mono">Direction</div><div class="v">Clinique chaleureuse</div></div>
+        <div><div class="k mono">Pages</div><div class="v">Accueil · Ostéo · À propos · Contact</div></div>
+        <div><div class="k mono">Tech</div><div class="v">HTML/CSS · Calendly</div></div>
+        <div><div class="k mono">Délai</div><div class="v">14 jours</div></div>
+      </div>
+      <a class="visit-card" href="./lacombe/index.html">Voir le concept <span class="arrow">↗</span></a>
+    </aside>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════════════════════════════ -->
+<!-- Projet 02 — Studio Lune                                            -->
+<!-- ═════════════════════════════════════════════════════════════════ -->
+<section class="project flip" data-screen-label="03 Projet Lune" data-fam="sante">
+  <div class="head">
+    <div>
+      <div class="mono idx">N° 02 / 03 · Wellness</div>
+      <h2 data-anim>Studio <em>Lune.</em></h2>
+    </div>
+    <div data-anim>
+      <span class="tag">Yoga · Pilates</span>
+      <span class="tag">Planning</span>
+      <span class="tag">Lyon</span>
+      <p class="desc" style="margin-top:20px">
+        Un studio de quartier à Lyon Croix-Rousse qui voulait <strong>arrêter de faire
+        comme tous les autres studios</strong>. Pas de stock photos zen, pas de bambou,
+        pas de mandala. Une identité éditoriale chaude, comme un magazine de mode
+        des années 70.
+      </p>
+    </div>
+  </div>
+
+  <div class="body">
+    <div data-anim>
+      <a class="frame" href="./lune/index.html">
+        <div class="topbar">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="url">studio-lune.fr</div>
+          <span class="visit">Visiter ↗</span>
+        </div>
+        <div class="screen scr-lune">
+          <div class="topbar">
+            <span class="brand">Lune</span>
+            <nav><span>Cours</span><span>Tarifs</span><span>Le lieu</span><span>Réserver</span></nav>
+          </div>
+          <div class="hero">
+            <div class="ph"></div>
+            <div class="overlay">
+              <h1>S'étirer<br>doucement<br>vers <span style="font-style:normal;color:#F2EBE0">soi</span>.</h1>
+              <div class="sub">Studio · Lyon Croix-Rousse · ouvert tous les jours</div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <aside class="study">
+      <div class="mono label">Mini case-study</div>
+      <h3>Sortir du cliché yoga</h3>
+      <p>
+        Le brief de Marion (fondatrice) : « tous les studios se ressemblent, je veux
+        qu'on me reconnaisse. » On est partis sur une direction <em>magazine</em> :
+        gros titres italiques, photos chaudes en pleine page, planning lisible comme
+        un sommaire, et une seule action — réserver son créneau.
+      </p>
+      <p>
+        Le planning est en HTML statique mais se synchronise avec un Google Sheet
+        que Marion édite elle-même. Pas de logiciel, pas d'abonnement, pas de
+        développeur à rappeler chaque semaine.
+      </p>
+      <div class="kv">
+        <div><div class="k mono">Direction</div><div class="v">Éditorial chaleureux</div></div>
+        <div><div class="k mono">Pages</div><div class="v">Accueil · Cours · Lieu · Réserver</div></div>
+        <div><div class="k mono">Tech</div><div class="v">HTML/CSS · Google Sheet sync</div></div>
+        <div><div class="k mono">Délai</div><div class="v">14 jours</div></div>
+      </div>
+      <a class="visit-card" href="./lune/index.html">Voir le concept <span class="arrow">↗</span></a>
+    </aside>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════════════════════════════ -->
+<!-- Projet 03 — Adèle Marchand                                         -->
+<!-- ═════════════════════════════════════════════════════════════════ -->
+<section class="project" data-screen-label="04 Projet Marchand" data-fam="sante">
+  <div class="head">
+    <div>
+      <div class="mono idx">N° 03 / 03 · Santé mentale</div>
+      <h2 data-anim>Adèle <em>Marchand.</em></h2>
+    </div>
+    <div data-anim>
+      <span class="tag">Psychologue clinicienne</span>
+      <span class="tag">Sombre par défaut</span>
+      <span class="tag">Paris</span>
+      <p class="desc" style="margin-top:20px">
+        Le site d'une psychologue clinicienne en pratique libérale qui voulait
+        <strong>l'opposé d'un site médical</strong>. On a livré quelque chose qui ressemble
+        à un essai littéraire : sombre, posé, beaucoup de texte, presque pas
+        d'images. Aucune photo de canapé.
+      </p>
+    </div>
+  </div>
+
+  <div class="body">
+    <div data-anim>
+      <a class="frame" href="./marchand/index.html">
+        <div class="topbar">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="url">adele-marchand.fr</div>
+          <span class="visit">Visiter ↗</span>
+        </div>
+        <div class="screen scr-marchand">
+          <div class="topbar">
+            <span class="brand">Adèle Marchand</span>
+            <nav><span>Approche</span><span>Séances</span><span>Écrits</span><span class="rdv">Prendre RDV</span></nav>
+          </div>
+          <div class="hero">
+            <h1>Parler, c'est déjà commencer à <em>se déplier</em>.</h1>
+            <div class="quote">
+              <p>« Je reçois des adultes qui se sentent à l'étroit dans quelque chose qu'ils n'arrivent pas à nommer. Mon travail est de vous aider à le nommer. »</p>
+              <div class="by">Adèle Marchand · Psychologue clinicienne</div>
+            </div>
+          </div>
+          <div class="strip">
+            <span>N° ADELI 75 9912345 6</span>
+            <span>Paris 11e</span>
+            <span>Cabinet · Visio</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <aside class="study">
+      <div class="mono label">Mini case-study</div>
+      <h3>Le contraire d'un site médical</h3>
+      <p>
+        La demande d'Adèle : « je ne veux ni rassurer ni vendre. Je veux que les
+        gens qui me trouvent comprennent comment je travaille avant même de me
+        contacter. » On a écrit le site comme un texte long, divisé en pages-chapitres,
+        avec une typo serif intime et un fond charbon qui repose les yeux.
+      </p>
+      <p>
+        Pas de témoignages — par déontologie. Pas de tarif affichable sur la home —
+        par éthique. À la place : un essai personnel de 800 mots qui dit ce
+        qu'Adèle fait, et surtout ce qu'elle ne fait pas.
+      </p>
+      <div class="kv">
+        <div><div class="k mono">Direction</div><div class="v">Intime éditorial sombre</div></div>
+        <div><div class="k mono">Pages</div><div class="v">Accueil · Approche · Séances · Contact</div></div>
+        <div><div class="k mono">Tech</div><div class="v">HTML/CSS pur · 0 JS lourd</div></div>
+        <div><div class="k mono">Délai</div><div class="v">10 jours</div></div>
+      </div>
+      <a class="visit-card" href="./marchand/index.html">Voir le concept <span class="arrow">↗</span></a>
+    </aside>
+  </div>
+</section>
+
+<!-- ═══ FAMILLE 2 — Restauration &amp; commerce ═══ -->
+<div class="group-head" data-screen-label="Famille Restauration" data-fam="resto">
+  <div class="gh-row">
+    <div>
+      <div class="mono" style="color:var(--accent)">Famille 02</div>
+      <h2 class="gtitle">Restauration &amp; <em>commerce</em></h2>
+    </div>
+    <div class="gcount">03 concepts · Commander / Réserver</div>
+  </div>
+  <p class="gintro">Smash burger, bistrot gastronomique, boulangerie de quartier — trois adresses où le site doit ouvrir l'appétit et déclencher l'action : commander, réserver, passer prendre.</p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- Projet 04 — Brasa                                                 -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="project" data-screen-label="06 Projet Brasa" data-fam="resto">
+  <div class="head">
+    <div>
+      <div class="mono idx">N° 01 / 03 · Restauration</div>
+      <h2 data-anim>Brasa<em>.</em></h2>
+    </div>
+    <div data-anim>
+      <span class="tag">Smash burger</span>
+      <span class="tag">Click &amp; Collect</span>
+      <span class="tag">Marseille</span>
+      <p class="desc" style="margin-top:20px">
+        Un comptoir à smash burgers du Cours Julien qui voulait <strong>une vitrine aussi
+        franche que sa viande</strong>. Direction brute et urbaine : typo condensée énorme,
+        photos qui grésillent, et un parcours de commande en ligne sans friction.
+      </p>
+    </div>
+  </div>
+
+  <div class="body">
+    <div data-anim>
+      <a class="frame" href="./brasa/index.html">
+        <div class="topbar">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="url">brasa-marseille.fr</div>
+          <span class="visit">Visiter ↗</span>
+        </div>
+        <div class="screen scr-brasa">
+          <div class="topbar">
+            <span class="brand"><span class="fl">▲</span> BRASA</span>
+            <nav><span>La carte</span><span>Commander</span><span>Trouver</span></nav>
+            <span class="od">Commander</span>
+          </div>
+          <div class="hero">
+            <div class="ph"></div>
+            <div class="ov">
+              <h1>Viande<br>écrasée.<br><span class="out">Goût brut.</span></h1>
+            </div>
+          </div>
+          <div class="strip"><span>Smash burgers</span><span>Bœuf <span class="ember">100% FR</span></span><span>Prêt en <span class="ember">12 min</span></span></div>
+        </div>
+      </a>
+    </div>
+
+    <aside class="study">
+      <div class="mono label">Mini case-study</div>
+      <h3>Commander sans friction</h3>
+      <p>
+        Le midi, la file déborde sur le trottoir. On a mis le <em>Click &amp; Collect</em>
+        au cœur du site : carte qui s'ajoute au panier en un tap, choix du créneau, et
+        retrait au comptoir dédié. Résultat : moins d'attente, plus de couverts.
+      </p>
+      <p>
+        Le ton visuel assume la rue — noir charbon, orange braise, typo de chantier.
+        Pas de fioritures, pas de stock photo édulcorée : on montre la croûte du steak
+        et on donne faim.
+      </p>
+      <div class="kv">
+        <div><div class="k mono">Direction</div><div class="v">Brut urbain / street</div></div>
+        <div><div class="k mono">Pages</div><div class="v">Accueil · Carte · Commander · Trouver</div></div>
+        <div><div class="k mono">Action clé</div><div class="v">Click &amp; Collect</div></div>
+        <div><div class="k mono">Tech</div><div class="v">HTML/CSS · panier JS</div></div>
+      </div>
+      <a class="visit-card" href="./brasa/index.html">Voir le concept <span class="arrow">↗</span></a>
+    </aside>
+  </div>
+</section>
+
+<!-- ═══ Projet 05 — Comptoir Vauban ═══ -->
+<section class="project flip" data-screen-label="07 Projet Comptoir Vauban" data-fam="resto">
+  <div class="head">
+    <div>
+      <div class="mono idx">N° 02 / 03 · Gastronomie</div>
+      <h2 data-anim>Comptoir <em>Vauban.</em></h2>
+    </div>
+    <div data-anim>
+      <span class="tag">Bistrot gastronomique</span>
+      <span class="tag">Réservation</span>
+      <span class="tag">Paris 7ᵉ</span>
+      <p class="desc" style="margin-top:20px">
+        Un bistrot de cuisine de marché rive gauche qui voulait <strong>la tenue d'une
+        maison étoilée sans la raideur</strong>. Direction élégante et sombre : vert
+        bouteille, lettres didones, or discret — et la réservation au centre.
+      </p>
+    </div>
+  </div>
+
+  <div class="body">
+    <div data-anim>
+      <a class="frame" href="./comptoir/index.html">
+        <div class="topbar">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="url">comptoir-vauban.fr</div>
+          <span class="visit">Visiter ↗</span>
+        </div>
+        <div class="screen scr-comptoir">
+          <div class="topbar">
+            <span class="brand">Comptoir Vauban</span>
+            <nav><span>La carte</span><span>Réserver</span><span>L'histoire</span></nav>
+            <span class="bk">Réserver</span>
+          </div>
+          <div class="hero">
+            <div class="ph"></div>
+            <div class="ov">
+              <div class="kk">Bistrot gastronomique · Paris 7ᵉ</div>
+              <h1>Une cuisine de <em>saison</em>, sans esbroufe.</h1>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <aside class="study">
+      <div class="mono label">Mini case-study</div>
+      <h3>La table avant tout</h3>
+      <p>
+        Trente couverts, deux services : chaque table compte. On a fait du
+        <em>formulaire de réservation</em> le cœur du site — couverts, date, créneau,
+        confirmation — prêt à se brancher sur TheFork, Zenchef ou un simple e-mail.
+      </p>
+      <p>
+        La carte change chaque semaine : elle est pensée pour être mise à jour en deux
+        minutes par le chef, sans toucher au design. Vert bouteille, or laiton, serif
+        didone : la gastronomie, en version décontractée.
+      </p>
+      <div class="kv">
+        <div><div class="k mono">Direction</div><div class="v">Élégant sombre</div></div>
+        <div><div class="k mono">Pages</div><div class="v">Maison · Carte · Réserver · Histoire</div></div>
+        <div><div class="k mono">Action clé</div><div class="v">Réserver une table</div></div>
+        <div><div class="k mono">Tech</div><div class="v">HTML/CSS · form JS</div></div>
+      </div>
+      <a class="visit-card" href="./comptoir/index.html">Voir le concept <span class="arrow">↗</span></a>
+    </aside>
+  </div>
+</section>
+
+<!-- ═══ Projet 06 — Pétrin ═══ -->
+<section class="project" data-screen-label="08 Projet Pétrin" data-fam="resto">
+  <div class="head">
+    <div>
+      <div class="mono idx">N° 03 / 03 · Artisan</div>
+      <h2 data-anim>Pétrin<em>.</em></h2>
+    </div>
+    <div data-anim>
+      <span class="tag">Boulangerie-pâtisserie</span>
+      <span class="tag">Click &amp; Collect</span>
+      <span class="tag">Nantes</span>
+      <p class="desc" style="margin-top:20px">
+        Un fournil de 1932 repris par deux jeunes boulangers, qui voulaient <strong>un site
+        aussi artisanal que leur pain</strong>. Direction vintage et chaleureuse : crème,
+        blé, brique, lettres à empattements — et la réservation du pain en ligne.
+      </p>
+    </div>
+  </div>
+
+  <div class="body">
+    <div data-anim>
+      <a class="frame" href="./petrin/index.html">
+        <div class="topbar">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="url">petrin-nantes.fr</div>
+          <span class="visit">Visiter ↗</span>
+        </div>
+        <div class="screen scr-petrin">
+          <div class="topbar">
+            <span class="brand"><span class="seal">P</span> Pétrin</span>
+            <nav><span>La carte</span><span>Commander</span><span>L'atelier</span></nav>
+            <span class="od">Click &amp; Collect</span>
+          </div>
+          <div class="hero">
+            <div>
+              <h1>Le bon pain demande <em>du temps</em>.</h1>
+              <p>Levé 12h, cuit sur sole, farines bio françaises. Le pain d'avant, fait aujourd'hui.</p>
+            </div>
+            <div class="ph"></div>
+          </div>
+          <div class="marq"><span>Pain au levain <span class="dot">✶</span> Croissants pur beurre <span class="dot">✶</span> Tartes de saison <span class="dot">✶</span> Farine bio <span class="dot">✶</span></span></div>
+        </div>
+      </a>
+    </div>
+
+    <aside class="study">
+      <div class="mono label">Mini case-study</div>
+      <h3>Réserver son pain</h3>
+      <p>
+        Le dimanche à 10h, il n'y a plus de grand levain. On a mis en place un
+        <em>Click &amp; Collect</em> simple : on réserve la veille, on choisit son créneau,
+        la maison met de côté et enfourne pour l'heure dite. Fini la rupture.
+      </p>
+      <p>
+        Le design raconte l'artisanat : crème et blé, un sceau, une typo vintage, un
+        bandeau défilant comme une enseigne peinte. On y sent la farine sans une seule
+        ligne de texte de trop.
+      </p>
+      <div class="kv">
+        <div><div class="k mono">Direction</div><div class="v">Vintage artisanal</div></div>
+        <div><div class="k mono">Pages</div><div class="v">Maison · Carte · Commander · Atelier</div></div>
+        <div><div class="k mono">Action clé</div><div class="v">Click &amp; Collect</div></div>
+        <div><div class="k mono">Tech</div><div class="v">HTML/CSS · panier JS</div></div>
+      </div>
+      <a class="visit-card" href="./petrin/index.html">Voir le concept <span class="arrow">↗</span></a>
+    </aside>
+  </div>
+</section>
+
+<!-- Outro -->
+<section class="outro" data-screen-label="09 Outro">
+  <h2 data-anim>Vous reconnaissez<br>quelque chose <em>chez vous</em> ?</h2>
+  <p data-anim>
+    Ces six concepts existent comme démonstration de ce qu'on peut faire — du cabinet
+    de santé au comptoir de quartier. Le vôtre sera différent, c'est tout l'intérêt.
+    Discutons de ce qui vous ressemble.
+  </p>
+  <a class="cta" href="../index.html#contact" data-anim>
+    Démarrer un projet <span style="color:var(--paper)">→</span>
+  </a>
+</section>
+
+<footer>
+  <div>© 2025 Corvee Paper · Studio indépendant · Paris</div>
+  <div>
+    <a href="../index.html#manifeste">Manifeste</a> ·
+    <a href="../mentions-legales.html">Mentions légales</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('[data-anim]').forEach((el) => io.observe(el));
+
+  // Console signature
+  console.log(
+    '%c\n  Portfolio · Corvee Paper  \n%c  6 concepts · 2 familles · 2025\n  contact@corveepaper.fr\n',
+    'background:#D94B1F;color:#F5F1E8;font:600 16px/2 "Instrument Serif",serif;padding:6px 10px',
+    'color:#9B9690;font:12px/1.6 monospace'
+  );
+</script>
+
+
+<script>
+(function(){
+  var btns=document.querySelectorAll('.fam-filter .fam-btn');
+  var items=document.querySelectorAll('[data-fam]');
+  if(!btns.length) return;
+  function apply(f){
+    items.forEach(function(el){ el.classList.toggle('fam-hidden', f!=='all' && el.getAttribute('data-fam')!==f); });
+    btns.forEach(function(b){ b.classList.toggle('is-active', b.getAttribute('data-fam-filter')===f); });
+  }
+  btns.forEach(function(b){ b.addEventListener('click',function(){ apply(b.getAttribute('data-fam-filter')); }); });
+})();
+</script>
+</body>
+</html>
