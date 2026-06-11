@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- Content-Security-Policy en <meta> : GitHub Pages ne sert PAS le fichier _headers,
+     donc cette balise est la seule CSP réellement active en prod. Recopie de la
+     politique de _headers, sans frame-ancestors (ignoré dans une balise meta —
+     l'anti-clickjacking complet nécessite un vrai header, ex. via Cloudflare Pages). -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://unpkg.com https://cloud.umami.is; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://cloud.umami.is https://formspree.io; form-action 'self' https://formspree.io; frame-src 'self'; base-uri 'self'; object-src 'none'" />
 <meta name="description" content="Studio de design web freelance pour praticiens du bien-être, artisans et indépendants. Sites rapides, sobres, livrés en 14 jours. À partir de 890 € HT." />
 <meta name="author" content="Edgar Jacquemart" />
 <meta name="keywords" content="création site web freelance, site internet ostéopathe, site internet sophrologue, design web artisan, studio web indépendants, freelance webdesign France" />
@@ -303,18 +309,18 @@
 <div id="root"></div>
 
 <!-- React 18 production builds (smaller + faster than .development) -->
-<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
 
 <!-- Pre-compiled components (Babel transform happens at build time, not in the browser) -->
 <!-- ?v=N is a cache-buster: bump it every deploy so browsers fetch the new JS
      instead of a stale cached copy. -->
 <!-- Versioned filenames = bulletproof cache-busting (bump the v on every deploy). -->
-<script src="js/shared.v23.js"></script>
-<script src="js/dir-editorial.v23.js"></script>
+<script src="js/shared.v24.js"></script>
+<script src="js/dir-editorial.v24.js"></script>
 
 <!-- Boot — extracted to js/boot.js so the CSP can disallow inline scripts. -->
-<script src="js/boot.v23.js"></script>
+<script src="js/boot.v24.js"></script>
 
 <!-- ────────────────────────────────────────────────────────────────────────
      Analytics — Umami (no cookie, RGPD-friendly, no banner needed).

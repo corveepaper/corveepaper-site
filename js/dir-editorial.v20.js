@@ -30,40 +30,40 @@ function ensureEditorialCSS() {
   s.id = 'cp-editorial-css';
   s.textContent = `
 .cp-theme.light {
-  --cp-bg:        #e7e8ea;
-  --cp-bg-2:      #d8dbdf;
-  --cp-ink:       #192230;
-  --cp-ink-soft:  rgba(25,34,48,.62);
-  --cp-ink-2:     rgba(25,34,48,.42);
-  --cp-line:      rgba(25,34,48,.14);
-  --cp-terra:     #365b86;
-  --cp-terra-soft:#d6e0ec;
-  --cp-card-bg:   #f6f7f9;
-  --cp-card:      rgba(25,34,48,.05);
-  --cp-nav-bg:    rgba(231,232,234,.85);
-  --cp-inv-bg:        #192230;
-  --cp-inv-ink:       #e7e8ea;
-  --cp-inv-ink-soft:  rgba(231,232,234,.60);
-  --cp-inv-line:      rgba(231,232,234,.18);
-  --cp-inv-card:      rgba(231,232,234,.05);
+  --cp-bg:        #F5F1E8;
+  --cp-bg-2:      #EDE7D6;
+  --cp-ink:       #0F0F0F;
+  --cp-ink-soft:  #6B6760;
+  --cp-ink-2:     #9B9690;
+  --cp-line:      #D9D2BF;
+  --cp-terra:     #D94B1F;
+  --cp-terra-soft:#F4D5C4;
+  --cp-card-bg:   #FFFEF8;
+  --cp-card:      rgba(15,15,15,.04);
+  --cp-nav-bg:    rgba(245,241,232,.94);
+  --cp-inv-bg:        #0F0F0F;
+  --cp-inv-ink:       #F5F1E8;
+  --cp-inv-ink-soft:  #9B9690;
+  --cp-inv-line:      rgba(245,241,232,.18);
+  --cp-inv-card:      rgba(245,241,232,.04);
 }
 .cp-theme.dark {
-  --cp-bg:        #11161f;
-  --cp-bg-2:      #18202c;
-  --cp-ink:       #e7e8ea;
-  --cp-ink-soft:  rgba(231,232,234,.60);
-  --cp-ink-2:     rgba(231,232,234,.40);
-  --cp-line:      rgba(231,232,234,.14);
-  --cp-terra:     #6b9bd0;
-  --cp-terra-soft:rgba(107,155,208,.18);
-  --cp-card-bg:   #18202c;
-  --cp-card:      rgba(231,232,234,.05);
-  --cp-nav-bg:    rgba(17,22,31,.90);
-  --cp-inv-bg:        #e7e8ea;
-  --cp-inv-ink:       #192230;
-  --cp-inv-ink-soft:  rgba(25,34,48,.60);
-  --cp-inv-line:      rgba(25,34,48,.14);
-  --cp-inv-card:      rgba(25,34,48,.05);
+  --cp-bg:        #14110a;
+  --cp-bg-2:      #1c1812;
+  --cp-ink:       #F5F1E8;
+  --cp-ink-soft:  #9B9690;
+  --cp-ink-2:     #6B6760;
+  --cp-line:      rgba(245,241,232,.14);
+  --cp-terra:     #ed6a3f;
+  --cp-terra-soft:rgba(237,106,63,.16);
+  --cp-card-bg:   #1c1812;
+  --cp-card:      rgba(245,241,232,.04);
+  --cp-nav-bg:    rgba(20,17,10,.94);
+  --cp-inv-bg:        #F5F1E8;
+  --cp-inv-ink:       #14110a;
+  --cp-inv-ink-soft:  #6B6760;
+  --cp-inv-line:      rgba(15,15,15,.14);
+  --cp-inv-card:      rgba(15,15,15,.04);
 }
 .cp-theme { transition: background-color .4s, color .4s; }
 .cp-theme * { transition: background-color .35s, color .35s, border-color .35s, fill .35s; }
@@ -131,7 +131,7 @@ function ensureEditorialCSS() {
 function HeroBG({
   dark
 }) {
-  const a = dark ? '#ed6a3f' : '#365b86';
+  const a = dark ? '#ed6a3f' : '#D94B1F';
   const b = dark ? '#caa05d' : '#F4D5C4';
   const c = dark ? '#7a3b22' : '#EDE7D6';
   return /*#__PURE__*/React.createElement("div", {
@@ -339,38 +339,26 @@ function Logo({
   }, /*#__PURE__*/React.createElement("svg", {
     width: "34",
     height: "34",
-    viewBox: "0 0 36 36",
-    fill: "none",
+    viewBox: "0 0 32 32",
     style: {
       flexShrink: 0
     },
     "aria-hidden": "true",
     focusable: "false"
-  }, /*#__PURE__*/React.createElement("rect", {
-    x: "2.4",
-    y: "2.4",
-    width: "31.2",
-    height: "31.2",
-    rx: "10.5",
-    fill: "none",
-    stroke: color,
-    strokeWidth: "1.7"
-  }), /*#__PURE__*/React.createElement("text", {
-    x: "14",
-    y: "25",
-    textAnchor: "middle",
-    fontFamily: "Spectral, serif",
-    fontSize: "23.5",
-    fill: color,
-    fontStyle: "italic"
-  }, "c"), /*#__PURE__*/React.createElement("circle", {
-    cx: "24.6",
-    cy: "22.8",
-    r: "3.1",
-    fill: terra
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M 6 4 L 28 7 L 26 28 L 4 25 Z",
+    fill: terra,
+    opacity: ".85"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "M 4 8 L 22 6 L 24 26 L 6 28 Z",
+    fill: color
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "M 22 6 L 28 7 L 26 28 L 24 26 Z",
+    fill: terra,
+    opacity: ".4"
   })), /*#__PURE__*/React.createElement("span", {
     style: {
-      fontFamily: 'Spectral, serif',
+      fontFamily: 'Instrument Serif, serif',
       fontSize: 26,
       letterSpacing: '-.01em'
     }
@@ -391,7 +379,7 @@ function EasterEgg({
   const bits = Array.from({
     length: 24
   }, (_, i) => i);
-  const colors = ['#365b86', '#F4D5C4', '#EDE7D6', '#9B9690'];
+  const colors = ['#D94B1F', '#F4D5C4', '#EDE7D6', '#9B9690'];
   return /*#__PURE__*/React.createElement("div", {
     onClick: onClose,
     style: {
@@ -420,7 +408,7 @@ function EasterEgg({
   })), /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: 'center',
-      color: '#e7e8ea',
+      color: '#F5F1E8',
       maxWidth: 560,
       padding: 32,
       animation: 'cp-pop .4s cubic-bezier(.2,.7,.3,1)'
@@ -435,7 +423,7 @@ function EasterEgg({
     }
   }, "\u21B3 FEUILLET CACH\xC9 \xB7 7 CLICS"), /*#__PURE__*/React.createElement("h2", {
     style: {
-      fontFamily: 'Spectral, serif',
+      fontFamily: 'Instrument Serif, serif',
       fontWeight: 400,
       fontSize: 72,
       lineHeight: 1,
@@ -450,12 +438,12 @@ function EasterEgg({
   }, "Curieux"), ", c\u2019est bon signe."), /*#__PURE__*/React.createElement("p", {
     style: {
       marginTop: 28,
-      fontFamily: 'Spectral, serif',
+      fontFamily: 'Instrument Serif, serif',
       fontStyle: 'italic',
       fontSize: 22,
       opacity: .85
     }
-  }, "Si vous lisez ce message, vous travaillez probablement aussi soigneusement que moi. On va bien s\u2019entendre."), /*#__PURE__*/React.createElement("p", {
+  }, "Si vous lisez ce message, vous travaillez probablement aussi soigneusement que nous. On va bien s\u2019entendre."), /*#__PURE__*/React.createElement("p", {
     style: {
       marginTop: 24,
       fontFamily: 'Geist Mono, monospace',
@@ -511,7 +499,7 @@ function Ticker() {
       alignItems: 'center',
       gap: 48,
       paddingRight: 48,
-      fontFamily: 'Spectral, serif',
+      fontFamily: 'Instrument Serif, serif',
       fontSize: 56,
       fontStyle: 'italic',
       letterSpacing: '-.01em',
@@ -572,35 +560,48 @@ const E_COPY = {
   cta2: 'Voir les travaux',
   manifesto: {
     eyebrow: 'Manifeste',
-    titleA: 'Votre site web devrait vous faire',
-    titleB: 'gagner des clients,',
-    titleC: 'pas vous en faire perdre.',
-    p1: 'La plupart des indépendants travaillent dur, livrent un service impeccable, puis renvoient leurs prospects vers un site qui les trahit. Lent. Illisible sur mobile. Invisible sur Google.',
-    p2: 'Un site n’est pas un objet décoratif. C’est votre meilleur commercial : il travaille 24/7, charge en moins de deux secondes, rassure dès la première seconde et rend la prise de contact évidente. Si l’un de ces points manque, le site ne sert à rien.',
-    p3a: 'Je livre en 14 jours, prix annoncé d’avance, design construit avec vous — et zéro ',
-    p3strike: 'recette miracle ni jargon',
-    p3b: '. Juste un site qui fonctionne, qui vous ressemble, et qui ne vieillit pas.'
+    titleA: 'Le web pro mérite mieux',
+    titleB: 'qu’un template Wix',
+    titleC: 'de 2017.',
+    p1: 'La plupart des indépendants travaillent dur, livrent un service impeccable, puis renvoient leurs prospects vers un site qui les trahit. Lent. Illisible sur mobile. Invisible sur Google. Bricolé en une après-midi par un cousin sympa, il y a six ans.',
+    p2: 'Pour moi, un site n’est pas un objet décoratif. C’est votre meilleur commercial : il travaille 24/7, charge en moins de deux secondes, rassure dès la première seconde et rend la prise de contact évidente. Si l’un de ces points manque, le site ne sert à rien.',
+    p3a: 'Alors je livre en 14 jours, à prix annoncé d’avance, avec un design pensé avec vous — et zéro promesse de ',
+    p3strike: 'tripler votre chiffre d’affaires en 30 jours',
+    p3b: '. Juste un site qui fonctionne, qui vous ressemble, et qui ne se démode pas dans six mois.'
   },
   services: {
-    eyebrow: '01 — Services',
-    title: 'Trois manières de travailler ensemble',
+    eyebrow: 'Services · 02',
+    title: 'Trois formats.',
+    titleAccent: 'Un seul niveau d’exigence.',
+    note: 'Tout commence par 30 minutes d’échange gratuit pour comprendre votre activité et calibrer le bon format.',
     cards: [{
-      t: 'Refonte',
-      s: 'Site existant',
-      d: 'Audit, repositionnement, design et reprise complète.',
-      from: 'à partir de 890 €'
+      kind: '01 · Essentiel',
+      delay: '7 jours',
+      t: 'La carte de visite augmentée',
+      sub: 'Une page bien faite vaut mieux qu’un site mal fini. Idéal pour démarrer ou pour les indépendants en solo.',
+      items: ['Page unique optimisée, mobile-first', 'Formulaire de contact intelligent', 'SEO local de base + Google Business', 'Mentions légales et RGPD inclus', 'Mise en ligne et formation 30 min'],
+      price: '890',
+      unit: '€ HT'
     }, {
-      t: 'Création',
-      s: 'Page blanche',
-      d: 'Stratégie, identité web, design, dev, CMS livré. Pour ceux qui se lancent ou se réinventent.',
-      from: 'à partir de 890 €'
+      kind: '02 · Pro',
+      delay: '14 jours',
+      t: 'Le site complet',
+      sub: 'Le format que je recommande pour la plupart des activités : assez complet pour transformer vos visiteurs en clients.',
+      items: ['4 à 6 pages structurées', 'Prise de rendez-vous intégrée', 'SEO local renforcé + données structurées', 'Blog optionnel + 1 article modèle', 'Photos retouchées (jusqu’à 10)', 'Analytics conforme RGPD'],
+      price: '1 690',
+      unit: '€ HT',
+      featured: true,
+      badge: 'Recommandé'
     }, {
-      t: 'Application',
-      s: 'Outil ou produit',
-      d: 'Du dashboard interne à l’app SaaS publique. Front + back, ou en équipe étendue.',
-      from: 'sur devis'
+      kind: '03 · Sur mesure',
+      delay: '21+ jours',
+      t: 'Le projet complet',
+      sub: 'Pour les activités à besoins spécifiques : boutique légère, multi-langue, intégration outils métier.',
+      items: ['Tout le Pro, et au-delà', 'Boutique e-commerce simple', 'Espace administrable par vos soins', 'Intégrations sur mesure (CRM, API)', 'Site multi-langue éventuel', 'Accompagnement renforcé'],
+      price: 'dès 2 900',
+      unit: '€ HT'
     }],
-    footnote: 'Acompte de 40 % à la signature, solde à la livraison — paiement en 3 fois sans frais possible. Échange de 30 minutes offert pour cadrer le projet.'
+    footnote: 'Acompte de 40 % à la signature, solde à la livraison. Possibilité de paiement en 3 fois sans frais sur demande.'
   },
   process: {
     eyebrow: 'Méthode · 03',
@@ -664,11 +665,11 @@ const E_COPY = {
     eyebrow: 'FAQ · 06',
     title: 'Questions fréquentes,',
     titleAccent: 'réponses honnêtes.',
-    items: [['C’est fait pour qui, exactement ?', 'Pour les indépendants dont le métier mérite mieux qu’une fiche Google : praticiens du bien-être (ostéos, sophrologues, coachs…), artisans, professions libérales.'], ['En quoi c’est différent d’un Wix ou d’un Squarespace ?', 'Avec un éditeur grand public, vous payez un abonnement à vie pour un site souvent lent, lourd et qui ressemble à mille autres. Je vous livre un site sur-mesure, rapide, à votre image, et dont vous êtes propriétaire.'], ['14 jours, c’est sérieux ?', 'Oui, pour une refonte ou une création standard, à condition que vous me fournissiez les textes, photos et accès en début de projet. Si la collecte traîne, le compteur ne court pas. Je vous préviens d’office en cas de glissement.'], ['Je n’ai ni logo ni photos. C’est bloquant ?', 'Non. Je compose avec ce que vous avez et je vous oriente vers des solutions simples pour le reste (séance photo locale, logotype léger). Je ne vous laisse pas seul.'], ['Pourrai-je modifier le site moi-même ?', 'Selon le projet : sur une création ou une refonte avec CMS, un éditeur simple vous permet de modifier textes, photos, horaires et tarifs sans toucher au code.'], ['Qui gère l’hébergement et le nom de domaine ?', 'Moi. Je commande le domaine à votre nom (vous en restez propriétaire) et je l’héberge sur une infrastructure rapide et conforme RGPD. Vous n’avez aucune ligne technique à gérer.'], ['Le référencement Google est-il garanti ?', 'Personne ne peut le garantir honnêtement. Ce que je garantis, c’est un site techniquement irréprochable : structure propre, vitesse élevée, données structurées, contenu balisé. Le reste, c’est du long terme, qu’on construit ensemble avec le forfait Croissance.'], ['Et si je ne suis pas satisfait ?', 'Un cycle d’allers-retours est inclus à chaque étape (maquette, intégration). Au-delà, j’ajuste sans facturer si la cause vient de moi. Mon objectif, c’est que vous soyez fier de votre site.']]
+    items: [['C’est fait pour qui, exactement ?', 'Pour les indépendants dont le métier mérite mieux qu’une fiche Google : praticiens du bien-être (ostéos, sophrologues, coachs…), artisans, professions libérales.'], ['En quoi c’est différent d’un Wix ou d’un Squarespace ?', 'Avec un éditeur grand public, vous payez un abonnement à vie pour un site souvent lent, lourd et qui ressemble à mille autres. Je vous livre un site sur-mesure, rapide, à votre image, et dont vous êtes propriétaire.'], ['14 jours, c’est sérieux ?', 'Oui, pour le format Pro et à condition que vous me fournissiez les textes, photos et accès en début de projet. Si la collecte traîne, le compteur ne court pas. Je vous préviens d’office en cas de glissement.'], ['Je n’ai ni logo ni photos. C’est bloquant ?', 'Non. Je compose avec ce que vous avez et je vous oriente vers des solutions simples pour le reste (séance photo locale, logotype léger). Je ne vous laisse pas seul.'], ['Pourrai-je modifier le site moi-même ?', 'Selon le format choisi. En Essentiel, les modifications passent par moi. En Pro et Sur mesure, un éditeur simple vous permet de modifier textes, photos, horaires et tarifs sans toucher au code.'], ['Qui gère l’hébergement et le nom de domaine ?', 'Moi. Je commande le domaine à votre nom (vous en restez propriétaire) et je l’héberge sur une infrastructure rapide et conforme RGPD. Vous n’avez aucune ligne technique à gérer.'], ['Le référencement Google est-il garanti ?', 'Personne ne peut le garantir honnêtement. Ce que je garantis, c’est un site techniquement irréprochable : structure propre, vitesse élevée, données structurées, contenu balisé. Le reste, c’est du long terme, qu’on construit ensemble avec le forfait Croissance.'], ['Et si je ne suis pas satisfait ?', 'Un cycle d’allers-retours est inclus à chaque étape (maquette, intégration). Au-delà, j’ajuste sans facturer si la cause vient de moi. Mon objectif, c’est que vous soyez fier de votre site.']]
   },
   contact: {
     eyebrow: 'Contact · 07',
-    title: 'Parlons de votre projet.',
+    title: 'Parlons de votre site.',
     titleAccent: '30 minutes, sans engagement.',
     sub: 'Je réponds à toutes les demandes sous 24 heures ouvrées. Si je ne suis pas le bon choix pour vous, je vous le dis franchement et je vous oriente.',
     fields: {
@@ -679,7 +680,7 @@ const E_COPY = {
       format: 'Format envisagé',
       message: 'Quelques mots sur le projet'
     },
-    formats: ['Je ne sais pas encore', 'Refonte · dès 890 €', 'Création · dès 890 €', 'Application · sur devis'],
+    formats: ['Je ne sais pas encore', 'Essentiel · 890 €', 'Pro · 1 690 €', 'Sur mesure · dès 2 900 €'],
     rgpd: 'En envoyant ce formulaire vous acceptez que vos données soient utilisées uniquement pour répondre à votre demande. Aucun envoi commercial.',
     send: 'Envoyer',
     meta: [['Email', 'contact@corveepaper.fr'], ['Zone', 'France · Belgique · Suisse · Québec'], ['Délai', 'Réponse sous 24h ouvrées']]
@@ -759,7 +760,7 @@ function ContactForm({
       }, "\u21B3 Demande re\xE7ue"), /*#__PURE__*/React.createElement("h3", {
         style: {
           margin: 0,
-          fontFamily: 'Spectral, serif',
+          fontFamily: 'Instrument Serif, serif',
           fontWeight: 400,
           fontSize: 52,
           lineHeight: 1.05,
@@ -779,7 +780,7 @@ function ContactForm({
           color: E_INV_INK_SOFT,
           fontFamily: 'Newsreader, serif'
         }
-      }, "Si vous ne me voyez pas dans votre bo\xEEte, jetez un \u0153il aux ind\xE9sirables \u2014 j\u2019\xE9cris depuis ", /*#__PURE__*/React.createElement("em", null, "contact@corveepaper.fr"), "."))
+      }, "Si vous ne nous voyez pas dans votre bo\xEEte, jetez un \u0153il aux ind\xE9sirables \u2014 on \xE9crit depuis ", /*#__PURE__*/React.createElement("em", null, "contact@corveepaper.fr"), "."))
     );
   }
 
@@ -891,7 +892,7 @@ function ContactForm({
   }, t.contact.formats.map(o => /*#__PURE__*/React.createElement("option", {
     key: o,
     style: {
-      color: '#192230'
+      color: '#0F0F0F'
     }
   }, o)))), /*#__PURE__*/React.createElement("label", {
     style: {
@@ -1004,7 +1005,7 @@ function DirectionEditorial() {
     ensureEditorialCSS();
     if (!window.__cpGreeted) {
       window.__cpGreeted = true;
-      console.log('%c\n  Corvee Paper  \n%c  Studio indépendant · Paris\n  contact@corveepaper.fr\n  ↳ 7 clics sur le logo pour une surprise\n', 'background:#365b86;color:#e7e8ea;font:600 16px/2 "Spectral",serif;padding:6px 10px', 'color:#9B9690;font:12px/1.6 monospace');
+      console.log('%c\n  Corvee Paper  \n%c  Studio indépendant · Paris\n  contact@corveepaper.fr\n  ↳ 7 clics sur le logo pour une surprise\n', 'background:#D94B1F;color:#F5F1E8;font:600 16px/2 "Instrument Serif",serif;padding:6px 10px', 'color:#9B9690;font:12px/1.6 monospace');
     }
   }, []);
 
@@ -1226,22 +1227,22 @@ function DirectionEditorial() {
     "data-cp-anim-hero": true,
     className: "cp-wipe",
     style: {
-      fontFamily: 'Spectral, serif',
+      fontFamily: 'Instrument Serif, serif',
       fontWeight: 400,
-      fontSize: 'clamp(40px, 6vw, 88px)',
-      lineHeight: 1.04,
-      letterSpacing: '-.02em',
+      fontSize: 180,
+      lineHeight: .92,
+      letterSpacing: '-.028em',
       margin: 0,
       color: E_INK,
-      maxWidth: 1100,
+      maxWidth: 1180,
       '--cp-d': '200ms'
     }
-  }, "Sites & applications pens\xE9s ", /*#__PURE__*/React.createElement("span", {
+  }, "Des sites web", /*#__PURE__*/React.createElement("br", null), "pour les ind\xE9pendants", /*#__PURE__*/React.createElement("br", null), "qui ont ", /*#__PURE__*/React.createElement("span", {
     style: {
       fontStyle: 'italic',
       color: E_TERRA
     }
-  }, "sur mesure"), " pour votre activit\xE9"), /*#__PURE__*/React.createElement("div", {
+  }, "mieux \xE0 faire"), "."), /*#__PURE__*/React.createElement("div", {
     "data-cp-anim-hero": true,
     className: "cp-reveal",
     style: {
@@ -1262,7 +1263,7 @@ function DirectionEditorial() {
     }
   }, "Corvee Paper con\xE7oit et livre des sites web rapides, sobres et bien pens\xE9s pour les ", /*#__PURE__*/React.createElement("em", {
     style: {
-      fontFamily: 'Spectral, serif',
+      fontFamily: 'Instrument Serif, serif',
       color: E_TERRA,
       fontSize: 24
     }
@@ -1389,7 +1390,7 @@ function DirectionEditorial() {
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontFamily: 'Spectral, serif',
+      fontFamily: 'Instrument Serif, serif',
       fontSize: 84,
       lineHeight: 1,
       color: E_INK,
@@ -1436,7 +1437,7 @@ function DirectionEditorial() {
   }, "\u21B3 ", t.manifesto.eyebrow, " \xB7 01"), /*#__PURE__*/React.createElement("h2", {
     style: {
       margin: 0,
-      fontFamily: 'Spectral, serif',
+      fontFamily: 'Instrument Serif, serif',
       fontWeight: 400,
       fontSize: 64,
       letterSpacing: '-.02em',
@@ -1504,134 +1505,195 @@ function DirectionEditorial() {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
-      alignItems: 'baseline',
-      gap: 40,
-      marginBottom: 64,
+      alignItems: 'end',
+      gap: 80,
+      marginBottom: 80,
       flexWrap: 'wrap'
     }
-  }, /*#__PURE__*/React.createElement("h2", {
+  }, /*#__PURE__*/React.createElement("div", {
+    "data-cp-anim": true,
+    className: "cp-reveal"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: 'Geist Mono, monospace',
+      fontSize: 11,
+      color: E_INV_INK_SOFT,
+      letterSpacing: '.18em',
+      marginBottom: 24,
+      textTransform: 'uppercase'
+    }
+  }, "\u21B3 ", t.services.eyebrow), /*#__PURE__*/React.createElement("h2", {
     className: "cp-wipe",
     "data-cp-anim": true,
     style: {
       margin: 0,
-      fontFamily: 'Spectral, serif',
+      fontFamily: 'Instrument Serif, serif',
       fontWeight: 400,
-      fontSize: 'clamp(40px, 6vw, 80px)',
-      letterSpacing: '-.02em',
+      fontSize: 88,
+      letterSpacing: '-.025em',
       lineHeight: 1,
-      maxWidth: 760,
+      maxWidth: 880,
       '--cp-d': '150ms'
     }
-  }, t.services.title.split(' ').map((w, i, arr) => /*#__PURE__*/React.createElement("span", {
-    key: i,
-    style: i === arr.length - 2 ? {
+  }, t.services.title, /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
+    style: {
       fontStyle: 'italic',
-      color: '#9a8270'
-    } : {}
-  }, w, i < arr.length - 1 ? ' ' : ''))), /*#__PURE__*/React.createElement("span", {
+      color: E_TERRA
+    }
+  }, t.services.titleAccent))), /*#__PURE__*/React.createElement("p", {
     "data-cp-anim": true,
     className: "cp-reveal",
     style: {
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      letterSpacing: '.16em',
+      margin: 0,
       color: E_INV_INK_SOFT,
-      textTransform: 'uppercase',
-      '--cp-d': '300ms'
+      maxWidth: 360,
+      fontSize: 16,
+      lineHeight: 1.55,
+      '--cp-d': '350ms'
     }
-  }, t.services.eyebrow)), /*#__PURE__*/React.createElement("div", {
+  }, t.services.note)), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'grid',
       gridTemplateColumns: 'repeat(3, 1fr)',
-      gap: 24,
+      gap: 20,
       alignItems: 'stretch'
     }
-  }, t.services.cards.map((c, i) => /*#__PURE__*/React.createElement("article", {
-    key: c.t,
-    "data-cp-hot": true,
-    "data-cp-anim": true,
-    className: "cp-pop",
-    style: {
-      padding: 32,
-      background: E_INV_CARD,
-      border: `1px solid ${E_INV_LINE}`,
-      borderRadius: 18,
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 18,
-      minHeight: 360,
-      cursor: 'pointer',
-      '--cp-d': `${100 + i * 120}ms`,
-      transition: 'transform .35s cubic-bezier(.2,.7,.3,1)'
-    },
-    onMouseEnter: e => {
-      e.currentTarget.style.transform = 'translateY(-6px)';
-    },
-    onMouseLeave: e => {
-      e.currentTarget.style.transform = 'translateY(0)';
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'baseline'
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      width: 36,
-      height: 36,
-      borderRadius: 99,
-      background: [E_TERRA, '#9a8270', E_INV_INK][i],
-      color: i === 2 ? E_INV_BG : E_INV_INK,
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontFamily: 'Spectral, serif',
-      fontStyle: 'italic',
-      fontSize: 18
-    }
-  }, i + 1), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      letterSpacing: '.14em',
-      color: E_INV_INK_SOFT
-    }
-  }, "/ ", c.s)), /*#__PURE__*/React.createElement("h3", {
-    style: {
-      margin: 0,
-      fontFamily: 'Spectral, serif',
-      fontWeight: 400,
-      fontSize: 44,
-      letterSpacing: '-.015em',
-      color: E_INV_INK
-    }
-  }, c.t), /*#__PURE__*/React.createElement("p", {
-    style: {
-      margin: 0,
-      fontSize: 15,
-      lineHeight: 1.55,
-      color: E_INV_INK_SOFT
-    }
-  }, c.d), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: 'auto',
-      paddingTop: 20,
-      borderTop: `1px solid ${E_INV_LINE}`,
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      fontSize: 13
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: '#9a8270'
-    }
-  }, c.from), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 18
-    }
-  }, "\u2192"))))), /*#__PURE__*/React.createElement("p", {
+  }, t.services.cards.map((c, i) => {
+    const featured = c.featured;
+    return /*#__PURE__*/React.createElement("article", {
+      key: c.t,
+      "data-cp-hot": true,
+      "data-cp-anim": true,
+      className: "cp-pop",
+      style: {
+        position: 'relative',
+        padding: 36,
+        borderRadius: 20,
+        '--cp-d': `${100 + i * 120}ms`,
+        // Featured tier: cream card on dark bg → it "lifts off" and
+        // inverts colors instead of using a subtle warm tint that
+        // doesn't read in dark mode.
+        background: featured ? E_BG : E_INV_CARD,
+        color: featured ? E_INK : E_INV_INK,
+        border: `1px solid ${featured ? E_BG : E_INV_LINE}`,
+        boxShadow: featured ? `0 24px 60px -20px ${E_TERRA}` : 'none',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 18,
+        minHeight: 560,
+        cursor: 'pointer',
+        transition: 'transform .35s cubic-bezier(.2,.7,.3,1), box-shadow .35s'
+      },
+      onMouseEnter: e => {
+        e.currentTarget.style.transform = featured ? 'translateY(-10px)' : 'translateY(-6px)';
+      },
+      onMouseLeave: e => {
+        e.currentTarget.style.transform = 'translateY(0)';
+      }
+    }, featured && /*#__PURE__*/React.createElement("span", {
+      style: {
+        position: 'absolute',
+        top: -14,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        background: E_TERRA,
+        color: '#fff',
+        fontFamily: 'Geist Mono, monospace',
+        fontSize: 10,
+        letterSpacing: '.18em',
+        textTransform: 'uppercase',
+        padding: '7px 14px',
+        borderRadius: 99,
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 8
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        width: 4,
+        height: 4,
+        borderRadius: 99,
+        background: '#fff'
+      }
+    }), c.badge), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        fontSize: 11,
+        fontFamily: 'Geist Mono, monospace',
+        letterSpacing: '.14em',
+        textTransform: 'uppercase',
+        opacity: featured ? .6 : .8
+      }
+    }, /*#__PURE__*/React.createElement("span", null, c.kind), /*#__PURE__*/React.createElement("span", null, "\u21B3 ", c.delay)), /*#__PURE__*/React.createElement("h3", {
+      style: {
+        margin: '8px 0 4px',
+        fontFamily: 'Instrument Serif, serif',
+        fontWeight: 400,
+        fontSize: 38,
+        letterSpacing: '-.015em',
+        lineHeight: 1.05
+      }
+    }, c.t), /*#__PURE__*/React.createElement("p", {
+      style: {
+        margin: 0,
+        fontSize: 15,
+        lineHeight: 1.55,
+        color: featured ? E_INK_SOFT : E_INV_INK_SOFT,
+        fontFamily: 'Newsreader, Georgia, serif'
+      }
+    }, c.sub), /*#__PURE__*/React.createElement("ul", {
+      style: {
+        margin: '12px 0 0',
+        padding: 0,
+        listStyle: 'none',
+        display: 'grid',
+        gap: 10,
+        fontSize: 14,
+        flex: 1
+      }
+    }, c.items.map(item => /*#__PURE__*/React.createElement("li", {
+      key: item,
+      style: {
+        display: 'flex',
+        gap: 12
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: E_TERRA,
+        fontWeight: 700
+      }
+    }, "\xB7"), /*#__PURE__*/React.createElement("span", null, item)))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginTop: 'auto',
+        paddingTop: 24,
+        borderTop: `1px solid ${featured ? E_LINE : E_INV_LINE}`,
+        display: 'flex',
+        alignItems: 'baseline',
+        justifyContent: 'space-between'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontFamily: 'Instrument Serif, serif',
+        fontSize: 48,
+        letterSpacing: '-.02em',
+        lineHeight: 1,
+        color: featured ? E_TERRA : 'inherit'
+      }
+    }, c.price, ' ', /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 16,
+        opacity: .55,
+        fontFamily: 'Geist, sans-serif',
+        color: featured ? E_INK_SOFT : 'inherit'
+      }
+    }, c.unit)), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 22,
+        color: E_TERRA
+      }
+    }, "\u2192")));
+  })), /*#__PURE__*/React.createElement("p", {
     style: {
       margin: '48px 0 0',
       textAlign: 'center',
@@ -1670,7 +1732,7 @@ function DirectionEditorial() {
     "data-cp-anim": true,
     style: {
       margin: 0,
-      fontFamily: 'Spectral, serif',
+      fontFamily: 'Instrument Serif, serif',
       fontWeight: 400,
       fontSize: 88,
       letterSpacing: '-.025em',
@@ -1738,7 +1800,7 @@ function DirectionEditorial() {
       alignItems: 'center',
       justifyContent: 'center',
       color: E_INK,
-      fontFamily: 'Spectral, serif',
+      fontFamily: 'Instrument Serif, serif',
       fontSize: 28,
       fontStyle: 'italic',
       position: 'relative',
@@ -1761,7 +1823,7 @@ function DirectionEditorial() {
   }, s.n.replace(/^0/, '')), /*#__PURE__*/React.createElement("h3", {
     style: {
       margin: '28px 0 12px',
-      fontFamily: 'Spectral, serif',
+      fontFamily: 'Instrument Serif, serif',
       fontWeight: 400,
       fontSize: 36,
       letterSpacing: '-.015em',
@@ -1776,7 +1838,28 @@ function DirectionEditorial() {
       paddingRight: 12,
       fontFamily: 'Newsreader, serif'
     }
-  }, s.d)))))), /*#__PURE__*/React.createElement("section", {
+  }, s.d), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 16,
+      paddingTop: 12,
+      borderTop: `1px solid ${E_LINE}`,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      fontFamily: 'Geist Mono, monospace',
+      fontSize: 11,
+      letterSpacing: '.14em'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: E_TERRA
+    }
+  }, s.when), i < t.process.steps.length - 1 && /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: E_INK_SOFT,
+      fontSize: 14
+    }
+  }, "\u2192"))))))), /*#__PURE__*/React.createElement("section", {
     id: "travaux",
     style: {
       padding: '120px 56px',
@@ -1810,7 +1893,7 @@ function DirectionEditorial() {
     "data-cp-anim": true,
     style: {
       margin: 0,
-      fontFamily: 'Spectral, serif',
+      fontFamily: 'Instrument Serif, serif',
       fontWeight: 400,
       fontSize: 96,
       letterSpacing: '-.025em',
@@ -1848,9 +1931,9 @@ function DirectionEditorial() {
     "aria-label": "Filtrer les r\xE9alisations par famille de m\xE9tier",
     style: {
       display: 'flex',
-      gap: 14,
+      gap: 10,
       flexWrap: 'wrap',
-      marginBottom: 72
+      marginBottom: 56
     }
   }, [['sante', 'Santé'], ['resto', 'Restauration & commerce']].map(([fam, label]) => {
     const active = travauxFam === fam;
@@ -1862,17 +1945,16 @@ function DirectionEditorial() {
       onClick: () => setTravauxFam(fam),
       style: {
         fontFamily: 'Geist Mono, monospace',
-        fontSize: 15,
-        letterSpacing: '.14em',
+        fontSize: 11,
+        letterSpacing: '.16em',
         textTransform: 'uppercase',
         cursor: 'pointer',
-        padding: '20px 38px',
+        padding: '13px 22px',
         borderRadius: 99,
-        border: `2px solid ${active ? E_INK : E_LINE}`,
+        border: `1px solid ${active ? E_INK : E_LINE}`,
         background: active ? E_INK : 'transparent',
-        color: active ? E_BG : E_INK,
-        transition: 'all .2s',
-        fontWeight: 500
+        color: active ? E_BG : E_INK_SOFT,
+        transition: 'all .2s'
       }
     }, label);
   })), /*#__PURE__*/React.createElement("div", {
@@ -1942,7 +2024,7 @@ function DirectionEditorial() {
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
-        fontFamily: 'Spectral, serif',
+        fontFamily: 'Instrument Serif, serif',
         fontSize: 'clamp(28px, 7vw, 40px)',
         lineHeight: 1,
         color: p.accent
@@ -1995,8 +2077,8 @@ function DirectionEditorial() {
         position: 'absolute',
         top: 18,
         left: 18,
-        background: '#192230',
-        color: '#e7e8ea',
+        background: '#0F0F0F',
+        color: '#F5F1E8',
         fontFamily: 'Geist Mono, monospace',
         fontSize: 10,
         letterSpacing: '.16em',
@@ -2022,7 +2104,7 @@ function DirectionEditorial() {
     }, "0", i + 1, " \u2014 ", p.year), /*#__PURE__*/React.createElement("h3", {
       style: {
         margin: 0,
-        fontFamily: 'Spectral, serif',
+        fontFamily: 'Instrument Serif, serif',
         fontWeight: 400,
         fontSize: 72,
         letterSpacing: '-.025em',
@@ -2080,7 +2162,43 @@ function DirectionEditorial() {
         paddingBottom: 4
       }
     }, "Voir le concept \u2197"))));
-  }))), /*#__PURE__*/React.createElement("section", {
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'center',
+      marginTop: 80
+    }
+  }, /*#__PURE__*/React.createElement(Magnetic, {
+    strength: 0.18
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "portfolio/index.html",
+    "data-cp-hot": true,
+    style: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 12,
+      padding: '20px 34px',
+      background: E_INK,
+      color: E_BG,
+      borderRadius: 99,
+      textDecoration: 'none',
+      cursor: 'pointer',
+      fontSize: 15,
+      fontWeight: 500
+    }
+  }, "Voir les 6 r\xE9alisations", /*#__PURE__*/React.createElement("span", {
+    style: {
+      width: 28,
+      height: 28,
+      borderRadius: 99,
+      background: E_TERRA,
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: 14,
+      color: '#fff'
+    }
+  }, "\u2192"))))), /*#__PURE__*/React.createElement("section", {
     id: "maintenance",
     style: {
       padding: '120px 56px'
@@ -2108,7 +2226,7 @@ function DirectionEditorial() {
     "data-cp-anim": true,
     style: {
       margin: 0,
-      fontFamily: 'Spectral, serif',
+      fontFamily: 'Instrument Serif, serif',
       fontWeight: 400,
       fontSize: 72,
       letterSpacing: '-.025em',
@@ -2192,7 +2310,7 @@ function DirectionEditorial() {
   }, m.badge)), /*#__PURE__*/React.createElement("h3", {
     style: {
       margin: '4px 0 8px',
-      fontFamily: 'Spectral, serif',
+      fontFamily: 'Instrument Serif, serif',
       fontWeight: 400,
       fontSize: 32,
       letterSpacing: '-.01em',
@@ -2207,7 +2325,7 @@ function DirectionEditorial() {
     }
   }, m.d)), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontFamily: 'Spectral, serif',
+      fontFamily: 'Instrument Serif, serif',
       fontSize: 48,
       letterSpacing: '-.02em',
       lineHeight: 1
@@ -2253,7 +2371,7 @@ function DirectionEditorial() {
     "data-cp-anim": true,
     style: {
       margin: 0,
-      fontFamily: 'Spectral, serif',
+      fontFamily: 'Instrument Serif, serif',
       fontWeight: 400,
       fontSize: 88,
       letterSpacing: '-.025em',
@@ -2290,7 +2408,7 @@ function DirectionEditorial() {
   }, /*#__PURE__*/React.createElement("h3", {
     style: {
       margin: 0,
-      fontFamily: 'Spectral, serif',
+      fontFamily: 'Instrument Serif, serif',
       fontWeight: 400,
       fontSize: 32,
       letterSpacing: '-.015em',
@@ -2303,7 +2421,7 @@ function DirectionEditorial() {
       color: E_TERRA,
       fontSize: 36,
       lineHeight: 1,
-      fontFamily: 'Spectral, serif',
+      fontFamily: 'Instrument Serif, serif',
       flexShrink: 0
     }
   }, "+")), /*#__PURE__*/React.createElement("p", {
@@ -2345,7 +2463,7 @@ function DirectionEditorial() {
     "data-cp-anim": true,
     style: {
       margin: 0,
-      fontFamily: 'Spectral, serif',
+      fontFamily: 'Instrument Serif, serif',
       fontWeight: 400,
       fontSize: 80,
       letterSpacing: '-.025em',
@@ -2441,7 +2559,7 @@ function DirectionEditorial() {
     }
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontFamily: 'Spectral, serif',
+      fontFamily: 'Instrument Serif, serif',
       fontSize: 36
     }
   }, "Corvee Paper", /*#__PURE__*/React.createElement("span", {
