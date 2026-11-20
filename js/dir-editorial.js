@@ -23,47 +23,49 @@ const E_INV_INK_SOFT = 'var(--cp-inv-ink-soft)';
 const E_INV_LINE = 'var(--cp-inv-line)';
 const E_INV_CARD = 'var(--cp-inv-card)';
 
-// ─── one-time theme + keyframes injection ────────────────────────────────────
+// ─── Thème + animations (injectés une seule fois) ────────────────────────────
 function ensureEditorialCSS() {
   if (document.getElementById('cp-editorial-css')) return;
   const s = document.createElement('style');
   s.id = 'cp-editorial-css';
   s.textContent = `
 .cp-theme.light {
-  --cp-bg:        #e7e8ea;
-  --cp-bg-2:      #d8dbdf;
+  --cp-bg:        #f5f6f8;
+  --cp-bg-2:      #eceef2;
   --cp-ink:       #192230;
-  --cp-ink-soft:  rgba(25,34,48,.62);
-  --cp-ink-2:     rgba(25,34,48,.42);
-  --cp-line:      rgba(25,34,48,.14);
+  --cp-ink-soft:  rgba(25,34,48,.66);
+  --cp-ink-2:     rgba(25,34,48,.46);
+  --cp-line:      rgba(25,34,48,.11);
   --cp-terra:     #365b86;
-  --cp-terra-soft:#d6e0ec;
-  --cp-card-bg:   #f6f7f9;
+  --cp-terra-soft:#dfe8f2;
+  --cp-card-bg:   #ffffff;
   --cp-card:      rgba(25,34,48,.05);
-  --cp-nav-bg:    rgba(231,232,234,.85);
+  --cp-nav-bg:    rgba(245,246,248,.82);
   --cp-inv-bg:        #192230;
-  --cp-inv-ink:       #e7e8ea;
-  --cp-inv-ink-soft:  rgba(231,232,234,.60);
-  --cp-inv-line:      rgba(231,232,234,.18);
-  --cp-inv-card:      rgba(231,232,234,.05);
+  --cp-inv-ink:       #f5f6f8;
+  --cp-inv-ink-soft:  rgba(245,246,248,.66);
+  --cp-inv-line:      rgba(245,246,248,.16);
+  --cp-inv-card:      rgba(245,246,248,.06);
+  --cp-inv-accent:    #8fb3dc;
 }
 .cp-theme.dark {
   --cp-bg:        #11161f;
   --cp-bg-2:      #18202c;
-  --cp-ink:       #e7e8ea;
-  --cp-ink-soft:  rgba(231,232,234,.60);
-  --cp-ink-2:     rgba(231,232,234,.40);
-  --cp-line:      rgba(231,232,234,.14);
+  --cp-ink:       #eef0f3;
+  --cp-ink-soft:  rgba(238,240,243,.64);
+  --cp-ink-2:     rgba(238,240,243,.42);
+  --cp-line:      rgba(238,240,243,.13);
   --cp-terra:     #6b9bd0;
   --cp-terra-soft:rgba(107,155,208,.18);
   --cp-card-bg:   #18202c;
-  --cp-card:      rgba(231,232,234,.05);
-  --cp-nav-bg:    rgba(17,22,31,.90);
-  --cp-inv-bg:        #e7e8ea;
+  --cp-card:      rgba(238,240,243,.05);
+  --cp-nav-bg:    rgba(17,22,31,.88);
+  --cp-inv-bg:        #eef0f3;
   --cp-inv-ink:       #192230;
-  --cp-inv-ink-soft:  rgba(25,34,48,.60);
+  --cp-inv-ink-soft:  rgba(25,34,48,.64);
   --cp-inv-line:      rgba(25,34,48,.14);
   --cp-inv-card:      rgba(25,34,48,.05);
+  --cp-inv-accent:    #365b86;
 }
 .cp-theme { transition: background-color .4s, color .4s; }
 .cp-theme * { transition: background-color .35s, color .35s, border-color .35s, fill .35s; }
@@ -73,10 +75,9 @@ function ensureEditorialCSS() {
 @keyframes cp-blob3 { 0%,100% { transform: translate3d(0,0,0) scale(1) } 50% { transform: translate3d(80px,40px,0) scale(1.1) } }
 @keyframes cp-pop { 0% { transform: scale(.4); opacity: 0 } 60% { transform: scale(1.06); opacity: 1 } 100% { transform: scale(1) } }
 @keyframes cp-confetti { from { transform: translateY(0) rotate(0) } to { transform: translateY(700px) rotate(720deg) } }
-@keyframes cp-ticker { from { transform: translateX(0) } to { transform: translateX(-50%) } }
 @keyframes cp-success-in { from { opacity: 0; transform: translateY(12px) } to { opacity: 1; transform: translateY(0) } }
 
-/* ─── Entry animations (IntersectionObserver toggles .cp-in) ───────────── */
+/* ─── Entry animations (un écouteur de défilement ajoute .cp-in) ────────── */
 .cp-reveal {
   opacity: 0; transform: translateY(28px);
   transition: opacity .9s cubic-bezier(.2,.7,.3,1), transform .9s cubic-bezier(.2,.7,.3,1);
@@ -84,22 +85,20 @@ function ensureEditorialCSS() {
   will-change: opacity, transform;
 }
 .cp-reveal.cp-in { opacity: 1; transform: translateY(0); }
-/* Variant: clip-path reveal — wipes up. Use on big editorial titles. */
+/* Titres : montée + mise au point. (Plus de clip-path : un élément entièrement
+   rogné n'était jamais détecté comme visible, donc le titre restait caché.) */
 .cp-wipe {
-  opacity: 0;
-  clip-path: inset(0 0 100% 0);
-  transition: opacity .8s ease, clip-path 1.1s cubic-bezier(.2,.7,.3,1);
+  opacity: 0; transform: translateY(26px); filter: blur(8px);
+  transition: opacity .8s ease, transform .9s cubic-bezier(.2,.7,.3,1), filter .8s ease;
   transition-delay: var(--cp-d, 0ms);
 }
-.cp-wipe.cp-in { opacity: 1; clip-path: inset(0 0 0 0); }
-/* Variant: scale-in for cards */
+.cp-wipe.cp-in { opacity: 1; transform: translateY(0); filter: blur(0); }
 .cp-pop {
   opacity: 0; transform: scale(.96) translateY(20px);
   transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1);
   transition-delay: var(--cp-d, 0ms);
 }
 .cp-pop.cp-in { opacity: 1; transform: scale(1) translateY(0); }
-/* Variant: slide-in from sides */
 .cp-slide-l {
   opacity: 0; transform: translateX(-40px);
   transition: opacity .8s ease, transform .9s cubic-bezier(.2,.7,.3,1);
@@ -113,90 +112,138 @@ function ensureEditorialCSS() {
 }
 .cp-slide-r.cp-in { opacity: 1; transform: translateX(0); }
 
+/* ─── Motion ────────────────────────────────────────────────────────────── */
+/* Titre du hero : chaque mot monte de derrière un cache. */
+.cp-word { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .14em; margin-bottom: -.14em; }
+.cp-word > span {
+  display: inline-block; transform: translateY(115%);
+  animation: cp-word-up .9s cubic-bezier(.2,.7,.2,1) forwards;
+  animation-delay: var(--cp-d, 0ms);
+}
+@keyframes cp-word-up { to { transform: translateY(0) } }
+@keyframes cp-float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-10px) } }
+/* Le vrai site défile tout seul dans la maquette. */
+@keyframes cp-screen-scroll { 0%,10% { transform: translateY(0) } 90%,100% { transform: translateY(var(--cp-scroll, -60%)) } }
+@keyframes cp-pulse { 0% { box-shadow: 0 0 0 0 rgba(54,91,134,.5) } 100% { box-shadow: 0 0 0 10px rgba(54,91,134,0) } }
+[data-cp-parallax] { will-change: transform; }
+
+.cp-card { transition: transform .35s cubic-bezier(.2,.7,.3,1), box-shadow .35s, border-color .35s !important; }
+.cp-card:hover { transform: translateY(-6px); }
+.cp-spot { position: relative; overflow: hidden; }
+.cp-spot::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(440px circle at var(--mx, 50%) var(--my, 0%), rgba(107,155,208,.24), transparent 60%);
+  opacity: 0; transition: opacity .3s;
+}
+.cp-spot:hover::before { opacity: 1; }
+.cp-arrow { display: inline-flex; transition: transform .3s cubic-bezier(.2,.7,.3,1) !important; }
+a:hover > .cp-arrow, a:hover .cp-arrow { transform: translateX(5px); }
+/* Méthode : pastilles qui s'allument quand la ligne les atteint. */
+.cp-step-dot { transition: background .4s, color .4s, border-color .4s, transform .4s cubic-bezier(.2,.7,.3,1) !important; }
+.cp-step-on .cp-step-dot { background: var(--cp-terra) !important; border-color: var(--cp-terra) !important; color: #fff !important; transform: scale(1.08); }
+
 @media (prefers-reduced-motion: reduce) {
   .cp-reveal, .cp-wipe, .cp-pop, .cp-slide-l, .cp-slide-r {
-    opacity: 1 !important; transform: none !important; clip-path: none !important;
+    opacity: 1 !important; transform: none !important; filter: none !important;
   }
+  .cp-word > span { transform: none !important; animation: none !important; }
+  [data-cp-parallax] { transform: none !important; }
 }
 
 .cp-faq summary { list-style: none; cursor: pointer; }
 .cp-faq summary::-webkit-details-marker { display: none; }
 .cp-faq details[open] .cp-faq-plus { transform: rotate(45deg); }
-.cp-faq-plus { transition: transform .3s ease; display: inline-block; }
+.cp-faq-plus { transition: transform .3s ease !important; }
 `;
   document.head.appendChild(s);
 }
 
-// ─── Animated hero background — three slow warm blobs + grain ───────────────
-function HeroBG({
-  dark
+// ─── Réglages à compléter par Edgar (vide = l'élément n'est pas affiché) ─────
+const E_PHONE = ''; // ex. '06 12 34 56 78' → affiche un bouton d'appel
+const E_BOOKING_URL = ''; // ex. 'https://cal.com/…' → affiche « Réserver un créneau »
+const E_PHOTO = ''; // ex. 'img/edgar.jpg' → remplace la carte monogramme
+
+// Typo « display » (titres) — sans-serif nette, esprit fintech.
+const E_DISPLAY = "'Geist', -apple-system, 'SF Pro Display', system-ui, sans-serif";
+const E_WRAP = {
+  maxWidth: 1180,
+  margin: '0 auto'
+};
+const E_SHADOW = '0 1px 2px rgba(16,24,40,.04), 0 16px 36px -20px rgba(16,24,40,.22)';
+const E_TEL_HREF = E_PHONE ? 'tel:+33' + E_PHONE.replace(/\D/g, '').replace(/^0/, '') : '';
+
+// Défilement doux vers une section ; peut présélectionner le format du formulaire.
+const cpGoTo = (id, format) => e => {
+  if (format) {
+    const sel = document.querySelector('select[name="format"]');
+    if (sel) sel.value = format;
+  }
+  const tg = document.querySelector(id);
+  if (tg) {
+    e.preventDefault();
+    tg.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+};
+
+// Halo qui suit la souris sur les cartes (.cp-spot).
+const cpSpot = e => {
+  const r = e.currentTarget.getBoundingClientRect();
+  e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`);
+  e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`);
+};
+function Eyebrow({
+  children,
+  inv
 }) {
-  const a = dark ? '#ed6a3f' : '#365b86';
-  const b = dark ? '#caa05d' : '#F4D5C4';
-  const c = dark ? '#7a3b22' : '#EDE7D6';
   return /*#__PURE__*/React.createElement("div", {
-    "aria-hidden": true,
     style: {
-      position: 'absolute',
-      inset: 0,
-      overflow: 'hidden',
-      pointerEvents: 'none',
-      zIndex: 0
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 8,
+      fontSize: 13,
+      fontWeight: 600,
+      letterSpacing: '.02em',
+      color: inv ? 'var(--cp-inv-accent)' : E_TERRA,
+      marginBottom: 18
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", {
     style: {
-      position: 'absolute',
-      left: '-10%',
-      top: '-20%',
-      width: 720,
-      height: 720,
-      background: `radial-gradient(circle, ${a}55 0%, transparent 60%)`,
-      filter: 'blur(40px)',
-      animation: 'cp-blob1 18s ease-in-out infinite'
+      width: 18,
+      height: 2,
+      borderRadius: 2,
+      background: 'currentColor'
     }
-  }), /*#__PURE__*/React.createElement("div", {
+  }), children);
+}
+function Check({
+  color
+}) {
+  return /*#__PURE__*/React.createElement("svg", {
+    width: "18",
+    height: "18",
+    viewBox: "0 0 18 18",
+    fill: "none",
+    "aria-hidden": "true",
     style: {
-      position: 'absolute',
-      right: '-5%',
-      top: '10%',
-      width: 620,
-      height: 620,
-      background: `radial-gradient(circle, ${b}88 0%, transparent 65%)`,
-      filter: 'blur(50px)',
-      animation: 'cp-blob2 22s ease-in-out infinite'
+      flexShrink: 0,
+      marginTop: 2
     }
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      position: 'absolute',
-      left: '30%',
-      bottom: '-20%',
-      width: 580,
-      height: 580,
-      background: `radial-gradient(circle, ${c}88 0%, transparent 60%)`,
-      filter: 'blur(50px)',
-      animation: 'cp-blob3 26s ease-in-out infinite'
-    }
-  }), /*#__PURE__*/React.createElement("svg", {
-    style: {
-      position: 'absolute',
-      inset: 0,
-      width: '100%',
-      height: '100%',
-      opacity: dark ? .12 : .06,
-      mixBlendMode: 'overlay'
-    }
-  }, /*#__PURE__*/React.createElement("filter", {
-    id: "cp-noise"
-  }, /*#__PURE__*/React.createElement("feTurbulence", {
-    type: "fractalNoise",
-    baseFrequency: "0.9",
-    numOctaves: "2",
-    stitchTiles: "stitch"
-  })), /*#__PURE__*/React.createElement("rect", {
-    width: "100%",
-    height: "100%",
-    filter: "url(#cp-noise)"
-  })));
+  }, /*#__PURE__*/React.createElement("circle", {
+    cx: "9",
+    cy: "9",
+    r: "9",
+    fill: color || E_TERRA,
+    opacity: ".16"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "M5.2 9.3l2.5 2.5 5-5.4",
+    stroke: color || E_TERRA,
+    strokeWidth: "1.8",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }));
 }
 
 // ─── Custom cursor — terracotta dot + ring, label on hot elements ───────────
@@ -502,54 +549,13 @@ function ThemeToggle({
   }));
 }
 
-// ─── Ticker (continuous marquee) ────────────────────────────────────────────
-function Ticker() {
-  const words = ['Praticiens bien-être', 'Artisans premium', 'Coachs & consultants', 'Studios indépendants', 'Cabinets libéraux'];
-  const row = /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 48,
-      paddingRight: 48,
-      fontFamily: 'Spectral, serif',
-      fontSize: 56,
-      fontStyle: 'italic',
-      letterSpacing: '-.01em',
-      flexShrink: 0
-    }
-  }, words.map((w, i) => /*#__PURE__*/React.createElement(React.Fragment, {
-    key: i
-  }, /*#__PURE__*/React.createElement("span", null, w), /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: E_TERRA,
-      fontStyle: 'normal'
-    }
-  }, "+"))));
-  return /*#__PURE__*/React.createElement("section", {
-    style: {
-      background: E_INV_BG,
-      color: E_INV_INK,
-      borderTop: `1px solid ${E_INV_LINE}`,
-      borderBottom: `1px solid ${E_INV_LINE}`,
-      overflow: 'hidden',
-      padding: '32px 0'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'inline-flex',
-      whiteSpace: 'nowrap',
-      animation: 'cp-ticker 32s linear infinite'
-    }
-  }, row, row));
-}
-
 // ────────────────────────────────────────────────────────────────────────────
-// COPY (FR primary — EN labels for nav/cta only, content stays FR for now)
+// TEXTES — tout le contenu de la page d'accueil est ici.
 // ────────────────────────────────────────────────────────────────────────────
 const E_COPY = {
   nav: [{
-    label: 'Manifeste',
-    href: '#manifeste'
+    label: 'Qui je suis',
+    href: '#apropos'
   }, {
     label: 'Services',
     href: '#services'
@@ -557,148 +563,196 @@ const E_COPY = {
     label: 'Méthode',
     href: '#methode'
   }, {
-    label: 'Travaux',
+    label: 'Exemples',
     href: '#travaux'
   }, {
-    label: 'Maintenance',
+    label: 'Suivi',
     href: '#maintenance'
   }, {
     label: 'FAQ',
     href: '#faq'
   }],
-  avail: 'Studio · Nouveaux projets ouverts',
-  heroPre: 'Edgar Jacquemart — Corvee Paper · Paris',
-  cta: 'Démarrer un projet',
-  cta2: 'Voir les travaux',
-  manifesto: {
-    eyebrow: 'Manifeste',
-    titleA: 'Votre site web devrait vous faire',
-    titleB: 'gagner des clients,',
-    titleC: 'pas vous en faire perdre.',
-    p1: 'La plupart des indépendants travaillent dur, livrent un service impeccable, puis renvoient leurs prospects vers un site qui les trahit. Lent. Illisible sur mobile. Invisible sur Google.',
-    p2: 'Un site n’est pas un objet décoratif. C’est votre meilleur commercial : il travaille 24/7, charge en moins de deux secondes, rassure dès la première seconde et rend la prise de contact évidente. Si l’un de ces points manque, le site ne sert à rien.',
-    p3a: 'Je livre en 14 jours, prix annoncé d’avance, design construit avec vous — et zéro ',
-    p3strike: 'recette miracle ni jargon',
-    p3b: '. Juste un site qui fonctionne, qui vous ressemble, et qui ne vieillit pas.'
+  avail: 'Nouveaux projets ouverts',
+  hero: {
+    pill: 'Nouveaux projets ouverts · Clamart (92)',
+    h1a: ['Votre', 'site', 'professionnel,', 'sur', 'mesure,'],
+    h1b: ['en', 'ligne', 'en', '14', 'jours.'],
+    sub: 'Je crée des sites clairs, rapides et parfaits sur téléphone pour les praticiens, artisans et restaurateurs indépendants. Le prix est annoncé avant de commencer : à partir de 890 €.',
+    cta: 'Parler de votre projet',
+    cta2: 'Voir des exemples',
+    reassure: ['30 minutes d’échange offertes', 'Devis gratuit', 'Réponse sous 24 h'],
+    caption: 'Concept de démonstration — Cabinet Lacombe',
+    stats: [{
+      to: 14,
+      suffix: ' jours',
+      label: 'du feu vert à la mise en ligne'
+    }, {
+      to: 890,
+      prefix: 'dès ',
+      suffix: ' €',
+      label: 'prix fixé avant de commencer'
+    }, {
+      to: 24,
+      suffix: ' h',
+      label: 'pour répondre à votre demande'
+    }, {
+      to: 1,
+      suffix: ' interlocuteur',
+      label: 'du premier échange à la mise en ligne'
+    }]
+  },
+  about: {
+    eyebrow: 'Qui je suis',
+    titleA: 'Un seul interlocuteur,',
+    titleB: 'du premier échange à la mise en ligne.',
+    p1: 'Je m’appelle Edgar Jacquemart. Corvee Paper, c’est moi : je m’occupe de tout, du design à la mise en ligne. Vous savez toujours à qui vous parlez.',
+    p2: 'Beaucoup d’indépendants font un travail impeccable, puis renvoient leurs clients vers un site lent, illisible sur téléphone ou introuvable. Mon travail : un site clair et rapide, qui rassure et donne envie de vous appeler.',
+    points: [['Basé à Clamart', 'Je me déplace dans les Hauts-de-Seine et à Paris. Ailleurs, on se parle par téléphone ou en visio.'], ['Pas de mauvaise surprise', 'Le prix et la date de livraison sont fixés avant de commencer.'], ['Le site est à vous', 'Nom de domaine à votre nom, site remis à la fin : vous en restez propriétaire.']],
+    cardName: 'Edgar Jacquemart',
+    cardRole: 'Créateur de sites web',
+    cardPlace: 'Clamart · Hauts-de-Seine'
   },
   services: {
-    eyebrow: '01 — Services',
-    title: 'Trois manières de travailler ensemble',
+    eyebrow: 'Services',
+    title: 'Trois façons de travailler ensemble.',
     cards: [{
       t: 'Refonte',
-      s: 'Site existant',
-      d: 'Audit, repositionnement, design et reprise complète.',
-      from: 'à partir de 890 €'
+      s: 'Vous avez déjà un site',
+      d: 'Il a vieilli, s’affiche mal sur téléphone ou ne vous amène personne. Je le reprends entièrement : textes, design, technique.',
+      from: 'dès 890 €',
+      format: 'Refonte · dès 890 €'
     }, {
       t: 'Création',
-      s: 'Page blanche',
-      d: 'Stratégie, identité web, design, dev, CMS livré. Pour ceux qui se lancent ou se réinventent.',
-      from: 'à partir de 890 €'
+      s: 'Vous partez de zéro',
+      d: 'Vous vous lancez ou vous n’avez jamais eu de site. Je m’occupe de tout, du nom de domaine à la mise en ligne.',
+      from: 'dès 890 €',
+      format: 'Création · dès 890 €'
     }, {
       t: 'Application',
-      s: 'Outil ou produit',
-      d: 'Du dashboard interne à l’app SaaS publique. Front + back, ou en équipe étendue.',
-      from: 'sur devis'
+      s: 'Un outil sur mesure',
+      d: 'Prise de rendez-vous, espace client, outil interne : un outil pensé pour votre façon de travailler.',
+      from: 'sur devis',
+      format: 'Application · sur devis'
     }],
-    footnote: 'Acompte de 40 % à la signature, solde à la livraison — paiement en 3 fois sans frais possible. Échange de 30 minutes offert pour cadrer le projet.'
+    cardCta: 'Demander un devis',
+    includedTitle: 'Compris dans chaque site, dès 890 €',
+    included: ['Un design sur mesure, pas un modèle', 'Une version ordinateur et une version téléphone', 'Un formulaire de contact et un bouton d’appel', 'Un nom de domaine à votre nom', 'La mise en ligne', 'Une base propre pour être trouvé sur Google', '30 minutes de prise en main', 'Un aller-retour de corrections à chaque étape'],
+    footnote: 'Acompte de 40 % à la signature, solde à la livraison. Paiement en 3 fois sans frais possible.'
   },
   process: {
-    eyebrow: 'Méthode · 03',
-    title: 'Quatre étapes,',
-    titleAccent: 'zéro mauvaise surprise.',
+    eyebrow: 'Méthode',
+    title: 'Quatre étapes, zéro mauvaise surprise.',
     steps: [{
-      n: '01',
-      t: 'Découverte',
-      d: 'Un échange de 30 minutes — par appel, visio ou messages, comme vous préférez. Je cerne votre activité, vos clients, vos objectifs. Vous repartez avec un devis détaillé et une date de livraison ferme.',
-      when: 'Jour 0 → 1'
+      n: '1',
+      t: 'On en parle',
+      d: '30 minutes, par téléphone, en visio ou autour d’un café à Clamart. Vous repartez avec un devis et une date de livraison.',
+      when: 'Jour 1'
     }, {
-      n: '02',
-      t: 'Maquette',
-      d: 'Je conçois la page d’accueil et une page type sur Figma. Vous voyez tout, vous validez, j’ajuste. Je ne code rien tant que le design n’est pas net.',
-      when: 'Jour 2 → 6'
+      n: '2',
+      t: 'La maquette',
+      d: 'Je vous montre à quoi ressemblera votre site avant de le construire. Vous validez, j’ajuste.',
+      when: 'Jours 2 à 6'
     }, {
-      n: '03',
-      t: 'Intégration',
-      d: 'Je développe le site, sans templates ni plugins WordPress capricieux. Code propre, performances au max, sécurité par défaut.',
-      when: 'Jour 7 → 12'
+      n: '3',
+      t: 'La construction',
+      d: 'Je construis le site : rapide, sécurisé, parfait sur téléphone.',
+      when: 'Jours 7 à 12'
     }, {
-      n: '04',
-      t: 'Mise en ligne',
-      d: 'Vérification finale, mise en ligne sur votre domaine, formation de 30 minutes en visio pour que vous soyez autonome. Et je reste joignable ensuite.',
-      when: 'Jour 13 → 14'
+      n: '4',
+      t: 'La mise en ligne',
+      d: 'Je mets le site en ligne à votre nom et je vous montre comment il marche. Je reste joignable ensuite.',
+      when: 'Jours 13 et 14'
     }]
   },
   travaux: {
-    eyebrow: 'Travaux · 04',
-    title: 'Réalisations',
-    titleAccent: '& concepts.',
-    note: 'Studio en lancement. Les projets ci-dessous incluent des concepts non commandés réalisés à titre de démonstration. Mention indiquée sur chaque carte.'
+    eyebrow: 'Exemples',
+    title: 'Six exemples à parcourir.',
+    note: 'Ce sont des concepts de démonstration, pas des commandes de clients : de vrais sites, navigables, pour voir concrètement ce que je peux faire pour vous.',
+    all: 'Voir toute la galerie'
   },
   maintenance: {
-    eyebrow: 'Suite · 05',
-    title: 'Le site est livré.',
-    titleAccent: 'Et ensuite ?',
-    sub: 'Trois forfaits de maintenance pour rester serein. Aucun engagement, résiliable à tout moment.',
+    eyebrow: 'Suivi',
+    title: 'Le site est en ligne. Et ensuite ?',
+    sub: 'Trois forfaits pour rester tranquille. Sans engagement, résiliable à tout moment.',
     tiers: [{
       tag: 'Sérénité',
-      badge: 'Le minimum vital',
-      t: 'Hébergement et veille.',
-      d: 'Hébergement rapide, SSL, sauvegardes, surveillance d’uptime, 30 minutes de modifications par mois.',
+      badge: 'L’essentiel',
+      t: 'Le site reste en ligne et protégé.',
+      d: 'Hébergement, sauvegardes, surveillance du site et 30 minutes de modifications par mois.',
       price: '19'
     }, {
       tag: 'Évolution',
       badge: 'Celui que je conseille',
       t: 'Pour faire vivre le site.',
-      d: 'Inclut Sérénité, plus 2 heures de modifications mensuelles et l’ajout de nouvelles sections sur demande.',
+      d: 'Tout Sérénité, plus 2 heures de modifications par mois et l’ajout de nouvelles sections à la demande.',
       price: '49',
       featured: true
     }, {
       tag: 'Croissance',
-      badge: 'SEO + contenu',
-      t: 'Pour gagner en visibilité.',
-      d: 'Inclut Évolution, plus un article SEO mensuel rédigé, suivi des positions Google et recommandations.',
+      badge: 'Visibilité Google',
+      t: 'Pour être trouvé plus souvent.',
+      d: 'Tout Évolution, plus un article par mois rédigé pour Google, le suivi de vos positions et mes recommandations.',
       price: '99'
-    }]
+    }],
+    cta: 'En parler'
   },
   faq: {
-    eyebrow: 'FAQ · 06',
-    title: 'Questions fréquentes,',
-    titleAccent: 'réponses honnêtes.',
-    items: [['C’est fait pour qui, exactement ?', 'Pour les indépendants dont le métier mérite mieux qu’une fiche Google : praticiens du bien-être (ostéos, sophrologues, coachs…), artisans, professions libérales.'], ['En quoi c’est différent d’un Wix ou d’un Squarespace ?', 'Avec un éditeur grand public, vous payez un abonnement à vie pour un site souvent lent, lourd et qui ressemble à mille autres. Je vous livre un site sur-mesure, rapide, à votre image, et dont vous êtes propriétaire.'], ['14 jours, c’est sérieux ?', 'Oui, pour une refonte ou une création standard, à condition que vous me fournissiez les textes, photos et accès en début de projet. Si la collecte traîne, le compteur ne court pas. Je vous préviens d’office en cas de glissement.'], ['Je n’ai ni logo ni photos. C’est bloquant ?', 'Non. Je compose avec ce que vous avez et je vous oriente vers des solutions simples pour le reste (séance photo locale, logotype léger). Je ne vous laisse pas seul.'], ['Pourrai-je modifier le site moi-même ?', 'Selon le projet : sur une création ou une refonte avec CMS, un éditeur simple vous permet de modifier textes, photos, horaires et tarifs sans toucher au code.'], ['Qui gère l’hébergement et le nom de domaine ?', 'Moi. Je commande le domaine à votre nom (vous en restez propriétaire) et je l’héberge sur une infrastructure rapide et conforme RGPD. Vous n’avez aucune ligne technique à gérer.'], ['Le référencement Google est-il garanti ?', 'Personne ne peut le garantir honnêtement. Ce que je garantis, c’est un site techniquement irréprochable : structure propre, vitesse élevée, données structurées, contenu balisé. Le reste, c’est du long terme, qu’on construit ensemble avec le forfait Croissance.'], ['Et si je ne suis pas satisfait ?', 'Un cycle d’allers-retours est inclus à chaque étape (maquette, intégration). Au-delà, j’ajuste sans facturer si la cause vient de moi. Mon objectif, c’est que vous soyez fier de votre site.']]
+    eyebrow: 'Questions fréquentes',
+    title: 'Les questions qu’on me pose.',
+    items: [['C’est fait pour qui, exactement ?', 'Pour les indépendants dont le métier mérite mieux qu’une fiche Google : praticiens du bien-être (ostéos, sophrologues, coachs…), artisans, restaurateurs, professions libérales.'], ['En quoi c’est différent d’un Wix ou d’un Squarespace ?', 'Avec un éditeur grand public, vous payez un abonnement à vie pour un site souvent lent, qui ressemble à mille autres. Je vous livre un site sur mesure, rapide, à votre image, et dont vous êtes propriétaire.'], ['14 jours, c’est sérieux ?', 'Oui, pour une refonte ou une création classique, à condition que vous me fournissiez les textes, photos et accès en début de projet. Si la collecte traîne, le compteur ne court pas. Je vous préviens d’office en cas de retard.'], ['Je n’ai ni logo ni photos. C’est bloquant ?', 'Non. Je compose avec ce que vous avez et je vous oriente vers des solutions simples pour le reste (séance photo locale, logo simple). Je ne vous laisse pas seul.'], ['Pourrai-je modifier le site moi-même ?', 'Selon le projet, je peux prévoir un espace simple pour modifier vous-même textes, photos, horaires et tarifs. Sinon, je fais les modifications pour vous avec un forfait de suivi.'], ['Qui gère l’hébergement et le nom de domaine ?', 'Moi. Je commande le nom de domaine à votre nom (vous en restez propriétaire) et je m’occupe de l’hébergement. Vous n’avez rien de technique à gérer.'], ['Le référencement Google est-il garanti ?', 'Personne ne peut le garantir honnêtement. Ce que je garantis, c’est une base saine : pages rapides, structure propre, textes bien organisés. Le reste se construit dans la durée, avec le forfait Croissance.'], ['Et si je ne suis pas satisfait ?', 'Un aller-retour de corrections est compris à chaque étape (maquette, construction). Au-delà, j’ajuste sans facturer si la cause vient de moi. Mon objectif : que vous soyez fier de votre site.']]
   },
   contact: {
-    eyebrow: 'Contact · 07',
+    eyebrow: 'Contact',
     title: 'Parlons de votre projet.',
     titleAccent: '30 minutes, sans engagement.',
-    sub: 'Je réponds à toutes les demandes sous 24 heures ouvrées. Si je ne suis pas le bon choix pour vous, je vous le dis franchement et je vous oriente.',
+    sub: 'Je réponds à toutes les demandes sous 24 heures ouvrées. Si je ne suis pas le bon choix pour vous, je vous le dis franchement.',
     fields: {
       name: 'Prénom et nom',
       email: 'Email',
       activite: 'Votre activité',
-      activitePlaceholder: 'ostéopathe, ébéniste, coach sportif…',
-      format: 'Format envisagé',
+      activitePlaceholder: 'ostéopathe, ébéniste, restaurateur…',
+      format: 'Type de projet',
       message: 'Quelques mots sur le projet'
     },
-    formats: ['Je ne sais pas encore', 'Refonte · dès 890 €', 'Création · dès 890 €', 'Application · sur devis'],
+    formats: ['Je ne sais pas encore', 'Refonte · dès 890 €', 'Création · dès 890 €', 'Application · sur devis', 'Forfait de suivi'],
     rgpd: 'En envoyant ce formulaire vous acceptez que vos données soient utilisées uniquement pour répondre à votre demande. Aucun envoi commercial.',
-    send: 'Envoyer',
-    meta: [['Email', 'contact@corveepaper.fr'], ['Zone', 'France · Belgique · Suisse · Québec'], ['Délai', 'Réponse sous 24h ouvrées']]
+    send: 'Envoyer ma demande',
+    zone: 'Clamart · Hauts-de-Seine · Paris — et à distance partout en France',
+    delay: 'Réponse sous 24 h ouvrées',
+    call: 'Appeler',
+    book: 'Réserver un créneau'
   },
   footer: {
-    blurb: 'Studio de design web pour praticiens, artisans et indépendants. Basé en France, opère dans toute la francophonie.',
+    blurb: 'Sites web sur mesure pour praticiens, artisans et restaurateurs indépendants. Basé à Clamart (92), j’interviens en Île-de-France et à distance partout en France.',
     navCol: 'Navigation',
     legalCol: 'Légal',
     legalLinks: [['Mentions légales', 'mentions-legales.html'], ['Politique de confidentialité', 'confidentialite.html'], ['Conditions générales de vente', 'cgv.html']],
     note1: '© 2026 Corvee Paper · SIRET 105 561 716 00017',
-    note2: 'Fait à la main · Aucun cookie · Hébergement UE'
+    note2: 'Fait à Clamart · Aucun cookie'
   }
 };
 
 // ════════════════════════════════════════════════════════════════════════════
-// CONTACT FORM — posts to Formspree via fetch (no page redirect).
-// Inline success/error state so the rest of the page stays mounted.
+// FORMULAIRE DE CONTACT — envoi vers Formspree sans quitter la page.
 // ════════════════════════════════════════════════════════════════════════════
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mqejbpry';
+const E_FIELD = {
+  background: E_INV_CARD,
+  border: `1px solid ${E_INV_LINE}`,
+  borderRadius: 12,
+  padding: '14px 16px',
+  color: E_INV_INK,
+  fontSize: 16,
+  fontFamily: 'inherit',
+  outline: 'none',
+  width: '100%',
+  boxSizing: 'border-box'
+};
+const E_LABEL = {
+  fontSize: 13,
+  fontWeight: 500,
+  color: E_INV_INK_SOFT
+};
 function ContactForm({
   t
 }) {
@@ -726,79 +780,60 @@ function ContactForm({
       setStatus('error');
     }
   };
-
-  // ── Success state ──────────────────────────────────────────────────────────
   if (status === 'success') {
-    return (
-      /*#__PURE__*/
-      // No cp-slide-r here — that class starts at opacity:0 and only fades in
-      // when IntersectionObserver sees it. The component appears AFTER the
-      // initial scroll observation, so it would stay invisible forever.
-      // We use a simple inline fade-in keyframe instead.
-      React.createElement("div", {
-        style: {
-          padding: 56,
-          background: E_INV_CARD,
-          border: `1px solid ${E_INV_LINE}`,
-          borderRadius: 18,
-          display: 'grid',
-          gap: 20,
-          alignContent: 'center',
-          textAlign: 'center',
-          minHeight: 380,
-          animation: 'cp-success-in .5s cubic-bezier(.2,.7,.3,1) both'
-        }
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          fontFamily: 'Geist Mono, monospace',
-          fontSize: 11,
-          color: E_TERRA,
-          letterSpacing: '.18em',
-          textTransform: 'uppercase'
-        }
-      }, "\u21B3 Demande re\xE7ue"), /*#__PURE__*/React.createElement("h3", {
-        style: {
-          margin: 0,
-          fontFamily: 'Spectral, serif',
-          fontWeight: 400,
-          fontSize: 52,
-          lineHeight: 1.05,
-          color: E_INV_INK,
-          letterSpacing: '-.02em'
-        }
-      }, "Merci.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
-        style: {
-          fontStyle: 'italic',
-          color: E_TERRA
-        }
-      }, "Je reviens vers vous sous 24h.")), /*#__PURE__*/React.createElement("p", {
-        style: {
-          margin: 0,
-          fontSize: 15,
-          lineHeight: 1.6,
-          color: E_INV_INK_SOFT,
-          fontFamily: 'Newsreader, serif'
-        }
-      }, "Si vous ne me voyez pas dans votre bo\xEEte, jetez un \u0153il aux ind\xE9sirables \u2014 j\u2019\xE9cris depuis ", /*#__PURE__*/React.createElement("em", null, "contact@corveepaper.fr"), "."))
-    );
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: 48,
+        background: E_INV_CARD,
+        border: `1px solid ${E_INV_LINE}`,
+        borderRadius: 24,
+        display: 'grid',
+        gap: 16,
+        alignContent: 'center',
+        textAlign: 'center',
+        minHeight: 380,
+        animation: 'cp-success-in .5s cubic-bezier(.2,.7,.3,1) both'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 13,
+        fontWeight: 600,
+        color: 'var(--cp-inv-accent)'
+      }
+    }, "Demande re\xE7ue"), /*#__PURE__*/React.createElement("h3", {
+      style: {
+        margin: 0,
+        fontFamily: E_DISPLAY,
+        fontWeight: 600,
+        fontSize: 34,
+        lineHeight: 1.1,
+        color: E_INV_INK,
+        letterSpacing: '-.03em'
+      }
+    }, "Merci. Je reviens vers vous sous 24 h."), /*#__PURE__*/React.createElement("p", {
+      style: {
+        margin: 0,
+        fontSize: 15,
+        lineHeight: 1.6,
+        color: E_INV_INK_SOFT
+      }
+    }, "Si vous ne voyez pas ma r\xE9ponse, jetez un \u0153il aux ind\xE9sirables : j\u2019\xE9cris depuis contact@corveepaper.fr."));
   }
-
-  // ── Form ───────────────────────────────────────────────────────────────────
   return /*#__PURE__*/React.createElement("form", {
     "data-cp-anim": true,
-    className: "cp-slide-r",
+    className: "cp-reveal",
     onSubmit: onSubmit,
     action: FORMSPREE_ENDPOINT,
     method: "POST",
     style: {
-      padding: 36,
+      padding: 32,
       background: E_INV_CARD,
       border: `1px solid ${E_INV_LINE}`,
-      borderRadius: 18,
+      borderRadius: 24,
       display: 'grid',
-      gap: 20,
+      gap: 18,
       alignContent: 'start',
-      '--cp-d': '200ms'
+      '--cp-d': '150ms'
     }
   }, /*#__PURE__*/React.createElement("input", {
     type: "text",
@@ -821,12 +856,14 @@ function ContactForm({
     id: 'name',
     label: t.contact.fields.name,
     type: 'text',
-    required: true
+    required: true,
+    ac: 'name'
   }, {
     id: 'email',
     label: t.contact.fields.email,
     type: 'email',
-    required: true
+    required: true,
+    ac: 'email'
   }, {
     id: 'activite',
     label: t.contact.fields.activite,
@@ -840,53 +877,32 @@ function ContactForm({
       gap: 8
     }
   }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      color: E_INV_INK_SOFT,
-      letterSpacing: '.14em',
-      textTransform: 'uppercase'
-    }
+    style: E_LABEL
   }, f.label), /*#__PURE__*/React.createElement("input", {
     type: f.type,
     name: f.id,
     placeholder: f.placeholder,
     required: f.required,
-    style: {
-      background: 'transparent',
-      border: 0,
-      borderBottom: `1px solid ${E_INV_LINE}`,
-      padding: '10px 0',
-      color: E_INV_INK,
-      fontSize: 17,
-      fontFamily: 'Newsreader, serif',
-      outline: 'none'
-    }
+    autoComplete: f.ac,
+    style: E_FIELD
   }))), /*#__PURE__*/React.createElement("label", {
     style: {
       display: 'grid',
       gap: 8
     }
   }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      color: E_INV_INK_SOFT,
-      letterSpacing: '.14em',
-      textTransform: 'uppercase'
-    }
+    style: E_LABEL
   }, t.contact.fields.format), /*#__PURE__*/React.createElement("select", {
     name: "format",
     style: {
-      background: 'transparent',
-      border: 0,
-      borderBottom: `1px solid ${E_INV_LINE}`,
-      padding: '10px 0',
-      color: E_INV_INK,
-      fontSize: 17,
-      fontFamily: 'Newsreader, serif',
-      outline: 'none',
-      appearance: 'none'
+      ...E_FIELD,
+      appearance: 'none',
+      WebkitAppearance: 'none',
+      cursor: 'pointer',
+      backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%238a94a3' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'right 16px center',
+      paddingRight: 40
     }
   }, t.contact.formats.map(o => /*#__PURE__*/React.createElement("option", {
     key: o,
@@ -899,31 +915,18 @@ function ContactForm({
       gap: 8
     }
   }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      color: E_INV_INK_SOFT,
-      letterSpacing: '.14em',
-      textTransform: 'uppercase'
-    }
+    style: E_LABEL
   }, t.contact.fields.message), /*#__PURE__*/React.createElement("textarea", {
     name: "message",
-    rows: 3,
+    rows: 4,
     required: true,
     style: {
-      background: 'transparent',
-      border: 0,
-      borderBottom: `1px solid ${E_INV_LINE}`,
-      padding: '10px 0',
-      color: E_INV_INK,
-      fontSize: 17,
-      fontFamily: 'Newsreader, serif',
-      outline: 'none',
-      resize: 'none'
+      ...E_FIELD,
+      resize: 'vertical'
     }
   })), /*#__PURE__*/React.createElement("p", {
     style: {
-      margin: '4px 0 0',
+      margin: 0,
       fontSize: 12,
       lineHeight: 1.55,
       color: E_INV_INK_SOFT
@@ -932,42 +935,141 @@ function ContactForm({
     style: {
       margin: 0,
       fontSize: 13,
-      color: '#ff8b6b',
-      fontFamily: 'Geist, sans-serif'
+      color: '#ff8b6b'
     }
-  }, "Erreur d\u2019envoi. R\xE9essayez ou \xE9crivez directement \xE0 ", /*#__PURE__*/React.createElement("strong", null, "contact@corveepaper.fr"), "."), /*#__PURE__*/React.createElement(Magnetic, {
-    strength: 0.18,
-    style: {
-      display: 'block'
-    }
-  }, /*#__PURE__*/React.createElement("button", {
+  }, "Erreur d\u2019envoi. R\xE9essayez ou \xE9crivez directement \xE0 ", /*#__PURE__*/React.createElement("strong", null, "contact@corveepaper.fr"), "."), /*#__PURE__*/React.createElement("button", {
     type: "submit",
     disabled: status === 'sending',
-    "data-cp-hot": true,
-    "data-cp-label": t.contact.send.toLowerCase(),
     style: {
-      marginTop: 8,
-      padding: '18px 24px',
+      padding: '17px 24px',
       borderRadius: 99,
-      background: E_TERRA,
-      color: '#fff',
+      background: 'var(--cp-inv-accent)',
+      color: 'var(--cp-inv-bg)',
       border: 0,
       cursor: status === 'sending' ? 'wait' : 'pointer',
       opacity: status === 'sending' ? 0.6 : 1,
-      fontFamily: 'Geist, sans-serif',
+      fontFamily: 'inherit',
       fontSize: 15,
-      fontWeight: 500,
+      fontWeight: 600,
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
-      gap: 14,
+      gap: 10,
       width: '100%'
     }
   }, status === 'sending' ? 'Envoi…' : t.contact.send, /*#__PURE__*/React.createElement("span", {
+    className: "cp-arrow"
+  }, "\u2192")));
+}
+
+// Chiffre qui compte jusqu'à sa valeur quand il apparaît à l'écran.
+function CountUp({
+  to,
+  prefix = '',
+  suffix = ''
+}) {
+  const ref = useRef(null);
+  const [v, setV] = useState(to);
+  useEffect(() => {
+    const el = ref.current;
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!el || reduce || !('IntersectionObserver' in window) || to < 5) return;
+    let raf = 0,
+      safety = 0,
+      started = false;
+    setV(0);
+    const io = new IntersectionObserver(entries => {
+      if (started || !entries.some(e => e.isIntersecting)) return;
+      started = true;
+      io.disconnect();
+      const t0 = performance.now(),
+        dur = 1300;
+      const tick = now => {
+        const p = Math.min(1, (now - t0) / dur);
+        setV(Math.round(to * (1 - Math.pow(1 - p, 3))));
+        if (p < 1) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+      // Filet de sécurité : la valeur finale s'affiche quoi qu'il arrive.
+      safety = setTimeout(() => setV(to), dur + 600);
+    }, {
+      threshold: 0.2
+    });
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      cancelAnimationFrame(raf);
+      clearTimeout(safety);
+    };
+  }, [to]);
+  return /*#__PURE__*/React.createElement("span", {
+    ref: ref,
     style: {
-      fontSize: 16
+      fontVariantNumeric: 'tabular-nums'
     }
-  }, "\u2192"))));
+  }, prefix, v, suffix);
+}
+
+// Fond du haut de page : deux halos + une grille de points, en parallaxe.
+function HeroBG({
+  dark
+}) {
+  const a = dark ? 'rgba(107,155,208,.30)' : 'rgba(54,91,134,.26)';
+  const b = dark ? 'rgba(154,130,112,.20)' : 'rgba(154,130,112,.22)';
+  const dot = dark ? 'rgba(231,232,234,.10)' : 'rgba(25,34,48,.10)';
+  return /*#__PURE__*/React.createElement("div", {
+    "aria-hidden": "true",
+    style: {
+      position: 'absolute',
+      inset: 0,
+      overflow: 'hidden',
+      pointerEvents: 'none',
+      zIndex: 0
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      inset: 0,
+      backgroundImage: `radial-gradient(${dot} 1px, transparent 1px)`,
+      backgroundSize: '26px 26px',
+      WebkitMaskImage: 'radial-gradient(ellipse 70% 60% at 50% 30%, #000 20%, transparent 75%)',
+      maskImage: 'radial-gradient(ellipse 70% 60% at 50% 30%, #000 20%, transparent 75%)'
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    "data-cp-parallax": "0.22",
+    style: {
+      position: 'absolute',
+      left: '-12%',
+      top: '-24%',
+      width: 700,
+      height: 700
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: '100%',
+      height: '100%',
+      background: `radial-gradient(circle, ${a} 0%, transparent 62%)`,
+      filter: 'blur(40px)',
+      animation: 'cp-blob1 18s ease-in-out infinite'
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    "data-cp-parallax": "-0.16",
+    style: {
+      position: 'absolute',
+      right: '-8%',
+      top: '18%',
+      width: 620,
+      height: 620
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: '100%',
+      height: '100%',
+      background: `radial-gradient(circle, ${b} 0%, transparent 64%)`,
+      filter: 'blur(50px)',
+      animation: 'cp-blob2 22s ease-in-out infinite'
+    }
+  })));
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -997,6 +1099,7 @@ function DirectionEditorial() {
   const [travauxFam, setTravauxFam] = useState('sante'); // 'sante' | 'resto' — switches the Travaux view
   const isMobile = useIsMobile();
   const [logoClicks, setLogoClicks] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [eggOpen, setEggOpen] = useState(false);
   const wrapRef = useRef(null);
   const t = E_COPY;
@@ -1004,39 +1107,71 @@ function DirectionEditorial() {
     ensureEditorialCSS();
     if (!window.__cpGreeted) {
       window.__cpGreeted = true;
-      console.log('%c\n  Corvee Paper  \n%c  Studio indépendant · Paris\n  contact@corveepaper.fr\n  ↳ 7 clics sur le logo pour une surprise\n', 'background:#365b86;color:#e7e8ea;font:600 16px/2 "Spectral",serif;padding:6px 10px', 'color:#9B9690;font:12px/1.6 monospace');
+      console.log('%c\n  Corvee Paper  \n%c  Studio indépendant · Clamart\n  contact@corveepaper.fr\n  ↳ 7 clics sur le logo pour une surprise\n', 'background:#365b86;color:#e7e8ea;font:600 16px/2 "Spectral",serif;padding:6px 10px', 'color:#9B9690;font:12px/1.6 monospace');
     }
   }, []);
 
-  // ─── Entry animations ──────────────────────────────────────────────────
-  // Find every [data-cp-anim] element under the wrapper and toggle .cp-in
-  // once they cross 18% into the viewport. One-shot reveal — we unobserve
-  // after the first trigger so content doesn't re-animate on scroll-back.
+  // ─── Animations au défilement ──────────────────────────────────────────
+  // Un seul écouteur de défilement fait trois choses :
+  //  1. révèle les éléments [data-cp-anim] dès qu'ils entrent dans l'écran
+  //     (simple mesure de position : fiable partout, contrairement à
+  //     l'ancien IntersectionObserver qui ratait les titres) ;
+  //  2. parallaxe : décale les éléments [data-cp-parallax] selon leur vitesse ;
+  //  3. méthode : fait avancer la ligne et allume les étapes.
   useEffect(() => {
-    if (!wrapRef.current) return;
-    // Hero items animate immediately on mount — they're above the fold.
-    // (rAF can be throttled in just-loaded iframes; do it synchronously.)
-    wrapRef.current.querySelectorAll('[data-cp-anim-hero]').forEach(el => {
-      el.classList.add('cp-in');
-    });
-
-    // Other items animate on viewport intersection.
-    const els = wrapRef.current.querySelectorAll('[data-cp-anim]');
-    if (!els.length) return;
-    const io = new IntersectionObserver(entries => {
-      for (const e of entries) {
-        if (e.isIntersecting) {
-          e.target.classList.add('cp-in');
-          io.unobserve(e.target);
-        }
+    const root = wrapRef.current;
+    if (!root) return;
+    // Le haut de page s'anime tout de suite.
+    root.querySelectorAll('[data-cp-anim-hero]').forEach(el => el.classList.add('cp-in'));
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const vh = window.innerHeight || 800;
+      root.querySelectorAll('[data-cp-anim]:not(.cp-in)').forEach(el => {
+        if (el.getBoundingClientRect().top < vh * 0.9) el.classList.add('cp-in');
+      });
+      if (!reduce) {
+        root.querySelectorAll('[data-cp-parallax]').forEach(el => {
+          const host = el.parentElement.getBoundingClientRect();
+          if (host.bottom < -200 || host.top > vh + 200) return;
+          const speed = parseFloat(el.getAttribute('data-cp-parallax')) || 0;
+          const delta = host.top + host.height / 2 - vh / 2;
+          el.style.transform = `translate3d(0, ${(delta * speed).toFixed(1)}px, 0)`;
+        });
       }
-    }, {
-      threshold: 0.15,
-      rootMargin: '0px 0px -8% 0px'
+      const method = root.querySelector('#cp-method-steps');
+      if (method) {
+        const r = method.getBoundingClientRect();
+        const p = Math.max(0, Math.min(1, (vh * 0.78 - r.top) / (r.height + vh * 0.18)));
+        const line = method.querySelector('[data-cp-line]');
+        if (line) {
+          line.style.transform = line.getAttribute('data-cp-line') === 'y' ? `scaleY(${p})` : `scaleX(${p})`;
+        }
+        const steps = method.querySelectorAll('[data-cp-step]');
+        steps.forEach((s, i) => s.classList.toggle('cp-step-on', p > (i + 0.35) / steps.length));
+      }
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+    update();
+    // Filet de sécurité : si requestAnimationFrame est ralenti (onglet en
+    // arrière-plan), on refait une passe directe peu après le chargement.
+    const t1 = setTimeout(update, 400);
+    window.addEventListener('scroll', onScroll, {
+      passive: true
     });
-    els.forEach(el => io.observe(el));
-    return () => io.disconnect();
-  }, []);
+    window.addEventListener('resize', onScroll);
+    return () => {
+      clearTimeout(t1);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, [isMobile]);
 
   // When the Travaux family is switched, React mounts brand-new cards that the
   // one-shot observer above never saw — so reveal them explicitly here. Without
@@ -1078,7 +1213,7 @@ function DirectionEditorial() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: '18px 56px',
+      padding: isMobile ? '14px 20px' : '18px 56px',
       background: E_NAV_BG,
       backdropFilter: 'blur(14px)',
       borderBottom: `1px solid ${E_LINE}`
@@ -1093,22 +1228,91 @@ function DirectionEditorial() {
     onClick: onLogo,
     color: E_INK,
     terra: E_TERRA
-  }), /*#__PURE__*/React.createElement("span", {
+  }), !isMobile && /*#__PURE__*/React.createElement("span", {
     style: {
       marginLeft: 6,
       paddingLeft: 14,
       borderLeft: `1px solid ${E_LINE}`,
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
+      fontSize: 12.5,
       color: E_INK_SOFT,
-      letterSpacing: '.06em'
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 8
     }
-  }, "\u21B3 ", t.avail, logoClicks > 0 && /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      width: 7,
+      height: 7,
+      borderRadius: 99,
+      background: E_TERRA,
+      animation: 'cp-pulse 1.8s ease-out infinite'
+    }
+  }), t.avail, logoClicks > 0 && /*#__PURE__*/React.createElement("span", {
     style: {
       marginLeft: 12,
       color: E_TERRA
     }
-  }, logoClicks, "/7"))), /*#__PURE__*/React.createElement("div", {
+  }, logoClicks, "/7"))), isMobile ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 14
+    }
+  }, /*#__PURE__*/React.createElement(ThemeToggle, {
+    theme: theme,
+    setTheme: setTheme
+  }), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    "aria-label": menuOpen ? 'Fermer le menu' : 'Ouvrir le menu',
+    "aria-expanded": menuOpen,
+    onClick: () => setMenuOpen(o => !o),
+    style: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: 42,
+      height: 42,
+      borderRadius: 12,
+      padding: 0,
+      border: `1px solid ${E_LINE}`,
+      background: E_BG,
+      color: E_INK,
+      cursor: 'pointer'
+    }
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: "18",
+    height: "18",
+    viewBox: "0 0 18 18",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "1.6",
+    strokeLinecap: "round"
+  }, menuOpen ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("line", {
+    x1: "3",
+    y1: "3",
+    x2: "15",
+    y2: "15"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "15",
+    y1: "3",
+    x2: "3",
+    y2: "15"
+  })) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("line", {
+    x1: "2",
+    y1: "5",
+    x2: "16",
+    y2: "5"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "2",
+    y1: "9",
+    x2: "16",
+    y2: "9"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "2",
+    y1: "13",
+    x2: "16",
+    y2: "13"
+  }))))) : /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       gap: 26,
@@ -1181,10 +1385,78 @@ function DirectionEditorial() {
     style: {
       fontSize: 13
     }
-  }, "\u2192"))))), /*#__PURE__*/React.createElement("section", {
+  }, "\u2192")))), isMobile && menuOpen && /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      top: '100%',
+      left: 0,
+      right: 0,
+      background: E_BG,
+      borderBottom: `1px solid ${E_LINE}`,
+      boxShadow: '0 24px 40px -24px rgba(16, 22, 31, .5)',
+      display: 'flex',
+      flexDirection: 'column',
+      padding: '4px 20px 20px'
+    }
+  }, t.nav.map(item => /*#__PURE__*/React.createElement("a", {
+    key: item.label,
+    href: item.href,
+    "data-cp-hot": true,
+    onClick: e => {
+      const target = document.querySelector(item.href);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+      setMenuOpen(false);
+    },
+    style: {
+      color: E_INK,
+      textDecoration: 'none',
+      cursor: 'pointer',
+      fontSize: 17,
+      padding: '15px 0',
+      borderBottom: `1px solid ${E_LINE}`
+    }
+  }, item.label)), /*#__PURE__*/React.createElement("a", {
+    "data-cp-hot": true,
+    href: "#contact",
+    onClick: e => {
+      const target = document.querySelector('#contact');
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({
+          behavior: 'smooth'
+        });
+      }
+      setMenuOpen(false);
+    },
+    style: {
+      marginTop: 18,
+      padding: '16px 22px',
+      background: E_INK,
+      color: E_BG,
+      borderRadius: 99,
+      fontSize: 15,
+      fontWeight: 500,
+      cursor: 'pointer',
+      textDecoration: 'none',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 8
+    }
+  }, "Discutons ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 13
+    }
+  }, "\u2192")))), /*#__PURE__*/React.createElement("section", {
     id: "top",
     style: {
-      padding: '120px 56px 100px',
+      padding: isMobile ? '56px 18px' : '84px 56px 72px',
       position: 'relative',
       overflow: 'hidden'
     }
@@ -1192,27 +1464,32 @@ function DirectionEditorial() {
     dark: theme === 'dark'
   }), /*#__PURE__*/React.createElement("div", {
     style: {
+      ...E_WRAP,
       position: 'relative',
       zIndex: 1
     }
   }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: isMobile ? '1fr' : '1.02fr .98fr',
+      gap: isMobile ? 40 : 56,
+      alignItems: 'center'
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     "data-cp-anim-hero": true,
     className: "cp-reveal",
     style: {
       display: 'inline-flex',
       alignItems: 'center',
       gap: 10,
-      padding: '6px 14px',
-      border: `1px solid ${E_LINE}`,
+      padding: '7px 14px 7px 12px',
       borderRadius: 99,
-      background: E_BG,
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      color: E_INK_SOFT,
-      letterSpacing: '.08em',
-      textTransform: 'uppercase',
-      marginBottom: 56,
-      '--cp-d': '50ms'
+      background: E_CARD_BG,
+      border: `1px solid ${E_LINE}`,
+      fontSize: 13,
+      fontWeight: 500,
+      color: E_INK,
+      boxShadow: E_SHADOW
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
@@ -1220,669 +1497,809 @@ function DirectionEditorial() {
       height: 8,
       borderRadius: 99,
       background: E_TERRA,
-      boxShadow: `0 0 0 4px ${E_TERRA}22`
+      animation: 'cp-pulse 1.8s ease-out infinite'
     }
-  }), t.heroPre), /*#__PURE__*/React.createElement("h1", {
-    "data-cp-anim-hero": true,
-    className: "cp-wipe",
+  }), t.hero.pill), /*#__PURE__*/React.createElement("h1", {
     style: {
-      fontFamily: 'Spectral, serif',
-      fontWeight: 400,
-      fontSize: 'clamp(40px, 6vw, 88px)',
+      margin: isMobile ? '22px 0 0' : '26px 0 0',
+      fontFamily: E_DISPLAY,
+      fontWeight: 600,
+      fontSize: 64,
       lineHeight: 1.04,
-      letterSpacing: '-.02em',
-      margin: 0,
-      color: E_INK,
-      maxWidth: 1100,
-      '--cp-d': '200ms'
+      letterSpacing: '-.04em',
+      color: E_INK
     }
-  }, "Sites & applications pens\xE9s ", /*#__PURE__*/React.createElement("span", {
+  }, t.hero.h1a.map((w, i) => /*#__PURE__*/React.createElement(React.Fragment, {
+    key: 'a' + i
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "cp-word"
+  }, /*#__PURE__*/React.createElement("span", {
     style: {
-      fontStyle: 'italic',
+      '--cp-d': `${80 + i * 70}ms`
+    }
+  }, w)), ' ')), /*#__PURE__*/React.createElement("span", {
+    style: {
       color: E_TERRA
     }
-  }, "sur mesure"), " pour votre activit\xE9"), /*#__PURE__*/React.createElement("div", {
+  }, t.hero.h1b.map((w, i) => /*#__PURE__*/React.createElement(React.Fragment, {
+    key: 'b' + i
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "cp-word"
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      '--cp-d': `${80 + (i + t.hero.h1a.length) * 70}ms`
+    }
+  }, w)), ' ')))), /*#__PURE__*/React.createElement("p", {
     "data-cp-anim-hero": true,
     className: "cp-reveal",
     style: {
-      marginTop: 64,
-      display: 'grid',
-      gridTemplateColumns: '1fr auto',
-      alignItems: 'end',
-      gap: 60,
+      margin: '24px 0 0',
+      fontSize: isMobile ? 17 : 19,
+      lineHeight: 1.55,
+      color: E_INK_SOFT,
+      maxWidth: 540,
       '--cp-d': '500ms'
     }
-  }, /*#__PURE__*/React.createElement("p", {
+  }, t.hero.sub), /*#__PURE__*/React.createElement("div", {
+    "data-cp-anim-hero": true,
+    className: "cp-reveal",
     style: {
-      maxWidth: 620,
-      margin: 0,
-      fontSize: 22,
-      lineHeight: 1.5,
-      color: E_INK
+      marginTop: 30,
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: 12,
+      '--cp-d': '650ms'
     }
-  }, "Corvee Paper con\xE7oit et livre des sites web rapides, sobres et bien pens\xE9s pour les ", /*#__PURE__*/React.createElement("em", {
+  }, /*#__PURE__*/React.createElement(Magnetic, {
+    strength: 0.16
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "#contact",
+    onClick: cpGoTo('#contact'),
+    style: {
+      padding: '16px 26px',
+      borderRadius: 99,
+      background: E_INK,
+      color: E_BG,
+      fontSize: 16,
+      fontWeight: 600,
+      textDecoration: 'none',
+      cursor: 'pointer',
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 10,
+      boxShadow: '0 14px 30px -14px rgba(25,34,48,.55)'
+    }
+  }, t.hero.cta, " ", /*#__PURE__*/React.createElement("span", {
+    className: "cp-arrow"
+  }, "\u2192"))), /*#__PURE__*/React.createElement("a", {
+    href: "#travaux",
+    onClick: cpGoTo('#travaux'),
+    style: {
+      padding: '16px 24px',
+      borderRadius: 99,
+      background: E_CARD_BG,
+      color: E_INK,
+      border: `1px solid ${E_LINE}`,
+      fontSize: 16,
+      fontWeight: 500,
+      textDecoration: 'none',
+      cursor: 'pointer',
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 10
+    }
+  }, t.hero.cta2)), /*#__PURE__*/React.createElement("ul", {
+    "data-cp-anim-hero": true,
+    className: "cp-reveal",
+    style: {
+      listStyle: 'none',
+      margin: '26px 0 0',
+      padding: 0,
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: isMobile ? '8px 18px' : '10px 22px',
+      fontSize: 14,
+      color: E_INK_SOFT,
+      '--cp-d': '800ms'
+    }
+  }, t.hero.reassure.map(r => /*#__PURE__*/React.createElement("li", {
+    key: r,
+    style: {
+      display: 'inline-flex',
+      alignItems: 'flex-start',
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement(Check, null), " ", r)))), /*#__PURE__*/React.createElement("div", {
+    "data-cp-anim-hero": true,
+    className: "cp-pop",
+    style: {
+      position: 'relative',
+      '--cp-d': '350ms',
+      paddingBottom: isMobile ? 34 : 46,
+      paddingLeft: isMobile ? 0 : 20
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    "data-cp-parallax": isMobile ? '-0.03' : '-0.07'
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      borderRadius: 18,
+      overflow: 'hidden',
+      background: E_CARD_BG,
+      border: `1px solid ${E_LINE}`,
+      boxShadow: '0 2px 4px rgba(16,24,40,.05), 0 40px 80px -32px rgba(16,24,40,.42)'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 7,
+      padding: '11px 14px',
+      borderBottom: `1px solid ${E_LINE}`
+    }
+  }, [0, 1, 2].map(k => /*#__PURE__*/React.createElement("span", {
+    key: k,
+    style: {
+      width: 9,
+      height: 9,
+      borderRadius: 99,
+      background: E_LINE
+    }
+  })), /*#__PURE__*/React.createElement("span", {
+    style: {
+      marginLeft: 10,
+      flex: 1,
+      maxWidth: 240,
+      padding: '4px 12px',
+      borderRadius: 99,
+      background: E_CARD,
+      fontSize: 11.5,
+      color: E_INK_SOFT
+    }
+  }, "cabinet-lacombe.fr")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      aspectRatio: '16 / 10.6',
+      overflow: 'hidden',
+      background: '#f8f6f1'
+    }
+  }, /*#__PURE__*/React.createElement("img", {
+    src: "img/demo-lacombe-ordinateur.jpg",
+    alt: "Aper\xE7u du site de d\xE9monstration Cabinet Lacombe sur ordinateur",
+    width: "960",
+    height: "1950",
+    style: {
+      display: 'block',
+      width: '100%',
+      height: 'auto',
+      '--cp-scroll': '-67%',
+      animation: 'cp-screen-scroll 16s ease-in-out 1.2s infinite alternate'
+    }
+  })))), /*#__PURE__*/React.createElement("div", {
+    "data-cp-parallax": isMobile ? '-0.07' : '-0.17',
+    style: {
+      position: 'absolute',
+      right: isMobile ? 10 : -14,
+      bottom: 0,
+      width: isMobile ? 104 : 158
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      animation: 'cp-float 6s ease-in-out infinite'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      borderRadius: isMobile ? 20 : 28,
+      padding: isMobile ? 4 : 6,
+      background: '#141b27',
+      boxShadow: '0 30px 60px -22px rgba(16,24,40,.6)'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      borderRadius: isMobile ? 16 : 22,
+      overflow: 'hidden',
+      aspectRatio: '780 / 1688',
+      background: '#f8f6f1'
+    }
+  }, /*#__PURE__*/React.createElement("img", {
+    src: "img/demo-lacombe-telephone.jpg",
+    alt: "Le m\xEAme site sur t\xE9l\xE9phone",
+    width: "780",
+    height: "1688",
+    style: {
+      display: 'block',
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+      objectPosition: 'top'
+    }
+  }))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      left: isMobile ? 0 : 20,
+      bottom: 0,
+      fontSize: 12.5,
+      color: E_INK_2,
+      maxWidth: isMobile ? '62%' : 'none'
+    }
+  }, t.hero.caption))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: isMobile ? 40 : 72,
+      display: 'grid',
+      gridTemplateColumns: isMobile ? '1fr 1fr' : '1fr 1fr 1fr 1fr',
+      gap: isMobile ? 10 : 16
+    }
+  }, t.hero.stats.map((s, i) => /*#__PURE__*/React.createElement("div", {
+    key: s.label,
+    "data-cp-anim": true,
+    className: "cp-pop",
+    style: {
+      display: 'flex',
+      '--cp-d': `${i * 90}ms`
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      padding: isMobile ? '16px 16px 18px' : '22px 24px 24px',
+      borderRadius: 20,
+      background: E_CARD_BG,
+      border: `1px solid ${E_LINE}`,
+      boxShadow: E_SHADOW
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: E_DISPLAY,
+      fontWeight: 600,
+      letterSpacing: '-.03em',
+      fontSize: isMobile ? 21 : 28,
+      color: E_INK,
+      lineHeight: 1.1
+    }
+  }, /*#__PURE__*/React.createElement(CountUp, {
+    to: s.to,
+    prefix: s.prefix,
+    suffix: s.suffix
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 6,
+      fontSize: isMobile ? 13 : 14,
+      lineHeight: 1.4,
+      color: E_INK_SOFT
+    }
+  }, s.label))))))), /*#__PURE__*/React.createElement("section", {
+    id: "apropos",
+    style: {
+      padding: '110px 56px',
+      background: E_BG_2,
+      borderTop: `1px solid ${E_LINE}`
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      ...E_WRAP,
+      display: 'grid',
+      gridTemplateColumns: isMobile ? '1fr' : '.8fr 1.2fr',
+      gap: isMobile ? 32 : 72,
+      alignItems: 'center'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    "data-cp-anim": true,
+    className: "cp-pop",
+    style: {
+      order: isMobile ? 2 : 1
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    "data-cp-parallax": isMobile ? '0' : '0.05'
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "cp-spot",
+    onMouseMove: cpSpot,
+    style: {
+      borderRadius: 28,
+      background: E_INV_BG,
+      color: E_INV_INK,
+      padding: isMobile ? 24 : 32,
+      boxShadow: '0 40px 80px -36px rgba(16,24,40,.55)',
+      display: 'grid',
+      gap: isMobile ? 20 : 28
+    }
+  }, E_PHOTO ? /*#__PURE__*/React.createElement("img", {
+    src: E_PHOTO,
+    alt: "Edgar Jacquemart",
+    style: {
+      width: '100%',
+      aspectRatio: '4 / 3',
+      objectFit: 'cover',
+      borderRadius: 18,
+      display: 'block'
+    }
+  }) : /*#__PURE__*/React.createElement("div", {
+    style: {
+      aspectRatio: isMobile ? '16 / 7' : '16 / 9',
+      borderRadius: 18,
+      position: 'relative',
+      overflow: 'hidden',
+      background: 'linear-gradient(135deg, rgba(107,155,208,.34), rgba(154,130,112,.20))',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
     style: {
       fontFamily: 'Spectral, serif',
-      color: E_TERRA,
-      fontSize: 24
+      fontStyle: 'italic',
+      fontSize: isMobile ? 64 : 96,
+      lineHeight: 1,
+      color: E_INV_INK
     }
-  }, "praticiens, artisans et professionnels ind\xE9pendants"), ". En 14 jours, sur devis personnalis\xE9 \xE0 partir de 890 \u20AC, sans jargon ni promesses fumeuses."), /*#__PURE__*/React.createElement("div", {
+  }, "c", /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: 'var(--cp-inv-accent)'
+    }
+  }, "."))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: E_DISPLAY,
+      fontWeight: 600,
+      fontSize: 22,
+      letterSpacing: '-.02em'
+    }
+  }, t.about.cardName), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 4,
+      fontSize: 14,
+      color: E_INV_INK_SOFT
+    }
+  }, t.about.cardRole, " \xB7 ", t.about.cardPlace)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: 10
+    }
+  }, E_PHONE && /*#__PURE__*/React.createElement("a", {
+    href: E_TEL_HREF,
+    style: {
+      padding: '11px 18px',
+      borderRadius: 99,
+      background: 'var(--cp-inv-accent)',
+      color: 'var(--cp-inv-bg)',
+      fontSize: 14,
+      fontWeight: 600,
+      textDecoration: 'none'
+    }
+  }, E_PHONE), /*#__PURE__*/React.createElement("a", {
+    href: "mailto:contact@corveepaper.fr",
+    style: {
+      padding: '11px 18px',
+      borderRadius: 99,
+      border: `1px solid ${E_INV_LINE}`,
+      color: E_INV_INK,
+      fontSize: 14,
+      fontWeight: 500,
+      textDecoration: 'none'
+    }
+  }, "contact@corveepaper.fr"))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      order: isMobile ? 1 : 2
+    }
+  }, /*#__PURE__*/React.createElement(Eyebrow, null, t.about.eyebrow), /*#__PURE__*/React.createElement("h2", {
+    className: "cp-wipe",
+    "data-cp-anim": true,
+    style: {
+      margin: 0,
+      fontFamily: E_DISPLAY,
+      fontWeight: 600,
+      fontSize: 48,
+      lineHeight: 1.08,
+      letterSpacing: '-.035em'
+    }
+  }, t.about.titleA, ' ', /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: E_TERRA
+    }
+  }, t.about.titleB)), /*#__PURE__*/React.createElement("p", {
+    "data-cp-anim": true,
+    className: "cp-reveal",
+    style: {
+      margin: '24px 0 0',
+      fontSize: isMobile ? 16 : 18,
+      lineHeight: 1.6,
+      color: E_INK
+    }
+  }, t.about.p1), /*#__PURE__*/React.createElement("p", {
+    "data-cp-anim": true,
+    className: "cp-reveal",
+    style: {
+      margin: '14px 0 0',
+      fontSize: isMobile ? 16 : 18,
+      lineHeight: 1.6,
+      color: E_INK_SOFT
+    }
+  }, t.about.p2), /*#__PURE__*/React.createElement("ul", {
+    style: {
+      listStyle: 'none',
+      margin: '28px 0 0',
+      padding: 0,
+      display: 'grid',
+      gap: 14
+    }
+  }, t.about.points.map(([a, b], i) => /*#__PURE__*/React.createElement("li", {
+    key: a,
+    "data-cp-anim": true,
+    className: "cp-reveal",
     style: {
       display: 'flex',
       gap: 12,
-      flexWrap: 'wrap'
+      alignItems: 'flex-start',
+      '--cp-d': `${i * 90}ms`
     }
-  }, /*#__PURE__*/React.createElement(Magnetic, {
-    strength: 0.2,
-    radius: 100
-  }, /*#__PURE__*/React.createElement("a", {
-    "data-cp-hot": true,
-    "data-cp-label": "go \u2192",
-    href: "#contact",
-    onClick: e => {
-      const tg = document.querySelector('#contact');
-      if (tg) {
-        e.preventDefault();
-        tg.scrollIntoView({
-          behavior: 'smooth'
-        });
-      }
-    },
+  }, /*#__PURE__*/React.createElement(Check, null), /*#__PURE__*/React.createElement("span", {
     style: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 14,
-      padding: '20px 30px',
-      background: E_INK,
-      color: E_BG,
-      borderRadius: 99,
-      textDecoration: 'none',
-      cursor: 'pointer',
-      fontSize: 15,
-      fontWeight: 500
-    }
-  }, t.cta, /*#__PURE__*/React.createElement("span", {
-    style: {
-      width: 28,
-      height: 28,
-      borderRadius: 99,
-      background: E_TERRA,
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontSize: 14,
-      color: '#fff'
-    }
-  }, "\u2192"))), /*#__PURE__*/React.createElement(Magnetic, {
-    strength: 0.16
-  }, /*#__PURE__*/React.createElement("a", {
-    "data-cp-hot": true,
-    href: "#travaux",
-    onClick: e => {
-      setTravauxFam('sante');
-      const tg = document.querySelector('#travaux');
-      if (tg) {
-        e.preventDefault();
-        tg.scrollIntoView({
-          behavior: 'smooth'
-        });
-      }
-    },
-    style: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 10,
-      padding: '20px 26px',
-      color: E_INK,
-      border: `1.5px solid ${E_INK}`,
-      borderRadius: 99,
-      textDecoration: 'none',
-      cursor: 'pointer',
-      fontSize: 15,
-      fontWeight: 500
-    }
-  }, "Sites sant\xE9")), /*#__PURE__*/React.createElement(Magnetic, {
-    strength: 0.16
-  }, /*#__PURE__*/React.createElement("a", {
-    "data-cp-hot": true,
-    href: "#travaux",
-    onClick: e => {
-      setTravauxFam('resto');
-      const tg = document.querySelector('#travaux');
-      if (tg) {
-        e.preventDefault();
-        tg.scrollIntoView({
-          behavior: 'smooth'
-        });
-      }
-    },
-    style: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 10,
-      padding: '20px 26px',
-      color: E_INK,
-      border: `1.5px solid ${E_INK}`,
-      borderRadius: 99,
-      textDecoration: 'none',
-      cursor: 'pointer',
-      fontSize: 15,
-      fontWeight: 500
-    }
-  }, "Sites restauration")))), /*#__PURE__*/React.createElement("div", {
-    "data-cp-anim-hero": true,
-    className: "cp-reveal",
-    style: {
-      marginTop: 96,
-      paddingTop: 40,
-      borderTop: `1px solid ${E_LINE}`,
-      display: 'grid',
-      gridTemplateColumns: 'repeat(4, 1fr)',
-      gap: 0,
-      '--cp-d': '700ms'
-    }
-  }, [['14', 'jours · livraison'], ['100', 'mobile · responsive', '%'], ['24', 'délai de réponse', 'h'], ['0', 'jargon · inutile', '€']].map(([n, l, suffix], i) => /*#__PURE__*/React.createElement("div", {
-    key: l,
-    style: {
-      paddingRight: 32,
-      borderRight: i < 3 ? `1px solid ${E_LINE}` : 'none'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: 'Spectral, serif',
-      fontSize: 84,
-      lineHeight: 1,
-      color: E_INK,
-      letterSpacing: '-.025em'
-    }
-  }, n, /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: E_TERRA,
-      fontStyle: 'italic'
-    }
-  }, suffix || '.')), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      color: E_INK_SOFT,
-      letterSpacing: '.14em',
-      marginTop: 10,
-      textTransform: 'uppercase'
-    }
-  }, l)))))), /*#__PURE__*/React.createElement(Ticker, null), /*#__PURE__*/React.createElement("section", {
-    id: "manifeste",
-    style: {
-      padding: '120px 56px',
-      borderBottom: `1px solid ${E_LINE}`
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'grid',
-      gridTemplateColumns: '1fr 1.6fr',
-      gap: 80
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    "data-cp-anim": true,
-    className: "cp-slide-l"
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      color: E_INK_SOFT,
-      letterSpacing: '.18em',
-      marginBottom: 28,
-      textTransform: 'uppercase'
-    }
-  }, "\u21B3 ", t.manifesto.eyebrow, " \xB7 01"), /*#__PURE__*/React.createElement("h2", {
-    style: {
-      margin: 0,
-      fontFamily: 'Spectral, serif',
-      fontWeight: 400,
-      fontSize: 64,
-      letterSpacing: '-.02em',
-      lineHeight: 1.02
-    }
-  }, t.manifesto.titleA, /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontStyle: 'italic',
-      color: E_TERRA
-    }
-  }, t.manifesto.titleB), /*#__PURE__*/React.createElement("br", null), t.manifesto.titleC)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'grid',
-      gap: 28,
-      alignContent: 'start',
-      paddingTop: 14
-    }
-  }, /*#__PURE__*/React.createElement("p", {
-    "data-cp-anim": true,
-    className: "cp-reveal",
-    style: {
-      margin: 0,
-      fontSize: 22,
+      fontSize: 15.5,
       lineHeight: 1.5,
+      color: E_INK_SOFT
+    }
+  }, /*#__PURE__*/React.createElement("strong", {
+    style: {
       color: E_INK,
-      fontFamily: 'Newsreader, Georgia, serif',
-      '--cp-d': '100ms'
+      fontWeight: 600
     }
-  }, t.manifesto.p1), /*#__PURE__*/React.createElement("p", {
-    "data-cp-anim": true,
-    className: "cp-reveal",
-    style: {
-      margin: 0,
-      fontSize: 20,
-      lineHeight: 1.55,
-      color: E_INK_SOFT,
-      fontFamily: 'Newsreader, Georgia, serif',
-      '--cp-d': '200ms'
-    }
-  }, t.manifesto.p2), /*#__PURE__*/React.createElement("p", {
-    "data-cp-anim": true,
-    className: "cp-reveal",
-    style: {
-      margin: 0,
-      fontSize: 20,
-      lineHeight: 1.55,
-      color: E_INK_SOFT,
-      fontFamily: 'Newsreader, Georgia, serif',
-      '--cp-d': '300ms'
-    }
-  }, t.manifesto.p3a, /*#__PURE__*/React.createElement("span", {
-    style: {
-      textDecoration: 'line-through',
-      textDecorationColor: E_TERRA,
-      textDecorationThickness: '2px'
-    }
-  }, t.manifesto.p3strike), t.manifesto.p3b)))), /*#__PURE__*/React.createElement("section", {
+  }, a, "."), " ", b))))))), /*#__PURE__*/React.createElement("section", {
     id: "services",
     style: {
-      padding: '120px 56px',
+      padding: '110px 56px',
       background: E_INV_BG,
-      color: E_INV_INK
+      color: E_INV_INK,
+      position: 'relative',
+      overflow: 'hidden'
     }
   }, /*#__PURE__*/React.createElement("div", {
+    "aria-hidden": "true",
     style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'baseline',
-      gap: 40,
-      marginBottom: 64,
-      flexWrap: 'wrap'
+      position: 'absolute',
+      inset: 0,
+      pointerEvents: 'none'
     }
-  }, /*#__PURE__*/React.createElement("h2", {
+  }, /*#__PURE__*/React.createElement("div", {
+    "data-cp-parallax": "0.18",
+    style: {
+      position: 'absolute',
+      right: '-10%',
+      top: '-10%',
+      width: 640,
+      height: 640,
+      background: 'radial-gradient(circle, rgba(107,155,208,.22) 0%, transparent 62%)',
+      filter: 'blur(40px)'
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      ...E_WRAP,
+      position: 'relative'
+    }
+  }, /*#__PURE__*/React.createElement(Eyebrow, {
+    inv: true
+  }, t.services.eyebrow), /*#__PURE__*/React.createElement("h2", {
     className: "cp-wipe",
     "data-cp-anim": true,
     style: {
       margin: 0,
-      fontFamily: 'Spectral, serif',
-      fontWeight: 400,
-      fontSize: 'clamp(40px, 6vw, 80px)',
-      letterSpacing: '-.02em',
-      lineHeight: 1,
-      maxWidth: 760,
-      '--cp-d': '150ms'
+      fontFamily: E_DISPLAY,
+      fontWeight: 600,
+      maxWidth: 720,
+      fontSize: 52,
+      lineHeight: 1.06,
+      letterSpacing: '-.035em'
     }
-  }, t.services.title.split(' ').map((w, i, arr) => /*#__PURE__*/React.createElement("span", {
-    key: i,
-    style: i === arr.length - 2 ? {
-      fontStyle: 'italic',
-      color: '#9a8270'
-    } : {}
-  }, w, i < arr.length - 1 ? ' ' : ''))), /*#__PURE__*/React.createElement("span", {
-    "data-cp-anim": true,
-    className: "cp-reveal",
+  }, t.services.title), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      letterSpacing: '.16em',
-      color: E_INV_INK_SOFT,
-      textTransform: 'uppercase',
-      '--cp-d': '300ms'
-    }
-  }, t.services.eyebrow)), /*#__PURE__*/React.createElement("div", {
-    style: {
+      marginTop: isMobile ? 32 : 56,
       display: 'grid',
-      gridTemplateColumns: 'repeat(3, 1fr)',
-      gap: 24,
-      alignItems: 'stretch'
+      gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr',
+      gap: isMobile ? 14 : 20
     }
-  }, t.services.cards.map((c, i) => /*#__PURE__*/React.createElement("article", {
+  }, t.services.cards.map((c, i) => /*#__PURE__*/React.createElement("div", {
     key: c.t,
-    "data-cp-hot": true,
     "data-cp-anim": true,
     className: "cp-pop",
     style: {
-      padding: 32,
-      background: E_INV_CARD,
-      border: `1px solid ${E_INV_LINE}`,
-      borderRadius: 18,
+      display: 'flex',
+      '--cp-d': `${i * 110}ms`
+    }
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "#contact",
+    onClick: cpGoTo('#contact', c.format),
+    onMouseMove: cpSpot,
+    className: "cp-card cp-spot",
+    "aria-label": `${c.t} : demander un devis`,
+    style: {
+      flex: 1,
       display: 'flex',
       flexDirection: 'column',
-      gap: 18,
-      minHeight: 360,
-      cursor: 'pointer',
-      '--cp-d': `${100 + i * 120}ms`,
-      transition: 'transform .35s cubic-bezier(.2,.7,.3,1)'
-    },
-    onMouseEnter: e => {
-      e.currentTarget.style.transform = 'translateY(-6px)';
-    },
-    onMouseLeave: e => {
-      e.currentTarget.style.transform = 'translateY(0)';
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'baseline'
+      padding: isMobile ? 24 : 30,
+      borderRadius: 24,
+      background: E_INV_CARD,
+      border: `1px solid ${E_INV_LINE}`,
+      color: E_INV_INK,
+      textDecoration: 'none',
+      cursor: 'pointer'
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
-      width: 36,
-      height: 36,
+      alignSelf: 'flex-start',
+      padding: '6px 12px',
       borderRadius: 99,
-      background: [E_TERRA, '#9a8270', E_INV_INK][i],
-      color: i === 2 ? E_INV_BG : E_INV_INK,
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontFamily: 'Spectral, serif',
-      fontStyle: 'italic',
-      fontSize: 18
-    }
-  }, i + 1), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      letterSpacing: '.14em',
+      background: E_INV_CARD,
+      border: `1px solid ${E_INV_LINE}`,
+      fontSize: 12.5,
+      fontWeight: 500,
       color: E_INV_INK_SOFT
     }
-  }, "/ ", c.s)), /*#__PURE__*/React.createElement("h3", {
+  }, c.s), /*#__PURE__*/React.createElement("h3", {
     style: {
-      margin: 0,
-      fontFamily: 'Spectral, serif',
-      fontWeight: 400,
-      fontSize: 44,
-      letterSpacing: '-.015em',
-      color: E_INV_INK
+      margin: '20px 0 0',
+      fontFamily: E_DISPLAY,
+      fontWeight: 600,
+      fontSize: isMobile ? 26 : 30,
+      letterSpacing: '-.03em'
     }
   }, c.t), /*#__PURE__*/React.createElement("p", {
     style: {
-      margin: 0,
-      fontSize: 15,
+      margin: '10px 0 0',
+      fontSize: 15.5,
       lineHeight: 1.55,
-      color: E_INV_INK_SOFT
+      color: E_INV_INK_SOFT,
+      flex: 1
     }
   }, c.d), /*#__PURE__*/React.createElement("div", {
     style: {
-      marginTop: 'auto',
+      marginTop: 26,
       paddingTop: 20,
       borderTop: `1px solid ${E_INV_LINE}`,
       display: 'flex',
-      justifyContent: 'space-between',
       alignItems: 'center',
-      fontSize: 13
+      justifyContent: 'space-between',
+      gap: 12
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
-      color: '#9a8270'
+      fontFamily: E_DISPLAY,
+      fontWeight: 600,
+      fontSize: 22,
+      letterSpacing: '-.02em'
     }
   }, c.from), /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 18
+      fontSize: 14,
+      fontWeight: 500,
+      color: 'var(--cp-inv-accent)',
+      display: 'inline-flex',
+      gap: 8,
+      alignItems: 'center'
     }
-  }, "\u2192"))))), /*#__PURE__*/React.createElement("p", {
+  }, t.services.cardCta, " ", /*#__PURE__*/React.createElement("span", {
+    className: "cp-arrow"
+  }, "\u2192"))))))), /*#__PURE__*/React.createElement("div", {
+    "data-cp-anim": true,
+    className: "cp-reveal",
     style: {
-      margin: '48px 0 0',
-      textAlign: 'center',
-      fontFamily: 'Newsreader, serif',
-      fontStyle: 'italic',
-      fontSize: 16,
-      color: E_INV_INK_SOFT
+      marginTop: isMobile ? 14 : 20,
+      padding: isMobile ? 24 : 36,
+      borderRadius: 24,
+      background: E_INV_CARD,
+      border: `1px solid ${E_INV_LINE}`
     }
-  }, t.services.footnote)), /*#__PURE__*/React.createElement("section", {
-    id: "methode",
+  }, /*#__PURE__*/React.createElement("h3", {
     style: {
-      padding: '120px 56px',
-      background: E_BG
+      margin: 0,
+      fontFamily: E_DISPLAY,
+      fontWeight: 600,
+      fontSize: isMobile ? 20 : 24,
+      letterSpacing: '-.02em'
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, t.services.includedTitle), /*#__PURE__*/React.createElement("ul", {
+    style: {
+      listStyle: 'none',
+      margin: '22px 0 0',
+      padding: 0,
+      display: 'grid',
+      gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+      gap: isMobile ? 12 : '14px 40px'
+    }
+  }, t.services.included.map(it => /*#__PURE__*/React.createElement("li", {
+    key: it,
     style: {
       display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'end',
-      marginBottom: 80
+      gap: 12,
+      alignItems: 'flex-start',
+      fontSize: 15.5,
+      lineHeight: 1.45,
+      color: E_INV_INK
     }
-  }, /*#__PURE__*/React.createElement("div", {
-    "data-cp-anim": true,
-    className: "cp-slide-l"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement(Check, {
+    color: "var(--cp-inv-accent)"
+  }), " ", it))), /*#__PURE__*/React.createElement("p", {
     style: {
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      color: E_INK_SOFT,
-      letterSpacing: '.18em',
-      marginBottom: 24,
-      textTransform: 'uppercase'
+      margin: '24px 0 0',
+      fontSize: 14,
+      lineHeight: 1.55,
+      color: E_INV_INK_SOFT
     }
-  }, "\u21B3 ", t.process.eyebrow), /*#__PURE__*/React.createElement("h2", {
+  }, t.services.footnote)))), /*#__PURE__*/React.createElement("section", {
+    id: "methode",
+    style: {
+      padding: '110px 56px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: E_WRAP
+  }, /*#__PURE__*/React.createElement(Eyebrow, null, t.process.eyebrow), /*#__PURE__*/React.createElement("h2", {
     className: "cp-wipe",
     "data-cp-anim": true,
     style: {
       margin: 0,
-      fontFamily: 'Spectral, serif',
-      fontWeight: 400,
-      fontSize: 88,
-      letterSpacing: '-.025em',
-      lineHeight: 1,
-      '--cp-d': '150ms'
+      fontFamily: E_DISPLAY,
+      fontWeight: 600,
+      maxWidth: 720,
+      fontSize: 52,
+      lineHeight: 1.06,
+      letterSpacing: '-.035em'
     }
-  }, t.process.title, /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
+  }, t.process.title), /*#__PURE__*/React.createElement("div", {
+    id: "cp-method-steps",
     style: {
-      fontStyle: 'italic',
-      color: E_TERRA
-    }
-  }, t.process.titleAccent))), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      color: E_INK_SOFT,
-      letterSpacing: '.16em'
-    }
-  }, "~ 14 jours \xB7 LIVRAISON")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      position: 'relative'
-    }
-  }, /*#__PURE__*/React.createElement("svg", {
-    "aria-hidden": true,
-    width: "100%",
-    height: "2",
-    style: {
-      position: 'absolute',
-      left: 24,
-      right: 24,
-      top: 27,
-      width: 'calc(100% - 48px)'
-    }
-  }, /*#__PURE__*/React.createElement("line", {
-    x1: "0",
-    y1: "1",
-    x2: "100%",
-    y2: "1",
-    stroke: "currentColor",
-    strokeOpacity: ".3",
-    strokeWidth: "1",
-    strokeDasharray: "3 4"
-  })), /*#__PURE__*/React.createElement("div", {
-    style: {
+      position: 'relative',
+      marginTop: isMobile ? 32 : 64,
       display: 'grid',
-      gridTemplateColumns: 'repeat(4, 1fr)',
-      gap: 32,
-      position: 'relative'
-    }
-  }, t.process.steps.map((s, i) => /*#__PURE__*/React.createElement("div", {
-    key: s.n,
-    "data-cp-anim": true,
-    className: "cp-pop",
-    style: {
-      '--cp-d': `${i * 120}ms`
+      gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr 1fr',
+      gap: isMobile ? 26 : 28
     }
   }, /*#__PURE__*/React.createElement("div", {
+    "aria-hidden": "true",
+    style: isMobile ? {
+      position: 'absolute',
+      left: 19,
+      top: 20,
+      bottom: 20,
+      width: 2,
+      background: E_LINE,
+      borderRadius: 2
+    } : {
+      position: 'absolute',
+      left: 22,
+      right: 22,
+      top: 21,
+      height: 2,
+      background: E_LINE,
+      borderRadius: 2
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    "data-cp-line": isMobile ? 'y' : 'x',
     style: {
-      width: 56,
-      height: 56,
+      width: '100%',
+      height: '100%',
+      background: E_TERRA,
+      borderRadius: 2,
+      transformOrigin: isMobile ? 'top' : 'left',
+      transform: isMobile ? 'scaleY(0)' : 'scaleX(0)'
+    }
+  })), t.process.steps.map(s => /*#__PURE__*/React.createElement("div", {
+    key: s.n,
+    "data-cp-step": true,
+    style: {
+      position: 'relative',
+      display: isMobile ? 'grid' : 'block',
+      gridTemplateColumns: isMobile ? '40px 1fr' : undefined,
+      gap: isMobile ? 16 : undefined
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "cp-step-dot",
+    style: {
+      width: isMobile ? 40 : 44,
+      height: isMobile ? 40 : 44,
       borderRadius: 99,
       background: E_BG,
-      border: `1.5px solid ${E_INK}`,
+      border: `2px solid ${E_LINE}`,
+      color: E_INK_SOFT,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      color: E_INK,
-      fontFamily: 'Spectral, serif',
-      fontSize: 28,
-      fontStyle: 'italic',
-      position: 'relative',
-      zIndex: 1,
-      transition: 'transform .3s, background .3s, color .3s',
-      cursor: 'default'
-    },
-    onMouseEnter: e => {
-      e.currentTarget.style.background = E_TERRA;
-      e.currentTarget.style.color = '#fff';
-      e.currentTarget.style.borderColor = E_TERRA;
-      e.currentTarget.style.transform = 'scale(1.1)';
-    },
-    onMouseLeave: e => {
-      e.currentTarget.style.background = E_BG;
-      e.currentTarget.style.color = E_INK;
-      e.currentTarget.style.borderColor = E_INK;
-      e.currentTarget.style.transform = 'scale(1)';
+      fontFamily: E_DISPLAY,
+      fontWeight: 600,
+      fontSize: 16,
+      boxSizing: 'border-box'
     }
-  }, s.n.replace(/^0/, '')), /*#__PURE__*/React.createElement("h3", {
+  }, s.n), /*#__PURE__*/React.createElement("div", {
     style: {
-      margin: '28px 0 12px',
-      fontFamily: 'Spectral, serif',
-      fontWeight: 400,
-      fontSize: 36,
-      letterSpacing: '-.015em',
-      lineHeight: 1
+      marginTop: isMobile ? 0 : 24
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 500,
+      color: E_TERRA
+    }
+  }, s.when), /*#__PURE__*/React.createElement("h3", {
+    style: {
+      margin: '6px 0 0',
+      fontFamily: E_DISPLAY,
+      fontWeight: 600,
+      fontSize: isMobile ? 20 : 22,
+      letterSpacing: '-.02em'
     }
   }, s.t), /*#__PURE__*/React.createElement("p", {
     style: {
-      margin: 0,
-      fontSize: 15,
+      margin: '8px 0 0',
+      fontSize: 15.5,
       lineHeight: 1.55,
-      color: E_INK_SOFT,
-      paddingRight: 12,
-      fontFamily: 'Newsreader, serif'
+      color: E_INK_SOFT
     }
-  }, s.d)))))), /*#__PURE__*/React.createElement("section", {
+  }, s.d))))))), /*#__PURE__*/React.createElement("section", {
     id: "travaux",
     style: {
-      padding: '120px 56px',
+      padding: '110px 56px',
       borderTop: `1px solid ${E_LINE}`,
       borderBottom: `1px solid ${E_LINE}`,
       background: E_BG_2
     }
   }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'end',
-      gap: 60,
-      marginBottom: 80,
-      flexWrap: 'wrap'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    "data-cp-anim": true,
-    className: "cp-slide-l"
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      color: E_INK_SOFT,
-      letterSpacing: '.18em',
-      marginBottom: 24,
-      textTransform: 'uppercase'
-    }
-  }, "\u21B3 ", t.travaux.eyebrow), /*#__PURE__*/React.createElement("h2", {
+    style: E_WRAP
+  }, /*#__PURE__*/React.createElement(Eyebrow, null, t.travaux.eyebrow), /*#__PURE__*/React.createElement("h2", {
     className: "cp-wipe",
     "data-cp-anim": true,
     style: {
       margin: 0,
-      fontFamily: 'Spectral, serif',
-      fontWeight: 400,
-      fontSize: 96,
-      letterSpacing: '-.025em',
-      lineHeight: 1,
-      '--cp-d': '150ms'
+      fontFamily: E_DISPLAY,
+      fontWeight: 600,
+      fontSize: 52,
+      lineHeight: 1.06,
+      letterSpacing: '-.035em'
     }
-  }, t.travaux.title, " ", /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontStyle: 'italic',
-      color: E_TERRA
-    }
-  }, t.travaux.titleAccent))), /*#__PURE__*/React.createElement("p", {
+  }, t.travaux.title), /*#__PURE__*/React.createElement("p", {
     "data-cp-anim": true,
     className: "cp-reveal",
     style: {
-      margin: 0,
+      margin: '18px 0 0',
       color: E_INK_SOFT,
-      maxWidth: 420,
-      fontSize: 14,
-      lineHeight: 1.6,
-      '--cp-d': '300ms'
+      maxWidth: 620,
+      fontSize: isMobile ? 15.5 : 17,
+      lineHeight: 1.6
     }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      letterSpacing: '.14em',
-      textTransform: 'uppercase',
-      color: E_INK
-    }
-  }, "Transparence \xB7"), ' ', t.travaux.note)), /*#__PURE__*/React.createElement("div", {
+  }, t.travaux.note), /*#__PURE__*/React.createElement("div", {
     "data-cp-anim": true,
     className: "cp-reveal",
     role: "tablist",
-    "aria-label": "Filtrer les r\xE9alisations par famille de m\xE9tier",
+    "aria-label": "Filtrer les exemples par famille de m\xE9tier",
     style: {
-      display: 'flex',
-      gap: 14,
-      flexWrap: 'wrap',
-      marginBottom: 72
+      display: 'inline-flex',
+      gap: 4,
+      padding: 5,
+      borderRadius: 99,
+      background: E_CARD_BG,
+      border: `1px solid ${E_LINE}`,
+      margin: isMobile ? '26px 0 32px' : '34px 0 56px',
+      maxWidth: '100%'
     }
-  }, [['sante', 'Santé'], ['resto', 'Restauration & commerce']].map(([fam, label]) => {
+  }, [['sante', 'Santé'], ['resto', isMobile ? 'Restauration' : 'Restauration & commerce']].map(([fam, label]) => {
     const active = travauxFam === fam;
     return /*#__PURE__*/React.createElement("button", {
       key: fam,
       type: "button",
-      "data-cp-hot": true,
       "aria-pressed": active,
       onClick: () => setTravauxFam(fam),
       style: {
-        fontFamily: 'Geist Mono, monospace',
-        fontSize: 15,
-        letterSpacing: '.14em',
-        textTransform: 'uppercase',
+        fontFamily: 'inherit',
+        fontSize: isMobile ? 14 : 15,
+        fontWeight: 500,
         cursor: 'pointer',
-        padding: '20px 38px',
+        padding: isMobile ? '10px 18px' : '11px 22px',
         borderRadius: 99,
-        border: `2px solid ${active ? E_INK : E_LINE}`,
+        border: 0,
         background: active ? E_INK : 'transparent',
-        color: active ? E_BG : E_INK,
-        transition: 'all .2s',
-        fontWeight: 500
+        color: active ? E_BG : E_INK_SOFT
       }
     }, label);
   })), /*#__PURE__*/React.createElement("div", {
     id: "cp-travaux-grid",
     style: {
       display: 'grid',
-      gap: 96
+      gap: isMobile ? 40 : 80
     }
   }, (CP_PROJECTS.filter(p => p.fam === travauxFam).length > 0 ? CP_PROJECTS.filter(p => p.fam === travauxFam) : CP_PROJECTS).map((p, i) => {
-    const flip = i % 2 === 1;
+    const flip = i % 2 === 1 && !isMobile;
     const isHover = hoverIdx === i;
     return /*#__PURE__*/React.createElement("div", {
       key: p.id,
@@ -1892,15 +2309,13 @@ function DirectionEditorial() {
       onMouseLeave: () => setHoverIdx(-1),
       style: {
         display: 'grid',
-        gridTemplateColumns: flip ? '1fr 1.3fr' : '1.3fr 1fr',
-        gap: 56,
+        gridTemplateColumns: isMobile ? '1fr' : flip ? '1fr 1.3fr' : '1.3fr 1fr',
+        gap: isMobile ? 18 : 56,
         alignItems: 'center'
       }
     }, /*#__PURE__*/React.createElement("a", {
       href: p.href,
-      "aria-label": `Voir le concept ${p.name} dans le portfolio`,
-      "data-cp-hot": true,
-      "data-cp-label": "voir \u2192",
+      "aria-label": `Voir le concept ${p.name}`,
       style: {
         order: flip ? 2 : 1,
         position: 'relative',
@@ -1926,7 +2341,7 @@ function DirectionEditorial() {
       }
     }, isMobile ?
     /*#__PURE__*/
-    /* Mobile: light branded card (avoid loading 6 full sites on a phone). */
+    /* Téléphone : carte légère (on ne charge pas 6 sites entiers). */
     React.createElement("div", {
       style: {
         position: 'absolute',
@@ -1949,20 +2364,16 @@ function DirectionEditorial() {
       }
     }, p.name), /*#__PURE__*/React.createElement("div", {
       style: {
-        fontFamily: 'Geist Mono, monospace',
-        fontSize: 10,
-        letterSpacing: '.18em',
-        textTransform: 'uppercase',
+        fontSize: 12,
+        fontWeight: 500,
         color: p.accent,
         opacity: 0.82
       }
     }, p.type.fr.replace('Concept · ', '')), /*#__PURE__*/React.createElement("div", {
       style: {
         marginTop: 6,
-        fontFamily: 'Geist Mono, monospace',
-        fontSize: 10,
-        letterSpacing: '.12em',
-        textTransform: 'uppercase',
+        fontSize: 12,
+        fontWeight: 500,
         color: p.accent,
         border: `1px solid ${p.accent}`,
         borderRadius: 99,
@@ -1971,7 +2382,7 @@ function DirectionEditorial() {
       }
     }, "Voir le site \u2192")) :
     /*#__PURE__*/
-    /* Desktop: real live preview of the concept site, scaled to fit the frame. */
+    /* Ordinateur : aperçu réel du site, réduit pour tenir dans le cadre. */
     React.createElement("iframe", {
       src: p.href,
       title: `Aperçu du site ${p.name}`,
@@ -1993,59 +2404,38 @@ function DirectionEditorial() {
     }))), /*#__PURE__*/React.createElement("span", {
       style: {
         position: 'absolute',
-        top: 18,
-        left: 18,
+        top: 16,
+        left: 16,
         background: '#192230',
-        color: '#e7e8ea',
-        fontFamily: 'Geist Mono, monospace',
-        fontSize: 10,
-        letterSpacing: '.16em',
-        textTransform: 'uppercase',
-        padding: '5px 10px',
+        color: '#f5f6f8',
+        fontSize: 11.5,
+        fontWeight: 500,
+        padding: '5px 11px',
         borderRadius: 99
       }
-    }, "Concept")), /*#__PURE__*/React.createElement("div", {
+    }, "Concept de d\xE9monstration")), /*#__PURE__*/React.createElement("div", {
       style: {
-        order: flip ? 1 : 2,
-        paddingLeft: flip ? 0 : 24,
-        paddingRight: flip ? 24 : 0
+        order: flip ? 1 : 2
       }
-    }, /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontFamily: 'Geist Mono, monospace',
-        fontSize: 11,
-        letterSpacing: '.18em',
-        color: E_INK_SOFT,
-        marginBottom: 18,
-        textTransform: 'uppercase'
-      }
-    }, "0", i + 1, " \u2014 ", p.year), /*#__PURE__*/React.createElement("h3", {
+    }, /*#__PURE__*/React.createElement("h3", {
       style: {
         margin: 0,
-        fontFamily: 'Spectral, serif',
-        fontWeight: 400,
-        fontSize: 72,
-        letterSpacing: '-.025em',
-        lineHeight: .98,
-        color: isHover ? E_TERRA : E_INK,
-        transition: 'color .3s'
+        fontFamily: E_DISPLAY,
+        fontWeight: 600,
+        fontSize: isMobile ? 26 : 40,
+        letterSpacing: '-.035em',
+        lineHeight: 1.05,
+        color: isHover ? E_TERRA : E_INK
       }
-    }, p.name, /*#__PURE__*/React.createElement("span", {
+    }, p.name), /*#__PURE__*/React.createElement("p", {
       style: {
-        color: E_TERRA,
-        fontStyle: 'italic'
+        margin: '8px 0 0',
+        fontSize: isMobile ? 15 : 17,
+        color: E_INK_SOFT
       }
-    }, ".")), /*#__PURE__*/React.createElement("p", {
+    }, p.type.fr.replace('Concept · ', '')), /*#__PURE__*/React.createElement("div", {
       style: {
-        marginTop: 16,
-        fontSize: 20,
-        color: E_INK,
-        fontFamily: 'Newsreader, serif',
-        fontStyle: 'italic'
-      }
-    }, p.type.fr), /*#__PURE__*/React.createElement("div", {
-      style: {
-        marginTop: 28,
+        marginTop: isMobile ? 14 : 22,
         display: 'flex',
         flexWrap: 'wrap',
         gap: 8
@@ -2055,416 +2445,443 @@ function DirectionEditorial() {
       style: {
         padding: '6px 12px',
         borderRadius: 99,
-        background: E_CARD,
-        fontSize: 12,
-        color: E_INK,
-        fontFamily: 'Geist Mono, monospace',
-        letterSpacing: '.06em',
-        textTransform: 'uppercase'
+        background: E_CARD_BG,
+        border: `1px solid ${E_LINE}`,
+        fontSize: 12.5,
+        color: E_INK_SOFT
       }
-    }, tg))), /*#__PURE__*/React.createElement(Magnetic, {
-      strength: 0.16
-    }, /*#__PURE__*/React.createElement("a", {
+    }, tg))), /*#__PURE__*/React.createElement("a", {
       href: p.href,
-      "data-cp-hot": true,
       style: {
         display: 'inline-flex',
         alignItems: 'center',
-        gap: 10,
-        marginTop: 32,
+        gap: 8,
+        marginTop: isMobile ? 16 : 26,
         fontSize: 15,
+        fontWeight: 600,
         color: E_TERRA,
         textDecoration: 'none',
-        cursor: 'pointer',
-        borderBottom: `1px solid ${E_TERRA}`,
-        paddingBottom: 4
+        cursor: 'pointer'
       }
-    }, "Voir le concept \u2197"))));
-  }))), /*#__PURE__*/React.createElement("section", {
+    }, "Voir le site ", /*#__PURE__*/React.createElement("span", {
+      className: "cp-arrow"
+    }, "\u2192"))));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: isMobile ? 36 : 64,
+      textAlign: 'center'
+    }
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "portfolio/",
+    style: {
+      padding: '14px 24px',
+      borderRadius: 99,
+      background: E_CARD_BG,
+      color: E_INK,
+      border: `1px solid ${E_LINE}`,
+      fontSize: 15,
+      fontWeight: 500,
+      textDecoration: 'none',
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 10
+    }
+  }, t.travaux.all, " ", /*#__PURE__*/React.createElement("span", {
+    className: "cp-arrow"
+  }, "\u2192"))))), /*#__PURE__*/React.createElement("section", {
     id: "maintenance",
     style: {
-      padding: '120px 56px'
+      padding: '110px 56px'
     }
   }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'grid',
-      gridTemplateColumns: '1fr 1.6fr',
-      gap: 80
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    "data-cp-anim": true,
-    className: "cp-slide-l"
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      color: E_INK_SOFT,
-      letterSpacing: '.18em',
-      marginBottom: 24,
-      textTransform: 'uppercase'
-    }
-  }, "\u21B3 ", t.maintenance.eyebrow), /*#__PURE__*/React.createElement("h2", {
+    style: E_WRAP
+  }, /*#__PURE__*/React.createElement(Eyebrow, null, t.maintenance.eyebrow), /*#__PURE__*/React.createElement("h2", {
     className: "cp-wipe",
     "data-cp-anim": true,
     style: {
       margin: 0,
-      fontFamily: 'Spectral, serif',
-      fontWeight: 400,
-      fontSize: 72,
-      letterSpacing: '-.025em',
-      lineHeight: 1.02,
-      '--cp-d': '150ms'
+      fontFamily: E_DISPLAY,
+      fontWeight: 600,
+      fontSize: 52,
+      lineHeight: 1.06,
+      letterSpacing: '-.035em'
     }
-  }, t.maintenance.title, /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontStyle: 'italic',
-      color: E_TERRA
-    }
-  }, t.maintenance.titleAccent)), /*#__PURE__*/React.createElement("p", {
+  }, t.maintenance.title), /*#__PURE__*/React.createElement("p", {
     "data-cp-anim": true,
     className: "cp-reveal",
     style: {
-      marginTop: 24,
-      fontSize: 18,
+      margin: '18px 0 0',
       color: E_INK_SOFT,
-      lineHeight: 1.5,
-      fontFamily: 'Newsreader, serif',
-      '--cp-d': '300ms'
+      maxWidth: 560,
+      fontSize: isMobile ? 15.5 : 17,
+      lineHeight: 1.6
     }
-  }, t.maintenance.sub)), /*#__PURE__*/React.createElement("div", {
+  }, t.maintenance.sub), /*#__PURE__*/React.createElement("div", {
     style: {
+      marginTop: isMobile ? 28 : 52,
       display: 'grid',
-      gap: 16
+      gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr',
+      gap: isMobile ? 14 : 20,
+      alignItems: 'stretch'
     }
-  }, t.maintenance.tiers.map((m, i) => /*#__PURE__*/React.createElement("div", {
-    key: m.tag,
-    "data-cp-hot": true,
+  }, t.maintenance.tiers.map((m, i) => {
+    const f = !!m.featured;
+    return /*#__PURE__*/React.createElement("div", {
+      key: m.tag,
+      "data-cp-anim": true,
+      className: "cp-pop",
+      style: {
+        display: 'flex',
+        '--cp-d': `${i * 110}ms`
+      }
+    }, /*#__PURE__*/React.createElement("a", {
+      href: "#contact",
+      onClick: cpGoTo('#contact', 'Forfait de suivi'),
+      onMouseMove: cpSpot,
+      className: "cp-card cp-spot",
+      "aria-label": `Forfait ${m.tag} : en parler`,
+      style: {
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        padding: isMobile ? 24 : 30,
+        borderRadius: 24,
+        background: f ? E_INV_BG : E_CARD_BG,
+        color: f ? E_INV_INK : E_INK,
+        border: `1px solid ${f ? 'transparent' : E_LINE}`,
+        boxShadow: f ? '0 36px 70px -34px rgba(16,24,40,.6)' : E_SHADOW,
+        textDecoration: 'none',
+        cursor: 'pointer'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 10
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontFamily: E_DISPLAY,
+        fontWeight: 600,
+        fontSize: 18,
+        letterSpacing: '-.01em'
+      }
+    }, m.tag), /*#__PURE__*/React.createElement("span", {
+      style: {
+        padding: '5px 11px',
+        borderRadius: 99,
+        fontSize: 12,
+        fontWeight: 500,
+        background: f ? 'var(--cp-inv-accent)' : E_TERRA_SOFT,
+        color: f ? 'var(--cp-inv-bg)' : E_TERRA
+      }
+    }, m.badge)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginTop: 22,
+        display: 'flex',
+        alignItems: 'baseline',
+        gap: 6
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontFamily: E_DISPLAY,
+        fontWeight: 600,
+        fontSize: isMobile ? 40 : 48,
+        letterSpacing: '-.04em',
+        lineHeight: 1
+      }
+    }, m.price, " \u20AC"), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 14,
+        color: f ? E_INV_INK_SOFT : E_INK_SOFT
+      }
+    }, "/ mois")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginTop: 18,
+        fontSize: 16,
+        fontWeight: 600
+      }
+    }, m.t), /*#__PURE__*/React.createElement("p", {
+      style: {
+        margin: '8px 0 0',
+        fontSize: 15,
+        lineHeight: 1.55,
+        color: f ? E_INV_INK_SOFT : E_INK_SOFT,
+        flex: 1
+      }
+    }, m.d), /*#__PURE__*/React.createElement("span", {
+      style: {
+        marginTop: 24,
+        fontSize: 14,
+        fontWeight: 600,
+        color: f ? 'var(--cp-inv-accent)' : E_TERRA,
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 8
+      }
+    }, t.maintenance.cta, " ", /*#__PURE__*/React.createElement("span", {
+      className: "cp-arrow"
+    }, "\u2192"))));
+  })))), /*#__PURE__*/React.createElement("section", {
+    id: "faq",
+    style: {
+      padding: '110px 56px',
+      background: E_BG_2,
+      borderTop: `1px solid ${E_LINE}`
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      ...E_WRAP,
+      display: 'grid',
+      gridTemplateColumns: isMobile ? '1fr' : '.8fr 1.2fr',
+      gap: isMobile ? 24 : 72,
+      alignItems: 'start'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: isMobile ? {} : {
+      position: 'sticky',
+      top: 110
+    }
+  }, /*#__PURE__*/React.createElement(Eyebrow, null, t.faq.eyebrow), /*#__PURE__*/React.createElement("h2", {
+    className: "cp-wipe",
     "data-cp-anim": true,
-    className: "cp-slide-r",
-    style: {
-      background: E_CARD_BG,
-      border: `1px solid ${m.featured ? E_TERRA : E_LINE}`,
-      borderRadius: 18,
-      padding: '28px 32px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      gap: 24,
-      flexWrap: 'wrap',
-      position: 'relative',
-      cursor: 'pointer',
-      transition: 'transform .25s, border-color .25s',
-      '--cp-d': `${i * 120}ms`
-    },
-    onMouseEnter: e => {
-      e.currentTarget.style.transform = 'translateX(8px)';
-    },
-    onMouseLeave: e => {
-      e.currentTarget.style.transform = 'translateX(0)';
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: '1 1 280px'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 12,
-      marginBottom: 6
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      color: E_INK_SOFT,
-      letterSpacing: '.14em',
-      textTransform: 'uppercase'
-    }
-  }, m.tag), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 10,
-      color: E_TERRA,
-      letterSpacing: '.14em',
-      textTransform: 'uppercase'
-    }
-  }, m.badge)), /*#__PURE__*/React.createElement("h3", {
-    style: {
-      margin: '4px 0 8px',
-      fontFamily: 'Spectral, serif',
-      fontWeight: 400,
-      fontSize: 32,
-      letterSpacing: '-.01em',
-      lineHeight: 1.05
-    }
-  }, m.t), /*#__PURE__*/React.createElement("p", {
     style: {
       margin: 0,
-      fontSize: 14,
-      color: E_INK_SOFT,
-      lineHeight: 1.55
-    }
-  }, m.d)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: 'Spectral, serif',
+      fontFamily: E_DISPLAY,
+      fontWeight: 600,
       fontSize: 48,
-      letterSpacing: '-.02em',
-      lineHeight: 1
+      lineHeight: 1.08,
+      letterSpacing: '-.035em'
     }
-  }, m.price, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 14,
-      color: E_INK_SOFT,
-      fontFamily: 'Geist, sans-serif',
-      marginLeft: 8
-    }
-  }, "\u20AC HT / mois"))))))), /*#__PURE__*/React.createElement("section", {
-    id: "faq",
+  }, t.faq.title)), /*#__PURE__*/React.createElement("div", {
     className: "cp-faq",
     style: {
-      padding: '120px 56px',
-      background: E_BG_2,
-      borderTop: `1px solid ${E_LINE}`,
-      borderBottom: `1px solid ${E_LINE}`
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      maxWidth: 980,
-      margin: '0 auto'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    "data-cp-anim": true,
-    className: "cp-reveal",
-    style: {
-      marginBottom: 64
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      color: E_INK_SOFT,
-      letterSpacing: '.18em',
-      marginBottom: 24,
-      textTransform: 'uppercase'
-    }
-  }, "\u21B3 ", t.faq.eyebrow), /*#__PURE__*/React.createElement("h2", {
-    className: "cp-wipe",
-    "data-cp-anim": true,
-    style: {
-      margin: 0,
-      fontFamily: 'Spectral, serif',
-      fontWeight: 400,
-      fontSize: 88,
-      letterSpacing: '-.025em',
-      lineHeight: 1,
-      '--cp-d': '150ms'
-    }
-  }, t.faq.title, /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontStyle: 'italic',
-      color: E_TERRA
-    }
-  }, t.faq.titleAccent))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'grid'
+      display: 'grid',
+      gap: 10
     }
   }, t.faq.items.map(([q, a], i) => /*#__PURE__*/React.createElement("details", {
     key: q,
     "data-cp-anim": true,
     className: "cp-reveal",
     style: {
-      borderTop: i === 0 ? `1px solid ${E_LINE}` : 'none',
-      borderBottom: `1px solid ${E_LINE}`,
-      padding: '28px 0',
-      '--cp-d': `${i * 80}ms`
+      background: E_CARD_BG,
+      border: `1px solid ${E_LINE}`,
+      borderRadius: 18,
+      '--cp-d': `${Math.min(i, 4) * 60}ms`
     }
   }, /*#__PURE__*/React.createElement("summary", {
-    "data-cp-hot": true,
     style: {
       display: 'flex',
-      justifyContent: 'space-between',
       alignItems: 'center',
-      gap: 32
-    }
-  }, /*#__PURE__*/React.createElement("h3", {
-    style: {
-      margin: 0,
-      fontFamily: 'Spectral, serif',
-      fontWeight: 400,
-      fontSize: 32,
-      letterSpacing: '-.015em',
-      lineHeight: 1.15,
+      justifyContent: 'space-between',
+      gap: 16,
+      padding: isMobile ? '16px 18px' : '20px 24px',
+      fontSize: isMobile ? 16 : 17,
+      fontWeight: 600,
+      letterSpacing: '-.01em',
       color: E_INK
     }
-  }, q), /*#__PURE__*/React.createElement("span", {
+  }, q, /*#__PURE__*/React.createElement("span", {
     className: "cp-faq-plus",
+    "aria-hidden": "true",
     style: {
+      flexShrink: 0,
+      width: 28,
+      height: 28,
+      borderRadius: 99,
+      background: E_TERRA_SOFT,
       color: E_TERRA,
-      fontSize: 36,
-      lineHeight: 1,
-      fontFamily: 'Spectral, serif',
-      flexShrink: 0
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: 18,
+      lineHeight: 1
     }
   }, "+")), /*#__PURE__*/React.createElement("p", {
     style: {
-      margin: '16px 0 0',
-      fontSize: 17,
+      margin: 0,
+      padding: isMobile ? '0 18px 18px' : '0 24px 22px',
+      fontSize: 15.5,
       lineHeight: 1.6,
       color: E_INK_SOFT,
-      fontFamily: 'Newsreader, serif',
-      maxWidth: 720
+      maxWidth: 640
     }
   }, a)))))), /*#__PURE__*/React.createElement("section", {
     id: "contact",
     style: {
-      padding: '120px 56px',
+      padding: '110px 56px 40px',
       background: E_INV_BG,
-      color: E_INV_INK
+      color: E_INV_INK,
+      position: 'relative',
+      overflow: 'hidden'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    "aria-hidden": "true",
+    style: {
+      position: 'absolute',
+      inset: 0,
+      pointerEvents: 'none'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    "data-cp-parallax": "0.14",
+    style: {
+      position: 'absolute',
+      left: '-12%',
+      top: '-6%',
+      width: 620,
+      height: 620,
+      background: 'radial-gradient(circle, rgba(107,155,208,.22) 0%, transparent 62%)',
+      filter: 'blur(40px)'
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      ...E_WRAP,
+      position: 'relative'
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      gap: 80
+      gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+      gap: isMobile ? 32 : 72,
+      alignItems: 'start'
     }
-  }, /*#__PURE__*/React.createElement("div", {
-    "data-cp-anim": true,
-    className: "cp-slide-l"
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      color: E_INV_INK_SOFT,
-      letterSpacing: '.18em',
-      marginBottom: 24,
-      textTransform: 'uppercase'
-    }
-  }, "\u21B3 ", t.contact.eyebrow), /*#__PURE__*/React.createElement("h2", {
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Eyebrow, {
+    inv: true
+  }, t.contact.eyebrow), /*#__PURE__*/React.createElement("h2", {
     className: "cp-wipe",
     "data-cp-anim": true,
     style: {
       margin: 0,
-      fontFamily: 'Spectral, serif',
-      fontWeight: 400,
-      fontSize: 80,
-      letterSpacing: '-.025em',
-      lineHeight: 1,
-      '--cp-d': '150ms'
+      fontFamily: E_DISPLAY,
+      fontWeight: 600,
+      fontSize: 52,
+      lineHeight: 1.06,
+      letterSpacing: '-.035em'
     }
-  }, t.contact.title, /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
+  }, t.contact.title, ' ', /*#__PURE__*/React.createElement("span", {
     style: {
-      fontStyle: 'italic',
-      color: E_TERRA
+      color: 'var(--cp-inv-accent)'
     }
   }, t.contact.titleAccent)), /*#__PURE__*/React.createElement("p", {
+    "data-cp-anim": true,
+    className: "cp-reveal",
     style: {
-      marginTop: 28,
-      fontSize: 19,
-      lineHeight: 1.55,
+      margin: '20px 0 0',
+      fontSize: isMobile ? 16 : 18,
+      lineHeight: 1.6,
       color: E_INV_INK_SOFT,
-      maxWidth: 480,
-      fontFamily: 'Newsreader, serif'
+      maxWidth: 460
     }
-  }, t.contact.sub), /*#__PURE__*/React.createElement("div", {
+  }, t.contact.sub), (E_PHONE || E_BOOKING_URL) && /*#__PURE__*/React.createElement("div", {
     style: {
-      marginTop: 48,
-      padding: 28,
-      border: `1px solid ${E_INV_LINE}`,
-      borderRadius: 14,
-      background: E_INV_CARD,
-      display: 'grid',
-      gap: 14,
-      fontSize: 14
+      marginTop: 26,
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: 12
     }
-  }, t.contact.meta.map(([k, v]) => /*#__PURE__*/React.createElement("div", {
+  }, E_PHONE && /*#__PURE__*/React.createElement("a", {
+    href: E_TEL_HREF,
+    style: {
+      padding: '15px 24px',
+      borderRadius: 99,
+      background: 'var(--cp-inv-accent)',
+      color: 'var(--cp-inv-bg)',
+      fontSize: 16,
+      fontWeight: 600,
+      textDecoration: 'none'
+    }
+  }, t.contact.call, " \xB7 ", E_PHONE), E_BOOKING_URL && /*#__PURE__*/React.createElement("a", {
+    href: E_BOOKING_URL,
+    target: "_blank",
+    rel: "noopener noreferrer",
+    style: {
+      padding: '15px 24px',
+      borderRadius: 99,
+      border: `1px solid ${E_INV_LINE}`,
+      color: E_INV_INK,
+      fontSize: 16,
+      fontWeight: 500,
+      textDecoration: 'none'
+    }
+  }, t.contact.book)), /*#__PURE__*/React.createElement("dl", {
+    style: {
+      margin: '32px 0 0',
+      display: 'grid',
+      gap: 0
+    }
+  }, [['Email', /*#__PURE__*/React.createElement("a", {
+    key: "m",
+    href: "mailto:contact@corveepaper.fr",
+    style: {
+      color: E_INV_INK,
+      textDecoration: 'none'
+    }
+  }, "contact@corveepaper.fr")], ...(E_PHONE ? [['Téléphone', /*#__PURE__*/React.createElement("a", {
+    key: "p",
+    href: E_TEL_HREF,
+    style: {
+      color: E_INV_INK,
+      textDecoration: 'none'
+    }
+  }, E_PHONE)]] : []), ['Zone', t.contact.zone], ['Délai', t.contact.delay]].map(([k, v]) => /*#__PURE__*/React.createElement("div", {
     key: k,
     style: {
-      display: 'flex',
-      gap: 24
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      color: E_INV_INK_SOFT,
-      letterSpacing: '.14em',
-      textTransform: 'uppercase',
-      width: 80,
-      flexShrink: 0
-    }
-  }, k), /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: E_INV_INK
-    }
-  }, v))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: 6,
-      paddingTop: 14,
-      borderTop: `1px solid ${E_INV_LINE}`,
-      display: 'flex',
+      display: 'grid',
+      gridTemplateColumns: '96px 1fr',
       gap: 16,
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      color: E_INV_INK_SOFT,
-      letterSpacing: '.1em',
-      textTransform: 'uppercase'
+      padding: '14px 0',
+      borderTop: `1px solid ${E_INV_LINE}`,
+      fontSize: 15,
+      lineHeight: 1.5
     }
-  }, /*#__PURE__*/React.createElement(Magnetic, null, /*#__PURE__*/React.createElement("a", {
-    "data-cp-hot": true,
+  }, /*#__PURE__*/React.createElement("dt", {
     style: {
-      color: 'inherit',
-      textDecoration: 'none'
+      color: E_INV_INK_SOFT
     }
-  }, "X / Twitter")), /*#__PURE__*/React.createElement(Magnetic, null, /*#__PURE__*/React.createElement("a", {
-    "data-cp-hot": true,
+  }, k), /*#__PURE__*/React.createElement("dd", {
     style: {
-      color: 'inherit',
-      textDecoration: 'none'
+      margin: 0
     }
-  }, "LinkedIn")), /*#__PURE__*/React.createElement(Magnetic, null, /*#__PURE__*/React.createElement("a", {
-    "data-cp-hot": true,
-    style: {
-      color: 'inherit',
-      textDecoration: 'none'
-    }
-  }, "Instagram"))))), /*#__PURE__*/React.createElement(ContactForm, {
+  }, v))))), /*#__PURE__*/React.createElement(ContactForm, {
     t: t
   })), /*#__PURE__*/React.createElement("div", {
     style: {
-      marginTop: 120,
-      paddingTop: 56,
+      marginTop: isMobile ? 56 : 96,
+      paddingTop: isMobile ? 36 : 48,
       borderTop: `1px solid ${E_INV_LINE}`,
       display: 'grid',
-      gridTemplateColumns: '1.4fr 1fr 1fr',
-      gap: 56
+      gridTemplateColumns: isMobile ? '1fr 1fr' : '1.4fr .8fr 1fr',
+      gap: isMobile ? 28 : 56
     }
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      gridColumn: isMobile ? '1 / -1' : 'auto'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
     style: {
       fontFamily: 'Spectral, serif',
-      fontSize: 36
+      fontSize: 28
     }
   }, "Corvee Paper", /*#__PURE__*/React.createElement("span", {
     style: {
-      color: E_TERRA,
+      color: 'var(--cp-inv-accent)',
       fontStyle: 'italic'
     }
   }, ".")), /*#__PURE__*/React.createElement("p", {
     style: {
-      marginTop: 14,
+      margin: '12px 0 0',
       fontSize: 14,
       color: E_INV_INK_SOFT,
       lineHeight: 1.55,
-      maxWidth: 360
+      maxWidth: 380
     }
   }, t.footer.blurb)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      letterSpacing: '.16em',
+      fontSize: 13,
+      fontWeight: 600,
       color: E_INV_INK_SOFT,
-      textTransform: 'uppercase',
-      marginBottom: 18
+      marginBottom: 14
     }
   }, t.footer.navCol), /*#__PURE__*/React.createElement("ul", {
     style: {
@@ -2472,27 +2889,25 @@ function DirectionEditorial() {
       padding: 0,
       listStyle: 'none',
       display: 'grid',
-      gap: 8
+      gap: 9
     }
   }, t.nav.map(n => /*#__PURE__*/React.createElement("li", {
     key: n.label
-  }, /*#__PURE__*/React.createElement(Magnetic, null, /*#__PURE__*/React.createElement("a", {
+  }, /*#__PURE__*/React.createElement("a", {
     href: n.href,
-    "data-cp-hot": true,
+    onClick: cpGoTo(n.href),
     style: {
       color: E_INV_INK,
       textDecoration: 'none',
       fontSize: 14,
       cursor: 'pointer'
     }
-  }, n.label)))))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }, n.label))))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      letterSpacing: '.16em',
+      fontSize: 13,
+      fontWeight: 600,
       color: E_INV_INK_SOFT,
-      textTransform: 'uppercase',
-      marginBottom: 18
+      marginBottom: 14
     }
   }, t.footer.legalCol), /*#__PURE__*/React.createElement("ul", {
     style: {
@@ -2500,31 +2915,30 @@ function DirectionEditorial() {
       padding: 0,
       listStyle: 'none',
       display: 'grid',
-      gap: 8
+      gap: 9
     }
   }, t.footer.legalLinks.map(([label, href]) => /*#__PURE__*/React.createElement("li", {
     key: label
-  }, /*#__PURE__*/React.createElement(Magnetic, null, /*#__PURE__*/React.createElement("a", {
+  }, /*#__PURE__*/React.createElement("a", {
     href: href,
-    "data-cp-hot": true,
     style: {
       color: E_INV_INK,
       textDecoration: 'none',
       fontSize: 14,
       cursor: 'pointer'
     }
-  }, label))))))), /*#__PURE__*/React.createElement("div", {
+  }, label)))))), /*#__PURE__*/React.createElement("div", {
     style: {
-      marginTop: 56,
-      paddingTop: 24,
+      marginTop: isMobile ? 32 : 48,
+      paddingTop: 22,
       borderTop: `1px solid ${E_INV_LINE}`,
       display: 'flex',
+      flexWrap: 'wrap',
       justifyContent: 'space-between',
-      fontFamily: 'Geist Mono, monospace',
-      fontSize: 11,
-      color: E_INV_INK_SOFT,
-      letterSpacing: '.08em'
+      gap: 8,
+      fontSize: 12.5,
+      color: E_INV_INK_SOFT
     }
-  }, /*#__PURE__*/React.createElement("span", null, t.footer.note1), /*#__PURE__*/React.createElement("span", null, t.footer.note2))));
+  }, /*#__PURE__*/React.createElement("span", null, t.footer.note1), /*#__PURE__*/React.createElement("span", null, t.footer.note2)))));
 }
 window.DirectionEditorial = DirectionEditorial;

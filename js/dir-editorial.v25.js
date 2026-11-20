@@ -567,7 +567,7 @@ const E_COPY = {
     href: '#faq'
   }],
   avail: 'Studio · Nouveaux projets ouverts',
-  heroPre: 'Edgar Jacquemart — Corvee Paper · Paris',
+  heroPre: 'Edgar Jacquemart — Corvee Paper · Clamart',
   cta: 'Démarrer un projet',
   cta2: 'Voir les travaux',
   manifesto: {
@@ -577,9 +577,8 @@ const E_COPY = {
     titleC: 'pas vous en faire perdre.',
     p1: 'La plupart des indépendants travaillent dur, livrent un service impeccable, puis renvoient leurs prospects vers un site qui les trahit. Lent. Illisible sur mobile. Invisible sur Google.',
     p2: 'Un site n’est pas un objet décoratif. C’est votre meilleur commercial : il travaille 24/7, charge en moins de deux secondes, rassure dès la première seconde et rend la prise de contact évidente. Si l’un de ces points manque, le site ne sert à rien.',
-    p3a: 'Je livre en 14 jours, prix annoncé d’avance, design construit avec vous — et zéro ',
-    p3strike: 'recette miracle ni jargon',
-    p3b: '. Juste un site qui fonctionne, qui vous ressemble, et qui ne vieillit pas.'
+    p3a: 'Je livre en 14 jours, le prix est annoncé d’avance, et le design se construit avec vous.',
+    p3b: ' Juste un site qui fonctionne, qui vous ressemble, et qui ne vieillit pas.'
   },
   services: {
     eyebrow: '01 — Services',
@@ -997,6 +996,7 @@ function DirectionEditorial() {
   const [travauxFam, setTravauxFam] = useState('sante'); // 'sante' | 'resto' — switches the Travaux view
   const isMobile = useIsMobile();
   const [logoClicks, setLogoClicks] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [eggOpen, setEggOpen] = useState(false);
   const wrapRef = useRef(null);
   const t = E_COPY;
@@ -1004,7 +1004,7 @@ function DirectionEditorial() {
     ensureEditorialCSS();
     if (!window.__cpGreeted) {
       window.__cpGreeted = true;
-      console.log('%c\n  Corvee Paper  \n%c  Studio indépendant · Paris\n  contact@corveepaper.fr\n  ↳ 7 clics sur le logo pour une surprise\n', 'background:#365b86;color:#e7e8ea;font:600 16px/2 "Spectral",serif;padding:6px 10px', 'color:#9B9690;font:12px/1.6 monospace');
+      console.log('%c\n  Corvee Paper  \n%c  Studio indépendant · Clamart\n  contact@corveepaper.fr\n  ↳ 7 clics sur le logo pour une surprise\n', 'background:#365b86;color:#e7e8ea;font:600 16px/2 "Spectral",serif;padding:6px 10px', 'color:#9B9690;font:12px/1.6 monospace');
     }
   }, []);
 
@@ -1078,7 +1078,7 @@ function DirectionEditorial() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: '18px 56px',
+      padding: isMobile ? '14px 20px' : '18px 56px',
       background: E_NAV_BG,
       backdropFilter: 'blur(14px)',
       borderBottom: `1px solid ${E_LINE}`
@@ -1093,7 +1093,7 @@ function DirectionEditorial() {
     onClick: onLogo,
     color: E_INK,
     terra: E_TERRA
-  }), /*#__PURE__*/React.createElement("span", {
+  }), !isMobile && /*#__PURE__*/React.createElement("span", {
     style: {
       marginLeft: 6,
       paddingLeft: 14,
@@ -1108,7 +1108,67 @@ function DirectionEditorial() {
       marginLeft: 12,
       color: E_TERRA
     }
-  }, logoClicks, "/7"))), /*#__PURE__*/React.createElement("div", {
+  }, logoClicks, "/7"))), isMobile ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 14
+    }
+  }, /*#__PURE__*/React.createElement(ThemeToggle, {
+    theme: theme,
+    setTheme: setTheme
+  }), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    "aria-label": menuOpen ? 'Fermer le menu' : 'Ouvrir le menu',
+    "aria-expanded": menuOpen,
+    onClick: () => setMenuOpen(o => !o),
+    style: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: 42,
+      height: 42,
+      borderRadius: 12,
+      padding: 0,
+      border: `1px solid ${E_LINE}`,
+      background: E_BG,
+      color: E_INK,
+      cursor: 'pointer'
+    }
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: "18",
+    height: "18",
+    viewBox: "0 0 18 18",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "1.6",
+    strokeLinecap: "round"
+  }, menuOpen ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("line", {
+    x1: "3",
+    y1: "3",
+    x2: "15",
+    y2: "15"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "15",
+    y1: "3",
+    x2: "3",
+    y2: "15"
+  })) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("line", {
+    x1: "2",
+    y1: "5",
+    x2: "16",
+    y2: "5"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "2",
+    y1: "9",
+    x2: "16",
+    y2: "9"
+  }), /*#__PURE__*/React.createElement("line", {
+    x1: "2",
+    y1: "13",
+    x2: "16",
+    y2: "13"
+  }))))) : /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       gap: 26,
@@ -1181,7 +1241,75 @@ function DirectionEditorial() {
     style: {
       fontSize: 13
     }
-  }, "\u2192"))))), /*#__PURE__*/React.createElement("section", {
+  }, "\u2192")))), isMobile && menuOpen && /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      top: '100%',
+      left: 0,
+      right: 0,
+      background: E_BG,
+      borderBottom: `1px solid ${E_LINE}`,
+      boxShadow: '0 24px 40px -24px rgba(16, 22, 31, .5)',
+      display: 'flex',
+      flexDirection: 'column',
+      padding: '4px 20px 20px'
+    }
+  }, t.nav.map(item => /*#__PURE__*/React.createElement("a", {
+    key: item.label,
+    href: item.href,
+    "data-cp-hot": true,
+    onClick: e => {
+      const target = document.querySelector(item.href);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+      setMenuOpen(false);
+    },
+    style: {
+      color: E_INK,
+      textDecoration: 'none',
+      cursor: 'pointer',
+      fontSize: 17,
+      padding: '15px 0',
+      borderBottom: `1px solid ${E_LINE}`
+    }
+  }, item.label)), /*#__PURE__*/React.createElement("a", {
+    "data-cp-hot": true,
+    href: "#contact",
+    onClick: e => {
+      const target = document.querySelector('#contact');
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({
+          behavior: 'smooth'
+        });
+      }
+      setMenuOpen(false);
+    },
+    style: {
+      marginTop: 18,
+      padding: '16px 22px',
+      background: E_INK,
+      color: E_BG,
+      borderRadius: 99,
+      fontSize: 15,
+      fontWeight: 500,
+      cursor: 'pointer',
+      textDecoration: 'none',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 8
+    }
+  }, "Discutons ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 13
+    }
+  }, "\u2192")))), /*#__PURE__*/React.createElement("section", {
     id: "top",
     style: {
       padding: '120px 56px 100px',
@@ -1373,43 +1501,190 @@ function DirectionEditorial() {
     "data-cp-anim-hero": true,
     className: "cp-reveal",
     style: {
-      marginTop: 96,
-      paddingTop: 40,
+      marginTop: isMobile ? 72 : 112,
+      paddingTop: isMobile ? 48 : 56,
       borderTop: `1px solid ${E_LINE}`,
       display: 'grid',
-      gridTemplateColumns: 'repeat(4, 1fr)',
-      gap: 0,
+      gridTemplateColumns: isMobile ? '1fr' : '1.05fr 1fr',
+      gap: isMobile ? 44 : 64,
+      alignItems: 'center',
       '--cp-d': '700ms'
     }
-  }, [['14', 'jours · livraison'], ['100', 'mobile · responsive', '%'], ['24', 'délai de réponse', 'h'], ['0', 'jargon · inutile', '€']].map(([n, l, suffix], i) => /*#__PURE__*/React.createElement("div", {
-    key: l,
-    style: {
-      paddingRight: 32,
-      borderRight: i < 3 ? `1px solid ${E_LINE}` : 'none'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: 'Spectral, serif',
-      fontSize: 84,
-      lineHeight: 1,
-      color: E_INK,
-      letterSpacing: '-.025em'
-    }
-  }, n, /*#__PURE__*/React.createElement("span", {
-    style: {
-      color: E_TERRA,
-      fontStyle: 'italic'
-    }
-  }, suffix || '.')), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       fontFamily: 'Geist Mono, monospace',
       fontSize: 11,
-      color: E_INK_SOFT,
       letterSpacing: '.14em',
-      marginTop: 10,
-      textTransform: 'uppercase'
+      textTransform: 'uppercase',
+      color: E_TERRA,
+      marginBottom: 20
     }
-  }, l)))))), /*#__PURE__*/React.createElement(Ticker, null), /*#__PURE__*/React.createElement("section", {
+  }, "Ordinateur ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: E_INK_SOFT
+    }
+  }, "+"), " T\xE9l\xE9phone"), /*#__PURE__*/React.createElement("h3", {
+    style: {
+      fontFamily: 'Spectral, serif',
+      fontWeight: 400,
+      fontSize: 'clamp(26px, 3.4vw, 40px)',
+      lineHeight: 1.12,
+      letterSpacing: '-.02em',
+      margin: '0 0 18px',
+      color: E_INK
+    }
+  }, "Pens\xE9 deux fois : une version ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontStyle: 'italic',
+      color: E_TERRA
+    }
+  }, "ordinateur"), ", une version ", /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontStyle: 'italic',
+      color: E_TERRA
+    }
+  }, "t\xE9l\xE9phone"), "."), /*#__PURE__*/React.createElement("p", {
+    style: {
+      margin: 0,
+      fontSize: 17,
+      lineHeight: 1.6,
+      color: E_INK_SOFT,
+      maxWidth: 480
+    }
+  }, "Je dessine et je teste chaque \xE9cran s\xE9par\xE9ment \u2014 jamais de version mobile b\xE2cl\xE9e. Votre site reste net et lisible au bureau comme dans le m\xE9tro, pour que vos clients vous voient au mieux, quel que soit leur \xE9cran.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'relative',
+      height: isMobile ? 230 : 268,
+      minWidth: 0
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      left: 0,
+      top: '50%',
+      transform: 'translateY(-50%)',
+      width: isMobile ? '80%' : 342,
+      borderRadius: 12,
+      overflow: 'hidden',
+      border: `1px solid ${E_LINE}`,
+      background: E_BG,
+      boxShadow: '0 24px 48px -28px rgba(16, 22, 31, .40)'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 6,
+      alignItems: 'center',
+      padding: '9px 12px',
+      background: E_NAV_BG,
+      borderBottom: `1px solid ${E_LINE}`
+    }
+  }, [0, 1, 2].map(k => /*#__PURE__*/React.createElement("span", {
+    key: k,
+    style: {
+      width: 8,
+      height: 8,
+      borderRadius: 99,
+      background: E_LINE
+    }
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 18
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 9,
+      width: '55%',
+      borderRadius: 4,
+      background: E_INK,
+      marginBottom: 12
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 6,
+      width: '85%',
+      borderRadius: 4,
+      background: E_LINE,
+      marginBottom: 8
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 6,
+      width: '72%',
+      borderRadius: 4,
+      background: E_LINE,
+      marginBottom: 18
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 30,
+      width: 104,
+      borderRadius: 99,
+      background: E_TERRA
+    }
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      right: 0,
+      bottom: 0,
+      width: isMobile ? 96 : 112,
+      borderRadius: 20,
+      overflow: 'hidden',
+      border: `2px solid ${E_INK}`,
+      background: E_BG,
+      boxShadow: '0 20px 40px -22px rgba(16, 22, 31, .50)'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 20,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      background: E_NAV_BG
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      width: 30,
+      height: 4,
+      borderRadius: 99,
+      background: E_LINE
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 11
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 7,
+      width: '68%',
+      borderRadius: 3,
+      background: E_INK,
+      marginBottom: 9
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 5,
+      width: '92%',
+      borderRadius: 3,
+      background: E_LINE,
+      marginBottom: 6
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 5,
+      width: '78%',
+      borderRadius: 3,
+      background: E_LINE,
+      marginBottom: 14
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 20,
+      width: '100%',
+      borderRadius: 99,
+      background: E_TERRA
+    }
+  }))))))), /*#__PURE__*/React.createElement(Ticker, null), /*#__PURE__*/React.createElement("section", {
     id: "manifeste",
     style: {
       padding: '120px 56px',
@@ -1487,13 +1762,7 @@ function DirectionEditorial() {
       fontFamily: 'Newsreader, Georgia, serif',
       '--cp-d': '300ms'
     }
-  }, t.manifesto.p3a, /*#__PURE__*/React.createElement("span", {
-    style: {
-      textDecoration: 'line-through',
-      textDecorationColor: E_TERRA,
-      textDecorationThickness: '2px'
-    }
-  }, t.manifesto.p3strike), t.manifesto.p3b)))), /*#__PURE__*/React.createElement("section", {
+  }, t.manifesto.p3a, t.manifesto.p3b)))), /*#__PURE__*/React.createElement("section", {
     id: "services",
     style: {
       padding: '120px 56px',

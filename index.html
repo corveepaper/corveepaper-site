@@ -9,10 +9,10 @@
      politique de _headers, sans frame-ancestors (ignoré dans une balise meta —
      l'anti-clickjacking complet nécessite un vrai header, ex. via Cloudflare Pages). -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://unpkg.com https://cloud.umami.is; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://cloud.umami.is https://formspree.io; form-action 'self' https://formspree.io; frame-src 'self'; base-uri 'self'; object-src 'none'" />
-<meta name="description" content="Studio de design web freelance pour praticiens du bien-être, artisans et indépendants. Sites rapides, sobres, livrés en 14 jours. À partir de 890 € HT." />
+<meta name="description" content="Création de sites web sur mesure pour praticiens, artisans et restaurateurs indépendants. Basé à Clamart (92), en ligne en 14 jours, à partir de 890 €." />
 <meta name="author" content="Edgar Jacquemart" />
 <meta name="keywords" content="création site web freelance, site internet ostéopathe, site internet sophrologue, design web artisan, studio web indépendants, freelance webdesign France" />
-<meta name="theme-color" content="#e7e8ea" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#f5f6f8" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#11161f" media="(prefers-color-scheme: dark)" />
 <meta name="robots" content="index, follow" />
 <title>Corvee Paper — Sites web pour indépendants</title>
@@ -30,7 +30,7 @@
 <meta property="og:locale" content="fr_FR" />
 <meta property="og:site_name" content="Corvee Paper" />
 <meta property="og:title" content="Corvee Paper — Sites web pour indépendants" />
-<meta property="og:description" content="Studio de design web pour praticiens du bien-être, artisans et indépendants. Livré en 14 jours. À partir de 890 € HT." />
+<meta property="og:description" content="Sites web sur mesure pour praticiens, artisans et restaurateurs indépendants. Basé à Clamart (92). En ligne en 14 jours, à partir de 890 €." />
 <meta property="og:url" content="https://corveepaper.fr/" />
 <meta property="og:image" content="https://corveepaper.fr/og-image.png" />
 <meta property="og:image:width" content="1200" />
@@ -40,7 +40,7 @@
 <!-- Twitter / X card -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Corvee Paper — Sites web pour indépendants" />
-<meta name="twitter:description" content="Studio de design web pour praticiens du bien-être, artisans et indépendants. Livré en 14 jours." />
+<meta name="twitter:description" content="Sites web sur mesure pour praticiens, artisans et restaurateurs indépendants. Basé à Clamart (92), en ligne en 14 jours." />
 <meta name="twitter:image" content="https://corveepaper.fr/og-image.png" />
 <meta name="twitter:image:alt" content="Corvee Paper — Sites web pour les indépendants qui ont mieux à faire." />
 
@@ -61,14 +61,15 @@
       "url": "https://corveepaper.fr/",
       "logo": "https://corveepaper.fr/favicon-180.png",
       "image": "https://corveepaper.fr/og-image.png",
-      "description": "Studio de design web freelance pour praticiens du bien-être, artisans et indépendants. Sites livrés en 14 jours.",
+      "description": "Création de sites web sur mesure pour praticiens, artisans et restaurateurs indépendants. Basé à Clamart (Hauts-de-Seine), sites en ligne en 14 jours.",
+      "address": { "@type": "PostalAddress", "streetAddress": "6 rue Marguerite", "postalCode": "92140", "addressLocality": "Clamart", "addressCountry": "FR" },
       "founder": { "@id": "https://corveepaper.fr/#edgar" },
       "priceRange": "à partir de 890 €",
       "areaServed": [
-        { "@type": "Country", "name": "France" },
-        { "@type": "Country", "name": "Belgique" },
-        { "@type": "Country", "name": "Suisse" },
-        { "@type": "Country", "name": "Québec" }
+        { "@type": "City", "name": "Clamart" },
+        { "@type": "AdministrativeArea", "name": "Hauts-de-Seine" },
+        { "@type": "City", "name": "Paris" },
+        { "@type": "Country", "name": "France" }
       ],
       "knowsLanguage": ["fr-FR", "en"],
       "hasOfferCatalog": {
@@ -78,7 +79,7 @@
           {
             "@type": "Offer",
             "name": "Refonte",
-            "description": "Refonte de site existant — audit, repositionnement, design et reprise complète.",
+            "description": "Refonte d’un site existant : nouveau design, textes repris, site rapide et lisible sur téléphone.",
             "price": "890",
             "priceCurrency": "EUR",
             "category": "WebDesign"
@@ -86,7 +87,7 @@
           {
             "@type": "Offer",
             "name": "Création",
-            "description": "Création de site — stratégie, identité web, design, développement, CMS livré.",
+            "description": "Création d’un site sur mesure : design, textes, mise en ligne et prise en main.",
             "price": "890",
             "priceCurrency": "EUR",
             "category": "WebDesign"
@@ -94,7 +95,7 @@
           {
             "@type": "Offer",
             "name": "Application",
-            "description": "Application sur mesure — du dashboard interne à l’app SaaS publique. Sur devis.",
+            "description": "Application sur mesure : outil interne, réservation ou espace client. Sur devis.",
             "category": "WebDesign"
           }
         ]
@@ -130,7 +131,7 @@
   /* Smooth-scroll for anchor links (also driven explicitly by JS for the
      magnetic nav buttons — this handles the default-href fallback). */
   html { scroll-behavior: smooth; }
-  html, body { margin: 0; background: #e7e8ea; font-family: 'Geist', -apple-system, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  html, body { margin: 0; background: #f5f6f8; font-family: 'Geist', -apple-system, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
 
   /* Editorial wrapper renders width:100%/height:100% — give it natural
      document flow so its sections stack like a normal page. */
@@ -202,7 +203,7 @@
   /* Splash while React mounts */
   #splash {
     position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
-    background: #e7e8ea; z-index: 9999;
+    background: #f5f6f8; z-index: 9999;
     transition: opacity .4s; pointer-events: none;
   }
   #splash.gone { opacity: 0; }
@@ -227,8 +228,8 @@
     .cp-theme nav { padding: 14px 24px !important; gap: 16px !important; flex-wrap: wrap; }
     .cp-theme nav > div:last-child { gap: 18px !important; }
     .cp-theme section { padding-left: 32px !important; padding-right: 32px !important; }
-    .cp-theme h1 { font-size: clamp(40px, 6.5vw, 76px) !important; }
-    .cp-theme h2 { font-size: clamp(40px, 7vw, 88px) !important; }
+    .cp-theme h1 { font-size: clamp(38px, 5.6vw, 64px) !important; }
+    .cp-theme h2 { font-size: clamp(30px, 5vw, 52px) !important; }
     .cp-theme h3[style*="font-size: 72px"] { font-size: clamp(44px, 7vw, 72px) !important; }
   }
 
@@ -250,17 +251,6 @@
     .cp-theme nav > div:last-child { gap: 12px !important; }
     .cp-theme nav > div:last-child > span:not(:last-of-type) { display: none !important; }
     .cp-theme section { padding: 56px 18px !important; }
-    .cp-theme [style*="grid-template-columns: 1fr 1.6fr"],
-    .cp-theme [style*="grid-template-columns: 1fr 1fr"],
-    .cp-theme [style*="grid-template-columns: 1.4fr 1fr 1fr"],
-    .cp-theme [style*="grid-template-columns: 1.3fr 1fr"],
-    .cp-theme [style*="grid-template-columns: 1fr 1.3fr"],
-    .cp-theme [style*="grid-template-columns: 1fr auto"],
-    .cp-theme [style*="grid-template-columns: repeat(3, 1fr)"],
-    .cp-theme [style*="grid-template-columns: repeat(4, 1fr)"] {
-      grid-template-columns: 1fr !important;
-      gap: 32px !important;
-    }
     /* Compact Discutons CTA */
     .cp-theme nav a[href="#contact"] { padding: 10px 16px !important; font-size: 13px !important; }
   }
@@ -268,17 +258,6 @@
   /* Tablet 641-768: stack 2/3-col grids but keep richer nav */
   @media (min-width: 641px) and (max-width: 768px) {
     .cp-theme section { padding: 64px 24px !important; }
-    .cp-theme [style*="grid-template-columns: 1fr 1.6fr"],
-    .cp-theme [style*="grid-template-columns: 1fr 1fr"],
-    .cp-theme [style*="grid-template-columns: 1.4fr 1fr 1fr"],
-    .cp-theme [style*="grid-template-columns: 1.3fr 1fr"],
-    .cp-theme [style*="grid-template-columns: 1fr 1.3fr"],
-    .cp-theme [style*="grid-template-columns: 1fr auto"],
-    .cp-theme [style*="grid-template-columns: repeat(3, 1fr)"],
-    .cp-theme [style*="grid-template-columns: repeat(4, 1fr)"] {
-      grid-template-columns: 1fr !important;
-      gap: 32px !important;
-    }
   }
 
   /* ───── Mobile polish (dedicated phone pass) ──────────────────────────────
@@ -286,9 +265,7 @@
   @media (max-width: 640px) {
     /* The ≤1100 clamp bottoms out at 56px, which can overflow a 375px phone
        given the forced <br> line breaks. Bring it down so it always fits. */
-    .cp-theme h1 { font-size: clamp(28px, 7.5vw, 48px) !important; }
-    /* Hero paragraph slightly smaller for comfortable reading on small screens. */
-    .cp-theme section p { font-size: 17px !important; }
+    .cp-theme h1 { font-size: clamp(32px, 9vw, 42px) !important; }
     /* Contact form: tighter padding on small screens. */
     .cp-theme form { padding: 24px !important; }
   }
@@ -301,7 +278,7 @@
 <div id="splash">
   <div>
     <div class="logo">Corvee Paper<em>.</em></div>
-    <div class="dots">↳ Chargement…</div>
+    <div class="dots">Chargement…</div>
   </div>
 </div>
 
@@ -316,11 +293,11 @@
 <!-- ?v=N is a cache-buster: bump it every deploy so browsers fetch the new JS
      instead of a stale cached copy. -->
 <!-- Versioned filenames = bulletproof cache-busting (bump the v on every deploy). -->
-<script src="js/shared.v24.js"></script>
-<script src="js/dir-editorial.v24.js"></script>
+<script src="js/shared.v26.js"></script>
+<script src="js/dir-editorial.v26.js"></script>
 
 <!-- Boot — extracted to js/boot.js so the CSP can disallow inline scripts. -->
-<script src="js/boot.v24.js"></script>
+<script src="js/boot.v26.js"></script>
 
 <!-- ────────────────────────────────────────────────────────────────────────
      Analytics — Umami (no cookie, RGPD-friendly, no banner needed).
