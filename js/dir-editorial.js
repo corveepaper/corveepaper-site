@@ -136,6 +136,7 @@ function ensureEditorialCSS() {
   opacity: 0; transition: opacity .3s;
 }
 .cp-spot:hover::before { opacity: 1; }
+.cp-navlink:hover { background: var(--cp-card-bg); box-shadow: 0 1px 2px rgba(16,24,40,.10); }
 .cp-arrow { display: inline-flex; transition: transform .3s cubic-bezier(.2,.7,.3,1) !important; }
 a:hover > .cp-arrow, a:hover .cp-arrow { transform: translateX(5px); }
 /* Méthode : pastilles qui s'allument quand la ligne les atteint. */
@@ -582,24 +583,22 @@ const E_COPY = {
     cta2: 'Voir des exemples',
     reassure: ['30 minutes d’échange offertes', 'Devis gratuit', 'Réponse sous 24 h'],
     caption: 'Concept de démonstration — Cabinet Lacombe',
-    stats: [{
-      to: 14,
-      suffix: ' jours',
-      label: 'du feu vert à la mise en ligne'
-    }, {
-      to: 890,
-      prefix: 'dès ',
-      suffix: ' €',
-      label: 'prix fixé avant de commencer'
-    }, {
-      to: 24,
-      suffix: ' h',
-      label: 'pour répondre à votre demande'
-    }, {
-      to: 1,
-      suffix: ' interlocuteur',
-      label: 'du premier échange à la mise en ligne'
-    }]
+    quote: {
+      label: 'Votre devis',
+      price: 'dès 890 €',
+      rows: [['Acompte', '40 %'], ['Paiement', '3 fois sans frais']]
+    },
+    clear: {
+      title: 'Tout est clair avant de commencer.',
+      stepsTitle: 'Votre projet, étape par étape',
+      badge: '14 jours',
+      priceLabel: 'Prix fixé à l’avance',
+      priceNote: 'Acompte de 40 % à la signature',
+      payLabel: 'Paiement',
+      payBig: '3 fois',
+      payNote: 'sans frais, si vous le souhaitez',
+      tiles: [['Parfait sur téléphone', 'Vos clients vous cherchent depuis leur téléphone. Le site est pensé pour eux en premier.'], ['Un seul interlocuteur', 'Du premier échange à la mise en ligne, vous savez à qui vous parlez.'], ['Réponse sous 24 h', 'Je réponds à chaque demande sous 24 heures ouvrées.']]
+    }
   },
   about: {
     eyebrow: 'Qui je suis',
@@ -614,27 +613,35 @@ const E_COPY = {
   },
   services: {
     eyebrow: 'Services',
-    title: 'Trois façons de travailler ensemble.',
+    title: 'Trois formules, un prix clair.',
     cards: [{
       t: 'Refonte',
       s: 'Vous avez déjà un site',
-      d: 'Il a vieilli, s’affiche mal sur téléphone ou ne vous amène personne. Je le reprends entièrement : textes, design, technique.',
+      d: 'Il a vieilli, s’affiche mal sur téléphone ou ne vous amène personne. Je le reprends entièrement.',
       from: 'dès 890 €',
-      format: 'Refonte · dès 890 €'
+      format: 'Refonte · dès 890 €',
+      cta: 'Demander un devis',
+      feats: ['Textes, design et technique repris', 'Parfait sur téléphone', 'Le site reste à vous']
     }, {
       t: 'Création',
       s: 'Vous partez de zéro',
-      d: 'Vous vous lancez ou vous n’avez jamais eu de site. Je m’occupe de tout, du nom de domaine à la mise en ligne.',
+      d: 'Vous vous lancez ou vous n’avez jamais eu de site. Je m’occupe de tout.',
       from: 'dès 890 €',
-      format: 'Création · dès 890 €'
+      format: 'Création · dès 890 €',
+      cta: 'Demander un devis',
+      featured: true,
+      badge: 'Clé en main',
+      feats: ['Du nom de domaine à la mise en ligne', 'Maquette validée avant la construction', 'Parfait sur téléphone']
     }, {
       t: 'Application',
       s: 'Un outil sur mesure',
       d: 'Prise de rendez-vous, espace client, outil interne : un outil pensé pour votre façon de travailler.',
       from: 'sur devis',
-      format: 'Application · sur devis'
+      format: 'Application · sur devis',
+      cta: 'En parler',
+      feats: ['On en parle d’abord, sans engagement', 'Prix annoncé avant de commencer', 'Un seul interlocuteur']
     }],
-    cardCta: 'Demander un devis',
+    payLine: 'Acompte de 40 % · Paiement en 3 fois sans frais possible',
     includedTitle: 'Compris dans chaque site, dès 890 €',
     included: ['Un design sur mesure, pas un modèle', 'Une version ordinateur et une version téléphone', 'Un formulaire de contact et un bouton d’appel', 'Un nom de domaine à votre nom', 'La mise en ligne', 'Une base propre pour être trouvé sur Google', '30 minutes de prise en main', 'Un aller-retour de corrections à chaque étape'],
     footnote: 'Acompte de 40 % à la signature, solde à la livraison. Paiement en 3 fois sans frais possible.'
@@ -1200,7 +1207,8 @@ function DirectionEditorial() {
       background: E_BG,
       color: E_INK,
       fontFamily: 'Geist, -apple-system, system-ui, sans-serif',
-      position: 'relative'
+      position: 'relative',
+      overflowX: 'clip'
     }
   }, /*#__PURE__*/React.createElement(EasterEgg, {
     open: eggOpen,
@@ -1228,31 +1236,12 @@ function DirectionEditorial() {
     onClick: onLogo,
     color: E_INK,
     terra: E_TERRA
-  }), !isMobile && /*#__PURE__*/React.createElement("span", {
+  }), !isMobile && logoClicks > 0 && /*#__PURE__*/React.createElement("span", {
     style: {
-      marginLeft: 6,
-      paddingLeft: 14,
-      borderLeft: `1px solid ${E_LINE}`,
       fontSize: 12.5,
-      color: E_INK_SOFT,
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 8
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      width: 7,
-      height: 7,
-      borderRadius: 99,
-      background: E_TERRA,
-      animation: 'cp-pulse 1.8s ease-out infinite'
-    }
-  }), t.avail, logoClicks > 0 && /*#__PURE__*/React.createElement("span", {
-    style: {
-      marginLeft: 12,
       color: E_TERRA
     }
-  }, logoClicks, "/7"))), isMobile ? /*#__PURE__*/React.createElement("div", {
+  }, logoClicks, "/7")), isMobile ? /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       alignItems: 'center',
@@ -1315,9 +1304,17 @@ function DirectionEditorial() {
   }))))) : /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
-      gap: 26,
+      gap: 16,
       alignItems: 'center',
       fontSize: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 2,
+      padding: 5,
+      borderRadius: 99,
+      background: E_CARD
     }
   }, t.nav.map(item => /*#__PURE__*/React.createElement(Magnetic, {
     key: item.label,
@@ -1339,18 +1336,17 @@ function DirectionEditorial() {
         });
       }
     },
+    className: "cp-navlink",
     style: {
       color: E_INK,
       textDecoration: 'none',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      display: 'inline-block',
+      padding: '8px 14px',
+      borderRadius: 99,
+      fontWeight: 500
     }
-  }, item.label))), /*#__PURE__*/React.createElement("span", {
-    style: {
-      width: 1,
-      height: 16,
-      background: E_LINE
-    }
-  }), /*#__PURE__*/React.createElement(ThemeToggle, {
+  }, item.label)))), /*#__PURE__*/React.createElement(ThemeToggle, {
     theme: theme,
     setTheme: setTheme
   }), /*#__PURE__*/React.createElement(Magnetic, {
@@ -1470,12 +1466,14 @@ function DirectionEditorial() {
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      display: 'grid',
-      gridTemplateColumns: isMobile ? '1fr' : '1.02fr .98fr',
-      gap: isMobile ? 40 : 56,
+      maxWidth: 900,
+      margin: '0 auto',
+      textAlign: 'center',
+      display: 'flex',
+      flexDirection: 'column',
       alignItems: 'center'
     }
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     "data-cp-anim-hero": true,
     className: "cp-reveal",
     style: {
@@ -1501,12 +1499,12 @@ function DirectionEditorial() {
     }
   }), t.hero.pill), /*#__PURE__*/React.createElement("h1", {
     style: {
-      margin: isMobile ? '22px 0 0' : '26px 0 0',
+      margin: isMobile ? '22px 0 0' : '28px 0 0',
       fontFamily: E_DISPLAY,
       fontWeight: 600,
-      fontSize: 64,
-      lineHeight: 1.04,
-      letterSpacing: '-.04em',
+      fontSize: 76,
+      lineHeight: 1.03,
+      letterSpacing: '-.045em',
       color: E_INK
     }
   }, t.hero.h1a.map((w, i) => /*#__PURE__*/React.createElement(React.Fragment, {
@@ -1537,7 +1535,7 @@ function DirectionEditorial() {
       fontSize: isMobile ? 17 : 19,
       lineHeight: 1.55,
       color: E_INK_SOFT,
-      maxWidth: 540,
+      maxWidth: 620,
       '--cp-d': '500ms'
     }
   }, t.hero.sub), /*#__PURE__*/React.createElement("div", {
@@ -1547,6 +1545,7 @@ function DirectionEditorial() {
       marginTop: 30,
       display: 'flex',
       flexWrap: 'wrap',
+      justifyContent: 'center',
       gap: 12,
       '--cp-d': '650ms'
     }
@@ -1556,9 +1555,9 @@ function DirectionEditorial() {
     href: "#contact",
     onClick: cpGoTo('#contact'),
     style: {
-      padding: '16px 26px',
+      padding: '17px 28px',
       borderRadius: 99,
-      background: E_INK,
+      background: E_TERRA,
       color: E_BG,
       fontSize: 16,
       fontWeight: 600,
@@ -1567,7 +1566,7 @@ function DirectionEditorial() {
       display: 'inline-flex',
       alignItems: 'center',
       gap: 10,
-      boxShadow: '0 14px 30px -14px rgba(25,34,48,.55)'
+      boxShadow: '0 14px 30px -14px rgba(54,91,134,.7)'
     }
   }, t.hero.cta, " ", /*#__PURE__*/React.createElement("span", {
     className: "cp-arrow"
@@ -1575,13 +1574,13 @@ function DirectionEditorial() {
     href: "#travaux",
     onClick: cpGoTo('#travaux'),
     style: {
-      padding: '16px 24px',
+      padding: '17px 26px',
       borderRadius: 99,
       background: E_CARD_BG,
       color: E_INK,
       border: `1px solid ${E_LINE}`,
       fontSize: 16,
-      fontWeight: 500,
+      fontWeight: 600,
       textDecoration: 'none',
       cursor: 'pointer',
       display: 'inline-flex',
@@ -1597,6 +1596,7 @@ function DirectionEditorial() {
       padding: 0,
       display: 'flex',
       flexWrap: 'wrap',
+      justifyContent: 'center',
       gap: isMobile ? '8px 18px' : '10px 22px',
       fontSize: 14,
       color: E_INK_SOFT,
@@ -1613,27 +1613,34 @@ function DirectionEditorial() {
     "data-cp-anim-hero": true,
     className: "cp-pop",
     style: {
-      position: 'relative',
-      '--cp-d': '350ms',
-      paddingBottom: isMobile ? 34 : 46,
-      paddingLeft: isMobile ? 0 : 20
+      marginTop: isMobile ? 40 : 64,
+      '--cp-d': '350ms'
     }
   }, /*#__PURE__*/React.createElement("div", {
-    "data-cp-parallax": isMobile ? '-0.03' : '-0.07'
+    style: {
+      position: 'relative',
+      overflow: 'hidden',
+      background: E_TERRA_SOFT,
+      borderRadius: isMobile ? 24 : 36,
+      padding: isMobile ? '20px 16px 0' : '56px 56px 0',
+      display: 'flex',
+      justifyContent: 'center'
+    }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      borderRadius: 18,
-      overflow: 'hidden',
+      width: '100%',
+      maxWidth: 860,
       background: E_CARD_BG,
-      border: `1px solid ${E_LINE}`,
-      boxShadow: '0 2px 4px rgba(16,24,40,.05), 0 40px 80px -32px rgba(16,24,40,.42)'
+      borderRadius: isMobile ? '14px 14px 0 0' : '18px 18px 0 0',
+      overflow: 'hidden',
+      boxShadow: '0 30px 80px -20px rgba(16,24,40,.35)'
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       alignItems: 'center',
       gap: 7,
-      padding: '11px 14px',
+      padding: isMobile ? '9px 12px' : '12px 16px',
       borderBottom: `1px solid ${E_LINE}`
     }
   }, [0, 1, 2].map(k => /*#__PURE__*/React.createElement("span", {
@@ -1648,16 +1655,15 @@ function DirectionEditorial() {
     style: {
       marginLeft: 10,
       flex: 1,
-      maxWidth: 240,
-      padding: '4px 12px',
+      padding: '5px 13px',
       borderRadius: 99,
       background: E_CARD,
-      fontSize: 11.5,
+      fontSize: 12,
       color: E_INK_SOFT
     }
   }, "cabinet-lacombe.fr")), /*#__PURE__*/React.createElement("div", {
     style: {
-      aspectRatio: '16 / 10.6',
+      aspectRatio: isMobile ? '4 / 3.3' : '16 / 8.6',
       overflow: 'hidden',
       background: '#f8f6f1'
     }
@@ -1673,13 +1679,67 @@ function DirectionEditorial() {
       '--cp-scroll': '-67%',
       animation: 'cp-screen-scroll 16s ease-in-out 1.2s infinite alternate'
     }
-  })))), /*#__PURE__*/React.createElement("div", {
-    "data-cp-parallax": isMobile ? '-0.07' : '-0.17',
+  }))), !isMobile && /*#__PURE__*/React.createElement("div", {
+    "data-cp-parallax": "-0.06",
     style: {
       position: 'absolute',
-      right: isMobile ? 10 : -14,
-      bottom: 0,
-      width: isMobile ? 104 : 158
+      left: 40,
+      bottom: 56,
+      width: 250
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: E_CARD_BG,
+      borderRadius: 20,
+      padding: 20,
+      border: `1px solid ${E_LINE}`,
+      boxShadow: '0 20px 50px -12px rgba(16,24,40,.35)',
+      display: 'grid',
+      gap: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12.5,
+      fontWeight: 500,
+      color: E_INK_SOFT
+    }
+  }, t.hero.quote.label), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: E_DISPLAY,
+      fontSize: 30,
+      fontWeight: 600,
+      letterSpacing: '-.03em',
+      color: E_INK
+    }
+  }, t.hero.quote.price), /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 1,
+      background: E_LINE
+    }
+  }), t.hero.quote.rows.map(([a, b]) => /*#__PURE__*/React.createElement("div", {
+    key: a,
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      gap: 10,
+      fontSize: 13.5
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: E_INK_SOFT
+    }
+  }, a), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontWeight: 600,
+      color: E_INK
+    }
+  }, b))))), /*#__PURE__*/React.createElement("div", {
+    "data-cp-parallax": isMobile ? '-0.03' : '-0.08',
+    style: {
+      position: 'absolute',
+      right: isMobile ? 14 : 56,
+      bottom: isMobile ? -18 : -24,
+      width: isMobile ? 92 : 190
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -1687,14 +1747,14 @@ function DirectionEditorial() {
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      borderRadius: isMobile ? 20 : 28,
-      padding: isMobile ? 4 : 6,
+      borderRadius: isMobile ? 18 : 30,
+      padding: isMobile ? 4 : 7,
       background: '#141b27',
       boxShadow: '0 30px 60px -22px rgba(16,24,40,.6)'
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      borderRadius: isMobile ? 16 : 22,
+      borderRadius: isMobile ? 14 : 23,
       overflow: 'hidden',
       aspectRatio: '780 / 1688',
       background: '#f8f6f1'
@@ -1711,24 +1771,205 @@ function DirectionEditorial() {
       objectFit: 'cover',
       objectPosition: 'top'
     }
-  }))))), /*#__PURE__*/React.createElement("div", {
+  })))))), /*#__PURE__*/React.createElement("div", {
     style: {
-      position: 'absolute',
-      left: isMobile ? 0 : 20,
-      bottom: 0,
+      marginTop: 12,
       fontSize: 12.5,
-      color: E_INK_2,
-      maxWidth: isMobile ? '62%' : 'none'
+      color: E_INK_2
     }
-  }, t.hero.caption))), /*#__PURE__*/React.createElement("div", {
+  }, t.hero.caption)), /*#__PURE__*/React.createElement("div", {
     style: {
-      marginTop: isMobile ? 40 : 72,
-      display: 'grid',
-      gridTemplateColumns: isMobile ? '1fr 1fr' : '1fr 1fr 1fr 1fr',
-      gap: isMobile ? 10 : 16
+      marginTop: isMobile ? 56 : 104
     }
-  }, t.hero.stats.map((s, i) => /*#__PURE__*/React.createElement("div", {
-    key: s.label,
+  }, /*#__PURE__*/React.createElement("h2", {
+    className: "cp-wipe",
+    "data-cp-anim": true,
+    style: {
+      margin: 0,
+      fontFamily: E_DISPLAY,
+      fontWeight: 600,
+      maxWidth: 720,
+      fontSize: 48,
+      lineHeight: 1.06,
+      letterSpacing: '-.035em'
+    }
+  }, t.hero.clear.title), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: isMobile ? 24 : 40,
+      display: 'grid',
+      gridTemplateColumns: isMobile ? '1fr' : '1.3fr 1fr',
+      gap: isMobile ? 12 : 20
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    "data-cp-anim": true,
+    className: "cp-pop",
+    style: {
+      display: 'flex'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      background: E_CARD_BG,
+      border: `1px solid ${E_LINE}`,
+      borderRadius: 24,
+      padding: isMobile ? 20 : 28,
+      boxShadow: E_SHADOW
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      gap: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: E_DISPLAY,
+      fontSize: isMobile ? 17 : 19,
+      fontWeight: 600,
+      letterSpacing: '-.01em'
+    }
+  }, t.hero.clear.stepsTitle), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '5px 11px',
+      borderRadius: 8,
+      background: E_TERRA_SOFT,
+      color: E_TERRA,
+      fontSize: 12.5,
+      fontWeight: 600,
+      whiteSpace: 'nowrap'
+    }
+  }, t.hero.clear.badge)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 10
+    }
+  }, t.process.steps.map((s, i) => /*#__PURE__*/React.createElement("div", {
+    key: s.n,
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 14,
+      padding: isMobile ? '13px 0' : '15px 0',
+      borderBottom: i < t.process.steps.length - 1 ? `1px solid ${E_LINE}` : 'none'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 30,
+      height: 30,
+      borderRadius: 99,
+      flexShrink: 0,
+      background: E_TERRA,
+      color: E_BG,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: 13,
+      fontWeight: 600
+    }
+  }, s.n), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      fontSize: isMobile ? 15 : 16,
+      fontWeight: 500
+    }
+  }, s.t), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13.5,
+      color: E_INK_SOFT,
+      whiteSpace: 'nowrap'
+    }
+  }, s.when)))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gap: isMobile ? 12 : 20
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    "data-cp-anim": true,
+    className: "cp-pop",
+    style: {
+      display: 'flex',
+      '--cp-d': '90ms'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      background: E_INV_BG,
+      color: E_INV_INK,
+      borderRadius: 24,
+      padding: isMobile ? 22 : 28,
+      display: 'grid',
+      gap: 6,
+      alignContent: 'center',
+      boxShadow: '0 30px 60px -30px rgba(16,24,40,.5)'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      color: E_INV_INK_SOFT
+    }
+  }, t.hero.clear.priceLabel), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: E_DISPLAY,
+      fontSize: isMobile ? 34 : 42,
+      fontWeight: 600,
+      letterSpacing: '-.04em',
+      lineHeight: 1.1
+    }
+  }, /*#__PURE__*/React.createElement(CountUp, {
+    to: 890,
+    prefix: "d\xE8s ",
+    suffix: " \u20AC"
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      color: E_INV_INK_SOFT
+    }
+  }, t.hero.clear.priceNote))), /*#__PURE__*/React.createElement("div", {
+    "data-cp-anim": true,
+    className: "cp-pop",
+    style: {
+      display: 'flex',
+      '--cp-d': '180ms'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      background: E_CARD_BG,
+      border: `1px solid ${E_LINE}`,
+      borderRadius: 24,
+      padding: isMobile ? 22 : 28,
+      display: 'grid',
+      gap: 6,
+      alignContent: 'center',
+      boxShadow: E_SHADOW
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      color: E_INK_SOFT
+    }
+  }, t.hero.clear.payLabel), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: E_DISPLAY,
+      fontSize: isMobile ? 34 : 42,
+      fontWeight: 600,
+      letterSpacing: '-.04em',
+      lineHeight: 1.1
+    }
+  }, t.hero.clear.payBig), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      color: E_INK_SOFT
+    }
+  }, t.hero.clear.payNote))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: isMobile ? 12 : 20,
+      display: 'grid',
+      gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr',
+      gap: isMobile ? 12 : 20
+    }
+  }, t.hero.clear.tiles.map(([a, b], i) => /*#__PURE__*/React.createElement("div", {
+    key: a,
     "data-cp-anim": true,
     className: "cp-pop",
     style: {
@@ -1738,33 +1979,25 @@ function DirectionEditorial() {
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       flex: 1,
-      padding: isMobile ? '16px 16px 18px' : '22px 24px 24px',
-      borderRadius: 20,
-      background: E_CARD_BG,
-      border: `1px solid ${E_LINE}`,
-      boxShadow: E_SHADOW
+      background: E_CARD,
+      borderRadius: 24,
+      padding: isMobile ? 22 : 28
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       fontFamily: E_DISPLAY,
+      fontSize: isMobile ? 19 : 21,
       fontWeight: 600,
-      letterSpacing: '-.03em',
-      fontSize: isMobile ? 21 : 28,
-      color: E_INK,
-      lineHeight: 1.1
+      letterSpacing: '-.02em'
     }
-  }, /*#__PURE__*/React.createElement(CountUp, {
-    to: s.to,
-    prefix: s.prefix,
-    suffix: s.suffix
-  })), /*#__PURE__*/React.createElement("div", {
+  }, a), /*#__PURE__*/React.createElement("div", {
     style: {
-      marginTop: 6,
-      fontSize: isMobile ? 13 : 14,
-      lineHeight: 1.4,
+      marginTop: 8,
+      fontSize: 15,
+      lineHeight: 1.5,
       color: E_INK_SOFT
     }
-  }, s.label))))))), /*#__PURE__*/React.createElement("section", {
+  }, b)))))))), /*#__PURE__*/React.createElement("section", {
     id: "apropos",
     style: {
       padding: '110px 56px',
@@ -1943,37 +2176,22 @@ function DirectionEditorial() {
     id: "services",
     style: {
       padding: '110px 56px',
-      background: E_INV_BG,
-      color: E_INV_INK,
-      position: 'relative',
-      overflow: 'hidden'
+      position: 'relative'
     }
   }, /*#__PURE__*/React.createElement("div", {
-    "aria-hidden": "true",
-    style: {
-      position: 'absolute',
-      inset: 0,
-      pointerEvents: 'none'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    "data-cp-parallax": "0.18",
-    style: {
-      position: 'absolute',
-      right: '-10%',
-      top: '-10%',
-      width: 640,
-      height: 640,
-      background: 'radial-gradient(circle, rgba(107,155,208,.22) 0%, transparent 62%)',
-      filter: 'blur(40px)'
-    }
-  })), /*#__PURE__*/React.createElement("div", {
     style: {
       ...E_WRAP,
       position: 'relative'
     }
-  }, /*#__PURE__*/React.createElement(Eyebrow, {
-    inv: true
-  }, t.services.eyebrow), /*#__PURE__*/React.createElement("h2", {
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+      alignItems: 'flex-end',
+      gap: isMobile ? 12 : 24
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Eyebrow, null, t.services.eyebrow), /*#__PURE__*/React.createElement("h2", {
     className: "cp-wipe",
     "data-cp-anim": true,
     style: {
@@ -1985,103 +2203,150 @@ function DirectionEditorial() {
       lineHeight: 1.06,
       letterSpacing: '-.035em'
     }
-  }, t.services.title), /*#__PURE__*/React.createElement("div", {
+  }, t.services.title)), /*#__PURE__*/React.createElement("div", {
+    "data-cp-anim": true,
+    className: "cp-reveal",
     style: {
-      marginTop: isMobile ? 32 : 56,
+      fontSize: 15,
+      color: E_INK_SOFT,
+      paddingBottom: 6
+    }
+  }, t.services.payLine)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: isMobile ? 28 : 48,
       display: 'grid',
       gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr',
       gap: isMobile ? 14 : 20
     }
-  }, t.services.cards.map((c, i) => /*#__PURE__*/React.createElement("div", {
-    key: c.t,
-    "data-cp-anim": true,
-    className: "cp-pop",
-    style: {
-      display: 'flex',
-      '--cp-d': `${i * 110}ms`
-    }
-  }, /*#__PURE__*/React.createElement("a", {
-    href: "#contact",
-    onClick: cpGoTo('#contact', c.format),
-    onMouseMove: cpSpot,
-    className: "cp-card cp-spot",
-    "aria-label": `${c.t} : demander un devis`,
-    style: {
-      flex: 1,
-      display: 'flex',
-      flexDirection: 'column',
-      padding: isMobile ? 24 : 30,
-      borderRadius: 24,
-      background: E_INV_CARD,
-      border: `1px solid ${E_INV_LINE}`,
-      color: E_INV_INK,
-      textDecoration: 'none',
-      cursor: 'pointer'
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      alignSelf: 'flex-start',
-      padding: '6px 12px',
-      borderRadius: 99,
-      background: E_INV_CARD,
-      border: `1px solid ${E_INV_LINE}`,
-      fontSize: 12.5,
-      fontWeight: 500,
-      color: E_INV_INK_SOFT
-    }
-  }, c.s), /*#__PURE__*/React.createElement("h3", {
-    style: {
-      margin: '20px 0 0',
-      fontFamily: E_DISPLAY,
-      fontWeight: 600,
-      fontSize: isMobile ? 26 : 30,
-      letterSpacing: '-.03em'
-    }
-  }, c.t), /*#__PURE__*/React.createElement("p", {
-    style: {
-      margin: '10px 0 0',
-      fontSize: 15.5,
-      lineHeight: 1.55,
-      color: E_INV_INK_SOFT,
-      flex: 1
-    }
-  }, c.d), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: 26,
-      paddingTop: 20,
-      borderTop: `1px solid ${E_INV_LINE}`,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      gap: 12
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontFamily: E_DISPLAY,
-      fontWeight: 600,
-      fontSize: 22,
-      letterSpacing: '-.02em'
-    }
-  }, c.from), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 14,
-      fontWeight: 500,
-      color: 'var(--cp-inv-accent)',
-      display: 'inline-flex',
-      gap: 8,
-      alignItems: 'center'
-    }
-  }, t.services.cardCta, " ", /*#__PURE__*/React.createElement("span", {
-    className: "cp-arrow"
-  }, "\u2192"))))))), /*#__PURE__*/React.createElement("div", {
+  }, t.services.cards.map((c, i) => {
+    const on = !!c.featured;
+    return /*#__PURE__*/React.createElement("div", {
+      key: c.t,
+      "data-cp-anim": true,
+      className: "cp-pop",
+      style: {
+        display: 'flex',
+        '--cp-d': `${i * 110}ms`
+      }
+    }, /*#__PURE__*/React.createElement("a", {
+      href: "#contact",
+      onClick: cpGoTo('#contact', c.format),
+      onMouseMove: cpSpot,
+      className: "cp-card cp-spot",
+      "aria-label": `${c.t} : ${c.cta}`,
+      style: {
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 20,
+        padding: isMobile ? 24 : 32,
+        borderRadius: 24,
+        background: on ? E_INV_BG : E_CARD_BG,
+        border: `1px solid ${on ? 'transparent' : E_LINE}`,
+        color: on ? E_INV_INK : E_INK,
+        boxShadow: on ? '0 30px 70px -28px rgba(16,24,40,.55)' : E_SHADOW,
+        textDecoration: 'none',
+        cursor: 'pointer'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        gap: 10
+      }
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
+      style: {
+        margin: 0,
+        fontFamily: E_DISPLAY,
+        fontWeight: 600,
+        fontSize: 21,
+        letterSpacing: '-.02em'
+      }
+    }, c.t), /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginTop: 6,
+        fontSize: 14.5,
+        color: on ? E_INV_INK_SOFT : E_INK_SOFT
+      }
+    }, c.s)), c.badge && /*#__PURE__*/React.createElement("span", {
+      style: {
+        padding: '5px 10px',
+        borderRadius: 8,
+        whiteSpace: 'nowrap',
+        background: 'var(--cp-inv-accent)',
+        color: E_INV_BG,
+        fontSize: 12.5,
+        fontWeight: 600
+      }
+    }, c.badge)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontFamily: E_DISPLAY,
+        fontWeight: 600,
+        fontSize: isMobile ? 36 : 40,
+        letterSpacing: '-.04em',
+        lineHeight: 1
+      }
+    }, c.from), /*#__PURE__*/React.createElement("p", {
+      style: {
+        margin: 0,
+        fontSize: 15,
+        lineHeight: 1.55,
+        color: on ? E_INV_INK_SOFT : E_INK_SOFT
+      }
+    }, c.d), /*#__PURE__*/React.createElement("div", {
+      style: {
+        height: 1,
+        background: on ? E_INV_LINE : E_LINE
+      }
+    }), /*#__PURE__*/React.createElement("ul", {
+      style: {
+        listStyle: 'none',
+        margin: 0,
+        padding: 0,
+        display: 'grid',
+        gap: 12,
+        flex: 1,
+        alignContent: 'start'
+      }
+    }, c.feats.map(f => /*#__PURE__*/React.createElement("li", {
+      key: f,
+      style: {
+        display: 'flex',
+        gap: 10,
+        alignItems: 'flex-start',
+        fontSize: 15,
+        lineHeight: 1.4
+      }
+    }, /*#__PURE__*/React.createElement(Check, {
+      color: on ? 'var(--cp-inv-accent)' : undefined
+    }), " ", f))), /*#__PURE__*/React.createElement("span", {
+      style: {
+        padding: '15px 18px',
+        borderRadius: 14,
+        textAlign: 'center',
+        background: on ? E_INV_INK : E_CARD,
+        color: on ? E_INV_BG : E_INK,
+        fontSize: 15.5,
+        fontWeight: 600,
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8
+      }
+    }, c.cta, " ", /*#__PURE__*/React.createElement("span", {
+      className: "cp-arrow"
+    }, "\u2192"))));
+  })), /*#__PURE__*/React.createElement("div", {
     "data-cp-anim": true,
     className: "cp-reveal",
     style: {
       marginTop: isMobile ? 14 : 20,
       padding: isMobile ? 24 : 36,
       borderRadius: 24,
-      background: E_INV_CARD,
-      border: `1px solid ${E_INV_LINE}`
+      background: E_CARD_BG,
+      border: `1px solid ${E_LINE}`,
+      boxShadow: E_SHADOW
     }
   }, /*#__PURE__*/React.createElement("h3", {
     style: {
@@ -2108,16 +2373,14 @@ function DirectionEditorial() {
       alignItems: 'flex-start',
       fontSize: 15.5,
       lineHeight: 1.45,
-      color: E_INV_INK
+      color: E_INK
     }
-  }, /*#__PURE__*/React.createElement(Check, {
-    color: "var(--cp-inv-accent)"
-  }), " ", it))), /*#__PURE__*/React.createElement("p", {
+  }, /*#__PURE__*/React.createElement(Check, null), " ", it))), /*#__PURE__*/React.createElement("p", {
     style: {
       margin: '24px 0 0',
       fontSize: 14,
       lineHeight: 1.55,
-      color: E_INV_INK_SOFT
+      color: E_INK_SOFT
     }
   }, t.services.footnote)))), /*#__PURE__*/React.createElement("section", {
     id: "methode",

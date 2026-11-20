@@ -136,6 +136,8 @@
   /* Editorial wrapper renders width:100%/height:100% — give it natural
      document flow so its sections stack like a normal page. */
   #root, #root > div.ab { width: 100%; height: auto !important; min-height: 100vh; overflow: visible !important; }
+  /* coupe tout débordement horizontal sans casser le menu collant */
+  #root > div.ab { overflow-x: clip !important; }
 
   /* Placeholder image utility (used by PHImg in shared.jsx) */
   .ph {
@@ -228,7 +230,7 @@
     .cp-theme nav { padding: 14px 24px !important; gap: 16px !important; flex-wrap: wrap; }
     .cp-theme nav > div:last-child { gap: 18px !important; }
     .cp-theme section { padding-left: 32px !important; padding-right: 32px !important; }
-    .cp-theme h1 { font-size: clamp(38px, 5.6vw, 64px) !important; }
+    .cp-theme h1 { font-size: clamp(38px, 6vw, 76px) !important; }
     .cp-theme h2 { font-size: clamp(30px, 5vw, 52px) !important; }
     .cp-theme h3[style*="font-size: 72px"] { font-size: clamp(44px, 7vw, 72px) !important; }
   }
@@ -293,11 +295,11 @@
 <!-- ?v=N is a cache-buster: bump it every deploy so browsers fetch the new JS
      instead of a stale cached copy. -->
 <!-- Versioned filenames = bulletproof cache-busting (bump the v on every deploy). -->
-<script src="js/shared.v26.js"></script>
-<script src="js/dir-editorial.v26.js"></script>
+<script src="js/shared.v27.js"></script>
+<script src="js/dir-editorial.v27.js"></script>
 
 <!-- Boot — extracted to js/boot.js so the CSP can disallow inline scripts. -->
-<script src="js/boot.v26.js"></script>
+<script src="js/boot.v27.js"></script>
 
 <!-- ────────────────────────────────────────────────────────────────────────
      Analytics — Umami (no cookie, RGPD-friendly, no banner needed).
