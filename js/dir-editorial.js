@@ -80,7 +80,7 @@ function ensureEditorialCSS() {
 /* ─── Entry animations (un écouteur de défilement ajoute .cp-in) ────────── */
 .cp-reveal {
   opacity: 0; transform: translateY(28px);
-  transition: opacity .9s cubic-bezier(.2,.7,.3,1), transform .9s cubic-bezier(.2,.7,.3,1);
+  transition: opacity .6s cubic-bezier(.2,.7,.3,1), transform .6s cubic-bezier(.2,.7,.3,1);
   transition-delay: var(--cp-d, 0ms);
   will-change: opacity, transform;
 }
@@ -88,14 +88,14 @@ function ensureEditorialCSS() {
 /* Titres : montée + mise au point. (Plus de clip-path : un élément entièrement
    rogné n'était jamais détecté comme visible, donc le titre restait caché.) */
 .cp-wipe {
-  opacity: 0; transform: translateY(26px); filter: blur(8px);
-  transition: opacity .8s ease, transform .9s cubic-bezier(.2,.7,.3,1), filter .8s ease;
+  opacity: 0; transform: translateY(18px); filter: blur(4px);
+  transition: opacity .5s ease, transform .55s cubic-bezier(.2,.7,.3,1), filter .45s ease;
   transition-delay: var(--cp-d, 0ms);
 }
 .cp-wipe.cp-in { opacity: 1; transform: translateY(0); filter: blur(0); }
 .cp-pop {
   opacity: 0; transform: scale(.96) translateY(20px);
-  transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1);
+  transition: opacity .5s ease, transform .55s cubic-bezier(.2,.7,.3,1);
   transition-delay: var(--cp-d, 0ms);
 }
 .cp-pop.cp-in { opacity: 1; transform: scale(1) translateY(0); }
@@ -125,7 +125,11 @@ function ensureEditorialCSS() {
 /* Le vrai site défile tout seul dans la maquette. */
 @keyframes cp-screen-scroll { 0%,10% { transform: translateY(0) } 90%,100% { transform: translateY(var(--cp-scroll, -60%)) } }
 @keyframes cp-pulse { 0% { box-shadow: 0 0 0 0 rgba(54,91,134,.5) } 100% { box-shadow: 0 0 0 10px rgba(54,91,134,0) } }
-[data-cp-parallax] { will-change: transform; }
+[data-cp-parallax], [data-cp-tilt], [data-cp-scrollx] { will-change: transform; }
+.cp-depth {
+  transform: translate3d(calc(var(--px, 0) * var(--cp-dx, 12px)), calc(var(--py, 0) * var(--cp-dy, 8px)), 0);
+  transition: transform .5s cubic-bezier(.2,.7,.3,1) !important;
+}
 
 .cp-card { transition: transform .35s cubic-bezier(.2,.7,.3,1), box-shadow .35s, border-color .35s !important; }
 .cp-card:hover { transform: translateY(-6px); }
@@ -148,7 +152,8 @@ a:hover > .cp-arrow, a:hover .cp-arrow { transform: translateX(5px); }
     opacity: 1 !important; transform: none !important; filter: none !important;
   }
   .cp-word > span { transform: none !important; animation: none !important; }
-  [data-cp-parallax] { transform: none !important; }
+  [data-cp-parallax], [data-cp-tilt], [data-cp-scrollx], .cp-depth { transform: none !important; }
+  [data-cp-grow] { clip-path: none !important; }
 }
 
 .cp-faq summary { list-style: none; cursor: pointer; }
@@ -166,6 +171,8 @@ const E_PHOTO = ''; // ex. 'img/edgar.jpg' → remplace la carte monogramme
 
 // Typo « display » (titres) — sans-serif nette, esprit fintech.
 const E_DISPLAY = "'Geist', -apple-system, 'SF Pro Display', system-ui, sans-serif";
+// Titres de section : Spectral (identité « Studio »), le reste en Geist.
+const E_SERIF = "'Spectral', Georgia, serif";
 const E_WRAP = {
   maxWidth: 1180,
   margin: '0 auto'
@@ -194,6 +201,35 @@ const cpSpot = e => {
   const r = e.currentTarget.getBoundingClientRect();
   e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`);
   e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`);
+};
+
+// Mots du bandeau qui glisse au défilement (uniquement des éléments de l'offre).
+
+const cpCalm = () => window.matchMedia && (window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.matchMedia('(hover: none)').matches);
+// Carte qui s'incline en 3D vers la souris (en plus du halo).
+const cpTilt = e => {
+  cpSpot(e);
+  if (cpCalm()) return;
+  const el = e.currentTarget,
+    r = el.getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width - 0.5,
+    y = (e.clientY - r.top) / r.height - 0.5;
+  el.style.transform = `perspective(1000px) rotateX(${(-y * 6).toFixed(2)}deg) rotateY(${(x * 7).toFixed(2)}deg) translateY(-6px)`;
+};
+const cpTiltOff = e => {
+  e.currentTarget.style.transform = '';
+};
+// Profondeur : les éléments .cp-depth d'un bloc se décalent selon la souris.
+const cpDepth = e => {
+  if (cpCalm()) return;
+  const el = e.currentTarget,
+    r = el.getBoundingClientRect();
+  el.style.setProperty('--px', (((e.clientX - r.left) / r.width - 0.5) * 2).toFixed(3));
+  el.style.setProperty('--py', (((e.clientY - r.top) / r.height - 0.5) * 2).toFixed(3));
+};
+const cpDepthOff = e => {
+  e.currentTarget.style.setProperty('--px', 0);
+  e.currentTarget.style.setProperty('--py', 0);
 };
 function Eyebrow({
   children,
@@ -488,7 +524,7 @@ function EasterEgg({
       fontSize: 72,
       lineHeight: 1,
       margin: 0,
-      letterSpacing: '-.02em'
+      letterSpacing: '-.015em'
     }
   }, "Bien vu.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
     style: {
@@ -577,7 +613,7 @@ const E_COPY = {
   hero: {
     pill: 'Nouveaux projets ouverts · Clamart (92)',
     h1a: ['Votre', 'site', 'professionnel,', 'sur', 'mesure,'],
-    h1b: ['en', 'ligne', 'en', '14', 'jours.'],
+    h1b: ['en\u00a0ligne', 'en\u00a014\u00a0jours.'],
     sub: 'Je crée des sites clairs, rapides et parfaits sur téléphone pour les praticiens, artisans et restaurateurs indépendants. Le prix est annoncé avant de commencer : à partir de 890 €.',
     cta: 'Parler de votre projet',
     cta2: 'Voir des exemples',
@@ -810,12 +846,12 @@ function ContactForm({
     }, "Demande re\xE7ue"), /*#__PURE__*/React.createElement("h3", {
       style: {
         margin: 0,
-        fontFamily: E_DISPLAY,
-        fontWeight: 600,
+        fontFamily: E_SERIF,
+        fontWeight: 500,
         fontSize: 34,
         lineHeight: 1.1,
         color: E_INV_INK,
-        letterSpacing: '-.03em'
+        letterSpacing: '-.015em'
       }
     }, "Merci. Je reviens vers vous sous 24 h."), /*#__PURE__*/React.createElement("p", {
       style: {
@@ -1145,6 +1181,31 @@ function DirectionEditorial() {
           const speed = parseFloat(el.getAttribute('data-cp-parallax')) || 0;
           const delta = host.top + host.height / 2 - vh / 2;
           el.style.transform = `translate3d(0, ${(delta * speed).toFixed(1)}px, 0)`;
+        });
+      }
+      if (!reduce) {
+        // Panneau qui se redresse en 3D à mesure qu'il monte dans l'écran.
+        root.querySelectorAll('[data-cp-tilt]').forEach(el => {
+          const host = el.parentElement.getBoundingClientRect();
+          if (host.bottom < -200 || host.top > vh + 200) return;
+          const max = parseFloat(el.getAttribute('data-cp-tilt')) || 16;
+          const e = 1 - Math.max(0, Math.min(1, (vh - host.top) / (vh * 0.72)));
+          el.style.transform = `perspective(1600px) rotateX(${(e * max).toFixed(2)}deg) scale(${(1 - e * 0.08).toFixed(4)})`;
+        });
+        // Bandeau de mots qui glisse à l'horizontale avec le défilement.
+        root.querySelectorAll('[data-cp-scrollx]').forEach(el => {
+          const host = el.parentElement.getBoundingClientRect();
+          if (host.bottom < -200 || host.top > vh + 200) return;
+          const speed = parseFloat(el.getAttribute('data-cp-scrollx')) || 0;
+          const delta = host.top + host.height / 2 - vh / 2;
+          el.style.transform = `translate3d(${(delta * speed).toFixed(1)}px, 0, 0)`;
+        });
+        // Section qui s'élargit jusqu'aux bords en arrivant.
+        root.querySelectorAll('[data-cp-grow]').forEach(el => {
+          const r = el.getBoundingClientRect();
+          if (r.bottom < -200 || r.top > vh + 200) return;
+          const e = 1 - Math.max(0, Math.min(1, (vh - r.top) / (vh * 0.6)));
+          el.style.clipPath = e > 0.001 ? `inset(0 ${(e * 5).toFixed(2)}% round ${(e * 48).toFixed(1)}px ${(e * 48).toFixed(1)}px 0 0)` : 'none';
         });
       }
       const method = root.querySelector('#cp-method-steps');
@@ -1500,12 +1561,13 @@ function DirectionEditorial() {
   }), t.hero.pill), /*#__PURE__*/React.createElement("h1", {
     style: {
       margin: isMobile ? '22px 0 0' : '28px 0 0',
-      fontFamily: E_DISPLAY,
-      fontWeight: 600,
+      fontFamily: E_SERIF,
+      fontWeight: 400,
       fontSize: 76,
-      lineHeight: 1.03,
-      letterSpacing: '-.045em',
-      color: E_INK
+      lineHeight: 1.1,
+      letterSpacing: '-.015em',
+      color: E_INK,
+      textWrap: 'balance'
     }
   }, t.hero.h1a.map((w, i) => /*#__PURE__*/React.createElement(React.Fragment, {
     key: 'a' + i
@@ -1517,7 +1579,8 @@ function DirectionEditorial() {
     }
   }, w)), ' ')), /*#__PURE__*/React.createElement("span", {
     style: {
-      color: E_TERRA
+      color: E_TERRA,
+      fontStyle: 'italic'
     }
   }, t.hero.h1b.map((w, i) => /*#__PURE__*/React.createElement(React.Fragment, {
     key: 'b' + i
@@ -1617,9 +1680,13 @@ function DirectionEditorial() {
       '--cp-d': '350ms'
     }
   }, /*#__PURE__*/React.createElement("div", {
+    "data-cp-tilt": isMobile ? '10' : '18',
+    onMouseMove: cpDepth,
+    onMouseLeave: cpDepthOff,
     style: {
       position: 'relative',
       overflow: 'hidden',
+      transformOrigin: 'center top',
       background: E_TERRA_SOFT,
       borderRadius: isMobile ? 24 : 36,
       padding: isMobile ? '20px 16px 0' : '56px 56px 0',
@@ -1627,7 +1694,10 @@ function DirectionEditorial() {
       justifyContent: 'center'
     }
   }, /*#__PURE__*/React.createElement("div", {
+    className: "cp-depth",
     style: {
+      '--cp-dx': '-8px',
+      '--cp-dy': '-5px',
       width: '100%',
       maxWidth: 860,
       background: E_CARD_BG,
@@ -1680,7 +1750,7 @@ function DirectionEditorial() {
       animation: 'cp-screen-scroll 16s ease-in-out 1.2s infinite alternate'
     }
   }))), !isMobile && /*#__PURE__*/React.createElement("div", {
-    "data-cp-parallax": "-0.06",
+    "data-cp-parallax": "-0.14",
     style: {
       position: 'absolute',
       left: 40,
@@ -1688,7 +1758,10 @@ function DirectionEditorial() {
       width: 250
     }
   }, /*#__PURE__*/React.createElement("div", {
+    className: "cp-depth",
     style: {
+      '--cp-dx': '18px',
+      '--cp-dy': '12px',
       background: E_CARD_BG,
       borderRadius: 20,
       padding: 20,
@@ -1734,7 +1807,7 @@ function DirectionEditorial() {
       color: E_INK
     }
   }, b))))), /*#__PURE__*/React.createElement("div", {
-    "data-cp-parallax": isMobile ? '-0.03' : '-0.08',
+    "data-cp-parallax": isMobile ? '-0.05' : '-0.18',
     style: {
       position: 'absolute',
       right: isMobile ? 14 : 56,
@@ -1746,7 +1819,10 @@ function DirectionEditorial() {
       animation: 'cp-float 6s ease-in-out infinite'
     }
   }, /*#__PURE__*/React.createElement("div", {
+    className: "cp-depth",
     style: {
+      '--cp-dx': '26px',
+      '--cp-dy': '16px',
       borderRadius: isMobile ? 18 : 30,
       padding: isMobile ? 4 : 7,
       background: '#141b27',
@@ -1779,191 +1855,10 @@ function DirectionEditorial() {
     }
   }, t.hero.caption)), /*#__PURE__*/React.createElement("div", {
     style: {
-      marginTop: isMobile ? 56 : 104
-    }
-  }, /*#__PURE__*/React.createElement("h2", {
-    className: "cp-wipe",
-    "data-cp-anim": true,
-    style: {
-      margin: 0,
-      fontFamily: E_DISPLAY,
-      fontWeight: 600,
-      maxWidth: 720,
-      fontSize: 48,
-      lineHeight: 1.06,
-      letterSpacing: '-.035em'
-    }
-  }, t.hero.clear.title), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: isMobile ? 24 : 40,
-      display: 'grid',
-      gridTemplateColumns: isMobile ? '1fr' : '1.3fr 1fr',
-      gap: isMobile ? 12 : 20
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    "data-cp-anim": true,
-    className: "cp-pop",
-    style: {
-      display: 'flex'
+      marginTop: isMobile ? 40 : 72
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      flex: 1,
-      background: E_CARD_BG,
-      border: `1px solid ${E_LINE}`,
-      borderRadius: 24,
-      padding: isMobile ? 20 : 28,
-      boxShadow: E_SHADOW
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      gap: 12
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: E_DISPLAY,
-      fontSize: isMobile ? 17 : 19,
-      fontWeight: 600,
-      letterSpacing: '-.01em'
-    }
-  }, t.hero.clear.stepsTitle), /*#__PURE__*/React.createElement("div", {
-    style: {
-      padding: '5px 11px',
-      borderRadius: 8,
-      background: E_TERRA_SOFT,
-      color: E_TERRA,
-      fontSize: 12.5,
-      fontWeight: 600,
-      whiteSpace: 'nowrap'
-    }
-  }, t.hero.clear.badge)), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: 10
-    }
-  }, t.process.steps.map((s, i) => /*#__PURE__*/React.createElement("div", {
-    key: s.n,
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 14,
-      padding: isMobile ? '13px 0' : '15px 0',
-      borderBottom: i < t.process.steps.length - 1 ? `1px solid ${E_LINE}` : 'none'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: 30,
-      height: 30,
-      borderRadius: 99,
-      flexShrink: 0,
-      background: E_TERRA,
-      color: E_BG,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontSize: 13,
-      fontWeight: 600
-    }
-  }, s.n), /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      fontSize: isMobile ? 15 : 16,
-      fontWeight: 500
-    }
-  }, s.t), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 13.5,
-      color: E_INK_SOFT,
-      whiteSpace: 'nowrap'
-    }
-  }, s.when)))))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'grid',
-      gap: isMobile ? 12 : 20
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    "data-cp-anim": true,
-    className: "cp-pop",
-    style: {
-      display: 'flex',
-      '--cp-d': '90ms'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      background: E_INV_BG,
-      color: E_INV_INK,
-      borderRadius: 24,
-      padding: isMobile ? 22 : 28,
-      display: 'grid',
-      gap: 6,
-      alignContent: 'center',
-      boxShadow: '0 30px 60px -30px rgba(16,24,40,.5)'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 14,
-      color: E_INV_INK_SOFT
-    }
-  }, t.hero.clear.priceLabel), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: E_DISPLAY,
-      fontSize: isMobile ? 34 : 42,
-      fontWeight: 600,
-      letterSpacing: '-.04em',
-      lineHeight: 1.1
-    }
-  }, /*#__PURE__*/React.createElement(CountUp, {
-    to: 890,
-    prefix: "d\xE8s ",
-    suffix: " \u20AC"
-  })), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 14,
-      color: E_INV_INK_SOFT
-    }
-  }, t.hero.clear.priceNote))), /*#__PURE__*/React.createElement("div", {
-    "data-cp-anim": true,
-    className: "cp-pop",
-    style: {
-      display: 'flex',
-      '--cp-d': '180ms'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      flex: 1,
-      background: E_CARD_BG,
-      border: `1px solid ${E_LINE}`,
-      borderRadius: 24,
-      padding: isMobile ? 22 : 28,
-      display: 'grid',
-      gap: 6,
-      alignContent: 'center',
-      boxShadow: E_SHADOW
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 14,
-      color: E_INK_SOFT
-    }
-  }, t.hero.clear.payLabel), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: E_DISPLAY,
-      fontSize: isMobile ? 34 : 42,
-      fontWeight: 600,
-      letterSpacing: '-.04em',
-      lineHeight: 1.1
-    }
-  }, t.hero.clear.payBig), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 14,
-      color: E_INK_SOFT
-    }
-  }, t.hero.clear.payNote))))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: isMobile ? 12 : 20,
       display: 'grid',
       gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr',
       gap: isMobile ? 12 : 20
@@ -2115,15 +2010,16 @@ function DirectionEditorial() {
     "data-cp-anim": true,
     style: {
       margin: 0,
-      fontFamily: E_DISPLAY,
-      fontWeight: 600,
+      fontFamily: E_SERIF,
+      fontWeight: 500,
       fontSize: 48,
-      lineHeight: 1.08,
-      letterSpacing: '-.035em'
+      lineHeight: 1.1,
+      letterSpacing: '-.015em'
     }
   }, t.about.titleA, ' ', /*#__PURE__*/React.createElement("span", {
     style: {
-      color: E_TERRA
+      color: E_TERRA,
+      fontStyle: 'italic'
     }
   }, t.about.titleB)), /*#__PURE__*/React.createElement("p", {
     "data-cp-anim": true,
@@ -2196,12 +2092,12 @@ function DirectionEditorial() {
     "data-cp-anim": true,
     style: {
       margin: 0,
-      fontFamily: E_DISPLAY,
-      fontWeight: 600,
+      fontFamily: E_SERIF,
+      fontWeight: 500,
       maxWidth: 720,
       fontSize: 52,
-      lineHeight: 1.06,
-      letterSpacing: '-.035em'
+      lineHeight: 1.1,
+      letterSpacing: '-.015em'
     }
   }, t.services.title)), /*#__PURE__*/React.createElement("div", {
     "data-cp-anim": true,
@@ -2231,7 +2127,8 @@ function DirectionEditorial() {
     }, /*#__PURE__*/React.createElement("a", {
       href: "#contact",
       onClick: cpGoTo('#contact', c.format),
-      onMouseMove: cpSpot,
+      onMouseMove: cpTilt,
+      onMouseLeave: cpTiltOff,
       className: "cp-card cp-spot",
       "aria-label": `${c.t} : ${c.cta}`,
       style: {
@@ -2394,12 +2291,12 @@ function DirectionEditorial() {
     "data-cp-anim": true,
     style: {
       margin: 0,
-      fontFamily: E_DISPLAY,
-      fontWeight: 600,
+      fontFamily: E_SERIF,
+      fontWeight: 500,
       maxWidth: 720,
       fontSize: 52,
-      lineHeight: 1.06,
-      letterSpacing: '-.035em'
+      lineHeight: 1.1,
+      letterSpacing: '-.015em'
     }
   }, t.process.title), /*#__PURE__*/React.createElement("div", {
     id: "cp-method-steps",
@@ -2505,11 +2402,11 @@ function DirectionEditorial() {
     "data-cp-anim": true,
     style: {
       margin: 0,
-      fontFamily: E_DISPLAY,
-      fontWeight: 600,
+      fontFamily: E_SERIF,
+      fontWeight: 500,
       fontSize: 52,
-      lineHeight: 1.06,
-      letterSpacing: '-.035em'
+      lineHeight: 1.1,
+      letterSpacing: '-.015em'
     }
   }, t.travaux.title), /*#__PURE__*/React.createElement("p", {
     "data-cp-anim": true,
@@ -2667,7 +2564,7 @@ function DirectionEditorial() {
     }))), /*#__PURE__*/React.createElement("span", {
       style: {
         position: 'absolute',
-        top: 16,
+        bottom: 16,
         left: 16,
         background: '#192230',
         color: '#f5f6f8',
@@ -2683,11 +2580,11 @@ function DirectionEditorial() {
     }, /*#__PURE__*/React.createElement("h3", {
       style: {
         margin: 0,
-        fontFamily: E_DISPLAY,
-        fontWeight: 600,
+        fontFamily: E_SERIF,
+        fontWeight: 500,
         fontSize: isMobile ? 26 : 40,
-        letterSpacing: '-.035em',
-        lineHeight: 1.05,
+        letterSpacing: '-.015em',
+        lineHeight: 1.1,
         color: isHover ? E_TERRA : E_INK
       }
     }, p.name), /*#__PURE__*/React.createElement("p", {
@@ -2763,11 +2660,11 @@ function DirectionEditorial() {
     "data-cp-anim": true,
     style: {
       margin: 0,
-      fontFamily: E_DISPLAY,
-      fontWeight: 600,
+      fontFamily: E_SERIF,
+      fontWeight: 500,
       fontSize: 52,
-      lineHeight: 1.06,
-      letterSpacing: '-.035em'
+      lineHeight: 1.1,
+      letterSpacing: '-.015em'
     }
   }, t.maintenance.title), /*#__PURE__*/React.createElement("p", {
     "data-cp-anim": true,
@@ -2911,11 +2808,11 @@ function DirectionEditorial() {
     "data-cp-anim": true,
     style: {
       margin: 0,
-      fontFamily: E_DISPLAY,
-      fontWeight: 600,
+      fontFamily: E_SERIF,
+      fontWeight: 500,
       fontSize: 48,
-      lineHeight: 1.08,
-      letterSpacing: '-.035em'
+      lineHeight: 1.1,
+      letterSpacing: '-.015em'
     }
   }, t.faq.title)), /*#__PURE__*/React.createElement("div", {
     className: "cp-faq",
@@ -2972,6 +2869,7 @@ function DirectionEditorial() {
     }
   }, a)))))), /*#__PURE__*/React.createElement("section", {
     id: "contact",
+    "data-cp-grow": true,
     style: {
       padding: '110px 56px 40px',
       background: E_INV_BG,
@@ -3016,15 +2914,16 @@ function DirectionEditorial() {
     "data-cp-anim": true,
     style: {
       margin: 0,
-      fontFamily: E_DISPLAY,
-      fontWeight: 600,
+      fontFamily: E_SERIF,
+      fontWeight: 500,
       fontSize: 52,
-      lineHeight: 1.06,
-      letterSpacing: '-.035em'
+      lineHeight: 1.1,
+      letterSpacing: '-.015em'
     }
   }, t.contact.title, ' ', /*#__PURE__*/React.createElement("span", {
     style: {
-      color: 'var(--cp-inv-accent)'
+      color: 'var(--cp-inv-accent)',
+      fontStyle: 'italic'
     }
   }, t.contact.titleAccent)), /*#__PURE__*/React.createElement("p", {
     "data-cp-anim": true,
